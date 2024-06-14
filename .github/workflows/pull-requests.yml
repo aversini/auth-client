@@ -34,9 +34,7 @@ jobs:
         with:
           refresh-message-position: true
           message-path: |
-            packages/ui-components/tmp/pr-stats.md
-            packages/ui-form/tmp/pr-stats.md
-            packages/ui-system/tmp/pr-stats.md
+            packages/auth-provider/tmp/pr-stats.md
 
   inspect:
     if: ${{ always() }}
