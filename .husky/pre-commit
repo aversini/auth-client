@@ -1,0 +1,2 @@
+export COREPACK_ENABLE_STRICT=0
+npm run lint-staged #-- --debug --verbose

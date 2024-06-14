@@ -1,0 +1,11 @@
+# yaml-language-server: $schema=https://coderabbit.ai/integrations/coderabbit-overrides.v2.json
+
+reviews:
+  poem: false
+  auto_review:
+    enabled: true
+    ignore_title_keywords:
+      - "chore: release main"
+      - WIP
+chat:
+  auto_reply: true

@@ -1,0 +1,51 @@
+name: release-please
+
+on:
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: write
+  pull-requests: write
+
+env:
+  COREPACK_ENABLE_STRICT: 0
+
+jobs:
+  release-please:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: google-github-actions/release-please-action@v4
+        id: release
+        with:
+          token: ${{ secrets.NODE_CLI }}
+
+      - name: Checkout Repository
+        if: ${{ steps.release.outputs.releases_created }}
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        if: ${{ steps.release.outputs.releases_created }}
+        with:
+          node-version: 20.x
+          registry-url: "https://registry.npmjs.org"
+
+      - name: Build Packages
+        if: ${{ steps.release.outputs.releases_created }}
+        run: |
+          corepack enable
+          pnpm install
+          npx lerna run build
+
+      # Release Please has already incremented versions
+      # and published tags, so we just need to publish
+      # all unpublished versions to NPM.
+      # See: https://github.com/lerna/lerna/tree/main/libs/commands/publish#readme
+
+      - name: Publish Packages
+        if: ${{ steps.release.outputs.releases_created }}
+        run: npx lerna publish from-package --no-push --no-private --yes --loglevel debug
+        env:
+          NODE_AUTH_TOKEN: ${{secrets.NPM_PUBLISH_TOKEN}}
