@@ -1,6 +1,5 @@
 {
 	"packages": {
-		"packages/auth-provider": {},
-		"packages/auth-common": {}
+		"packages/auth-provider": {}
 	}
 }
