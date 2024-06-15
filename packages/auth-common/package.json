@@ -1,0 +1,32 @@
+{
+	"name": "@versini/auth-common",
+	"version": "0.0.0",
+	"license": "MIT",
+	"author": "Arno Versini",
+	"publishConfig": {
+		"access": "public"
+	},
+	"homepage": "https://github.com/aversini/auth-client",
+	"repository": {
+		"type": "git",
+		"url": "git@github.com:aversini/auth-client.git"
+	},
+	"type": "module",
+	"main": "dist/index.js",
+	"types": "dist/index.d.ts",
+	"files": ["dist"],
+	"scripts": {
+		"build:check": "tsc",
+		"build:js": "vite build",
+		"build:types": "tsup",
+		"build": "npm-run-all --serial clean build:check build:js build:types",
+		"clean": "rimraf dist tmp",
+		"dev:js": "vite build --watch --mode development",
+		"dev:types": "tsup --watch src",
+		"dev": "npm-run-all clean --parallel dev:js dev:types",
+		"lint": "biome lint src",
+		"start": "static-server dist --port 5173",
+		"test:watch": "vitest",
+		"test": "vitest run"
+	}
+}
