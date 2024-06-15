@@ -1,3 +1,4 @@
+import { AUTH_TYPES } from "@versini/auth-common";
 import { useLocalStorage } from "@versini/ui-hooks";
 import { useEffect, useRef, useState } from "react";
 import { v4 as uuidv4 } from "uuid";
@@ -12,9 +13,7 @@ type AuthState = {
 	accessToken?: string;
 	refreshToken?: string;
 };
-export const AUTH_TYPES = {
-	ID_TOKEN: "id_token",
-};
+
 const EXPIRED_SESSION =
 	"Oops! It looks like your session has expired. For your security, please log in again to continue.";
 
