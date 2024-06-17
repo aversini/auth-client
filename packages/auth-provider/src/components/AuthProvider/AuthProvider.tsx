@@ -1,76 +1,19 @@
 import { AUTH_TYPES } from "@versini/auth-common";
 import { useLocalStorage } from "@versini/ui-hooks";
-import { useEffect, useRef, useState } from "react";
-import { v4 as uuidv4 } from "uuid";
+import { useEffect, useState } from "react";
 
+import { EXPIRED_SESSION } from "../../common/constants";
+import type { AuthProviderProps, AuthState } from "../../common/types";
+import { serviceCall } from "../../common/utilities";
+import { usePrevious } from "../hooks/usePrevious";
 import { AuthContext } from "./AuthContext";
-
-type AuthState = {
-	isAuthenticated: boolean;
-	idToken: string;
-	logoutReason: string;
-	userId: string;
-	accessToken?: string;
-	refreshToken?: string;
-};
-
-const EXPIRED_SESSION =
-	"Oops! It looks like your session has expired. For your security, please log in again to continue.";
-
-const serviceCall = async ({ params = {} }: { params?: any }) => {
-	try {
-		const nonce = uuidv4();
-		const response = await fetch(
-			`${process.env.PUBLIC_AUTH_SERVER_URL}/authenticate`,
-			{
-				credentials: "include",
-				method: "POST",
-				headers: {
-					"Content-Type": "application/json",
-					"X-Auth-TenantId": `${params.tenantId}`,
-				},
-				body: JSON.stringify({ ...params, nonce }),
-			},
-		);
-
-		if (response.status !== 200) {
-			return { status: response.status, data: [] };
-		}
-		const { data, errors } = await response.json();
-		if (data.nonce !== nonce) {
-			return { status: 500, data: [] };
-		}
-
-		return {
-			status: response.status,
-			data,
-			errors,
-		};
-	} catch (_error) {
-		console.error(_error);
-		return { status: 500, data: [] };
-	}
-};
-
-function usePrevious<T>(state: T): T | undefined {
-	const ref = useRef<T>();
-	useEffect(() => {
-		ref.current = state;
-	});
-	return ref.current;
-}
 
 export const AuthProvider = ({
 	children,
 	sessionExpiration,
 	tenantId,
 	accessType,
-}: {
-	children: React.ReactNode;
-	sessionExpiration?: string;
-	tenantId: string;
-	accessType?: string;
-}) => {
+}: AuthProviderProps) => {
 	const [accessToken, setAccessToken, removeAccessToken] = useLocalStorage(
 		`@@auth@@::${tenantId}::@@access@@`,
 		"",

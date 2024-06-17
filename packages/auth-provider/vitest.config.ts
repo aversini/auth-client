@@ -13,7 +13,7 @@ export default defineConfig((configEnv) =>
 				setupFiles: ["./vitest.setup.ts"],
 				environment: "happy-dom",
 				coverage: {
-					include: ["src/**/*.ts", "src/**/*.tsx", "!src/style.ts"],
+					include: ["src/**/*.ts", "src/**/*.tsx"],
 					provider: "v8",
 					thresholds: {
 						statements: 100,

@@ -1,20 +1,12 @@
 import { createContext } from "react";
-
-export type AuthContextType = {
-	login: (username: string, password: string) => Promise<boolean>;
-	logout: () => void;
-	isAuthenticated: boolean;
-	accessToken?: string;
-	refreshToken?: string;
-	idToken?: string;
-	logoutReason?: string;
-};
+import { AUTH_CONTEXT_ERROR } from "../../common/constants";
+import type { AuthContextProps } from "../../common/types";
 
 const stub = (): never => {
-	throw new Error("You forgot to wrap your component in <AuthProvider>.");
+	throw new Error(AUTH_CONTEXT_ERROR);
 };
 
-export const AuthContext = createContext<AuthContextType>({
+export const AuthContext = createContext<AuthContextProps>({
 	isAuthenticated: false,
 	login: stub,
 	logout: stub,
