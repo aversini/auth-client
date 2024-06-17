@@ -3,5 +3,5 @@ export const AUTH_TYPES = {
 };
 
 export const HEADERS = {
-	tenantId: "X-Auth-TenantId",
+	CLIENT_ID: "X-Auth-ClientId",
 };

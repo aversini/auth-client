@@ -11,19 +11,19 @@ import { AuthContext } from "./AuthContext";
 export const AuthProvider = ({
 	children,
 	sessionExpiration,
-	tenantId,
+	clientId,
 	accessType,
 }: AuthProviderProps) => {
 	const [accessToken, setAccessToken, removeAccessToken] = useLocalStorage(
-		`@@auth@@::${tenantId}::@@access@@`,
+		`@@auth@@::${clientId}::@@access@@`,
 		"",
 	);
 	const [refreshToken, setRefreshToken, removeRefreshToken] = useLocalStorage(
-		`@@auth@@::${tenantId}::@@refresh@@`,
+		`@@auth@@::${clientId}::@@refresh@@`,
 		"",
 	);
 	const [idToken, setIdToken, removeIdToken] = useLocalStorage(
-		`@@auth@@::${tenantId}::@@user@@`,
+		`@@auth@@::${clientId}::@@user@@`,
 		"",
 	);
 	const [authState, setAuthState] = useState<AuthState>({
@@ -66,7 +66,7 @@ export const AuthProvider = ({
 				username,
 				password,
 				sessionExpiration,
-				tenantId,
+				clientId,
 			},
 		});
 

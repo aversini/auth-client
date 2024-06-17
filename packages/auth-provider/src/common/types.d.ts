@@ -14,7 +14,7 @@ export type AuthState = {
 export type AuthProviderProps = {
 	children: React.ReactNode;
 	sessionExpiration?: string;
-	tenantId: string;
+	clientId: string;
 	accessType?: string;
 };
 
