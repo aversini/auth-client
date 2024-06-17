@@ -57,7 +57,7 @@ jobs:
           npx lerna run test:coverage
 
   release-bundlesize:
-    if: github.head_ref == 'release-please--branches--main--components--auth-provider'
+    if: github.head_ref == 'release-please--branches--main'
     runs-on: ubuntu-latest
     permissions:
       contents: write
