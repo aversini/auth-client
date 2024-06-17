@@ -19,7 +19,7 @@ export const serviceCall = async ({ params = {} }: ServiceCallProps) => {
 				method: "POST",
 				headers: {
 					"Content-Type": "application/json",
-					[HEADERS.tenantId]: `${params.tenantId}`,
+					[HEADERS.CLIENT_ID]: `${params.clientId}`,
 				},
 				body: JSON.stringify({ ...params, nonce }),
 			},
