@@ -1,5 +1,16 @@
 # Changelog
 
+## [2.0.0](https://github.com/aversini/auth-client/compare/auth-common-v1.0.1...auth-common-v2.0.0) (2024-06-17)
+
+
+### ⚠ BREAKING CHANGES
+
+* rename tenantId to clientId ([#12](https://github.com/aversini/auth-client/issues/12))
+
+### Bug Fixes
+
+* rename tenantId to clientId ([#12](https://github.com/aversini/auth-client/issues/12)) ([c340460](https://github.com/aversini/auth-client/commit/c3404604e21adc4cfdd062a6a0fb64415ba516bf))
+
 ## [1.0.1](https://github.com/aversini/auth-client/compare/auth-common-v1.0.0...auth-common-v1.0.1) (2024-06-17)
 
 
