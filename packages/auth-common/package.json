@@ -14,9 +14,7 @@
 	"type": "module",
 	"main": "dist/index.js",
 	"types": "dist/index.d.ts",
-	"files": [
-		"dist"
-	],
+	"files": ["dist"],
 	"scripts": {
 		"build:check": "tsc",
 		"build:js": "vite build",
@@ -27,8 +25,6 @@
 		"dev:types": "tsup --watch src",
 		"dev": "npm-run-all clean --parallel dev:js dev:types",
 		"lint": "biome lint src",
-		"start": "static-server dist --port 5173",
-		"test:watch": "vitest",
-		"test": "vitest run"
+		"start": "static-server dist --port 5173"
 	}
 }

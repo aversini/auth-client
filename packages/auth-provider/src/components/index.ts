@@ -1,2 +1,2 @@
 export { AuthProvider } from "./AuthProvider/AuthProvider";
-export { useAuth } from "./AuthProvider/useAuth";
+export { useAuth } from "./hooks/useAuth";

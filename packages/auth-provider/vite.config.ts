@@ -1,9 +1,6 @@
-import path from "node:path";
 import { resolve } from "node:path";
-import { fileURLToPath } from "node:url";
 
 import fs from "fs-extra";
-import { glob } from "glob";
 import { defineConfig } from "vite";
 
 import { externalDependencies } from "../../configuration/vite.common";
