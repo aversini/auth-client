@@ -1,18 +1,26 @@
 {
-	"0.0.0": {
-		"dist/index.js": {
-			"fileSize": 6711,
-			"fileSizeGzip": 2552,
-			"limit": "3 kb",
-			"passed": true
-		}
-	},
-	"1.0.0": {
-		"dist/index.js": {
-			"fileSize": 6711,
-			"fileSizeGzip": 2552,
-			"limit": "3 kb",
-			"passed": true
-		}
-	}
+  "0.0.0": {
+    "dist/index.js": {
+      "fileSize": 6711,
+      "fileSizeGzip": 2552,
+      "limit": "3 kb",
+      "passed": true
+    }
+  },
+  "1.0.0": {
+    "dist/index.js": {
+      "fileSize": 6711,
+      "fileSizeGzip": 2552,
+      "limit": "3 kb",
+      "passed": true
+    }
+  },
+  "2.0.1": {
+    "dist/index.js": {
+      "fileSize": 7216,
+      "fileSizeGzip": 2663,
+      "limit": "3 kb",
+      "passed": true
+    }
+  }
 }
