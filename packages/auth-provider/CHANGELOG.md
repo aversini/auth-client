@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.0.1](https://github.com/aversini/auth-client/compare/auth-provider-v2.0.0...auth-provider-v2.0.1) (2024-06-18)
+
+
+### Bug Fixes
+
+* update API endpoint ([#14](https://github.com/aversini/auth-client/issues/14)) ([b853740](https://github.com/aversini/auth-client/commit/b853740aad3b9e36e661b622620d8ce2acee3e45))
+
 ## [2.0.0](https://github.com/aversini/auth-client/compare/auth-provider-v1.0.2...auth-provider-v2.0.0) (2024-06-17)
 
 
