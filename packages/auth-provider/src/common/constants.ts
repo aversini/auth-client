@@ -5,5 +5,5 @@ export const AUTH_CONTEXT_ERROR =
 
 export const API_ENDPOINT = {
 	dev: "https://auth.gizmette.local.com:3003",
-	prod: "https://auth.gizmette.com",
+	prod: "https://mylogin.gizmette.com",
 };
