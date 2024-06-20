@@ -40,13 +40,14 @@ export const AuthProvider = ({
 
 	useEffect(() => {
 		if (previousIdToken !== idToken && idToken !== "") {
+			const { _id }: { _id: string } = jose.decodeJwt(idToken);
 			setAuthState({
 				isAuthenticated: true,
 				accessToken,
 				refreshToken,
 				idToken,
 				logoutReason: "",
-				userId: authState.userId,
+				userId: _id || "",
 			});
 		} else if (previousIdToken !== idToken && idToken === "") {
 			setAuthState({
@@ -58,7 +59,7 @@ export const AuthProvider = ({
 				userId: "",
 			});
 		}
-	}, [accessToken, refreshToken, idToken, previousIdToken, authState.userId]);
+	}, [accessToken, refreshToken, idToken, previousIdToken]);
 
 	const login = async (username: string, password: string) => {
 		const response = await serviceCall({
