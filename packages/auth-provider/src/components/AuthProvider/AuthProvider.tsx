@@ -40,15 +40,26 @@ export const AuthProvider = ({
 
 	useEffect(() => {
 		if (previousIdToken !== idToken && idToken !== "") {
-			const { _id }: { _id: string } = jose.decodeJwt(idToken);
-			setAuthState({
-				isAuthenticated: true,
-				accessToken,
-				refreshToken,
-				idToken,
-				logoutReason: "",
-				userId: _id || "",
-			});
+			try {
+				const { _id }: { _id: string } = jose.decodeJwt(idToken);
+				setAuthState({
+					isAuthenticated: true,
+					accessToken,
+					refreshToken,
+					idToken,
+					logoutReason: "",
+					userId: _id || "",
+				});
+			} catch (_error) {
+				setAuthState({
+					isAuthenticated: false,
+					accessToken: "",
+					refreshToken: "",
+					idToken: "",
+					logoutReason: EXPIRED_SESSION,
+					userId: "",
+				});
+			}
 		} else if (previousIdToken !== idToken && idToken === "") {
 			setAuthState({
 				isAuthenticated: false,
