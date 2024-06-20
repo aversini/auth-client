@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.0.2](https://github.com/aversini/auth-client/compare/auth-provider-v2.0.1...auth-provider-v2.0.2) (2024-06-20)
+
+
+### Bug Fixes
+
+* embed user id in JWT ([#17](https://github.com/aversini/auth-client/issues/17)) ([5518f58](https://github.com/aversini/auth-client/commit/5518f5861caf0195d6742b20798c4979bcbf8324))
+
 ## [2.0.1](https://github.com/aversini/auth-client/compare/auth-provider-v2.0.0...auth-provider-v2.0.1) (2024-06-18)
 
 
