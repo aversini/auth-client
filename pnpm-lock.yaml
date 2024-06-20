@@ -49,6 +49,9 @@ importers:
       '@versini/ui-hooks':
         specifier: 3.0.0
         version: 3.0.0(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+      jose:
+        specifier: 5.4.1
+        version: 5.4.1
       uuid:
         specifier: 10.0.0
         version: 10.0.0
@@ -2811,6 +2814,9 @@ packages:
 
   jju@1.4.0:
     resolution: {integrity: sha512-8wb9Yw966OSxApiCt0K3yNJL8pnNeIv+OEq2YMidz4FKP6nonSRoOXc80iXY4JaN2FC11B9qsNmDsm+ZOfMROA==}
+
+  jose@5.4.1:
+    resolution: {integrity: sha512-U6QajmpV/nhL9SyfAewo000fkiRQ+Yd2H0lBxJJ9apjpOgkOcBQJWOrMo917lxLptdS/n/o/xPzMkXhF46K8hQ==}
 
   joycon@3.1.1:
     resolution: {integrity: sha512-34wB/Y7MW7bzjKRjUKTa46I2Z7eV62Rkhva+KkopW7Qvv/OSWBqvkSY7vusOPrNuZcUG3tApvdVgNB8POj3SPw==}
@@ -7759,6 +7765,8 @@ snapshots:
   jiti@1.21.6: {}
 
   jju@1.4.0: {}
+
+  jose@5.4.1: {}
 
   joycon@3.1.1: {}
 
