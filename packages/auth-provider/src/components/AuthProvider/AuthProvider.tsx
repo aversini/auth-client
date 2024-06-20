@@ -1,5 +1,6 @@
 import { AUTH_TYPES } from "@versini/auth-common";
 import { useLocalStorage } from "@versini/ui-hooks";
+import * as jose from "jose";
 import { useEffect, useState } from "react";
 
 import { EXPIRED_SESSION } from "../../common/constants";
@@ -70,21 +71,27 @@ export const AuthProvider = ({
 			},
 		});
 
-		if (response.data?.idToken) {
-			setIdToken(response.data.idToken);
-			response.data.accessToken && setAccessToken(response.data.accessToken);
-			response.data.refreshToken && setRefreshToken(response.data.refreshToken);
-			setAuthState({
-				isAuthenticated: true,
-				idToken: response.data.idToken,
-				accessToken: response.data.accessToken,
-				refreshToken: response.data.refreshToken,
-				userId: response.data.userId,
-				logoutReason: "",
-			});
-			return true;
+		try {
+			const { _id }: { _id: string } = jose.decodeJwt(response.data.idToken);
+			if (_id) {
+				setIdToken(response.data.idToken);
+				response.data.accessToken && setAccessToken(response.data.accessToken);
+				response.data.refreshToken &&
+					setRefreshToken(response.data.refreshToken);
+				setAuthState({
+					isAuthenticated: true,
+					idToken: response.data.idToken,
+					accessToken: response.data.accessToken,
+					refreshToken: response.data.refreshToken,
+					userId: _id,
+					logoutReason: "",
+				});
+				return true;
+			}
+			return false;
+		} catch (_error) {
+			return false;
 		}
-		return false;
 	};
 
 	const logout = () => {
