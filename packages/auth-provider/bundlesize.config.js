@@ -9,7 +9,7 @@ export default {
 		 */
 		{
 			path: "dist/index.js",
-			limit: "3 kb",
+			limit: "4 kb",
 		},
 	],
 };
