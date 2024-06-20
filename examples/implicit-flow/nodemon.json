@@ -1,0 +1,11 @@
+{
+	"watch": [
+		"tailwind.config.js",
+		"src/**/*.*",
+		"../../packages/ui-components/src/**/*.*",
+		"../../packages/ui-components/lib/**/*.*",
+		"../../packages/ui-styles/src/**/*.*",
+		"../../packages/ui-form/src/**/*.*",
+		"../../packages/ui-icons/src/**/*.*"
+	]
+}
