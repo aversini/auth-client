@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.1.0](https://github.com/aversini/auth-client/compare/auth-common-v2.0.0...auth-common-v2.1.0) (2024-06-21)
+
+
+### Features
+
+* common JWT constants ([#19](https://github.com/aversini/auth-client/issues/19)) ([fccea00](https://github.com/aversini/auth-client/commit/fccea00a22abf9156676eb3cf2229c38f62ab82d))
+
 ## [2.0.0](https://github.com/aversini/auth-client/compare/auth-common-v1.0.1...auth-common-v2.0.0) (2024-06-17)
 
 
