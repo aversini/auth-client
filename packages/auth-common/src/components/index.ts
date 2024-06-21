@@ -5,3 +5,9 @@ export const AUTH_TYPES = {
 export const HEADERS = {
 	CLIENT_ID: "X-Auth-ClientId",
 };
+
+export const JWT = {
+	ALG: "RS256",
+	USER_ID_KEY: "_id",
+	ISSUER: "gizmette.com",
+};
