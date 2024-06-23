@@ -1,11 +1,10 @@
-import { AUTH_TYPES } from "@versini/auth-common";
+import { AUTH_TYPES, JWT } from "@versini/auth-common";
 import { useLocalStorage } from "@versini/ui-hooks";
-import * as jose from "jose";
 import { useEffect, useState } from "react";
 
-import { EXPIRED_SESSION } from "../../common/constants";
+import { EXPIRED_SESSION, LOCAL_STORAGE_PREFIX } from "../../common/constants";
 import type { AuthProviderProps, AuthState } from "../../common/types";
-import { serviceCall } from "../../common/utilities";
+import { serviceCall, verifyAndExtractToken } from "../../common/utilities";
 import { usePrevious } from "../hooks/usePrevious";
 import { AuthContext } from "./AuthContext";
 
@@ -16,15 +15,15 @@ export const AuthProvider = ({
 	accessType,
 }: AuthProviderProps) => {
 	const [accessToken, setAccessToken, removeAccessToken] = useLocalStorage(
-		`@@auth@@::${clientId}::@@access@@`,
+		`${LOCAL_STORAGE_PREFIX}::${clientId}::@@access@@`,
 		"",
 	);
 	const [refreshToken, setRefreshToken, removeRefreshToken] = useLocalStorage(
-		`@@auth@@::${clientId}::@@refresh@@`,
+		`${LOCAL_STORAGE_PREFIX}::${clientId}::@@refresh@@`,
 		"",
 	);
 	const [idToken, setIdToken, removeIdToken] = useLocalStorage(
-		`@@auth@@::${clientId}::@@user@@`,
+		`${LOCAL_STORAGE_PREFIX}::${clientId}::@@user@@`,
 		"",
 	);
 	const [authState, setAuthState] = useState<AuthState>({
@@ -40,26 +39,30 @@ export const AuthProvider = ({
 
 	useEffect(() => {
 		if (previousIdToken !== idToken && idToken !== "") {
-			try {
-				const { _id }: { _id: string } = jose.decodeJwt(idToken);
-				setAuthState({
-					isAuthenticated: true,
-					accessToken,
-					refreshToken,
-					idToken,
-					logoutReason: "",
-					userId: _id || "",
-				});
-			} catch (_error) {
-				setAuthState({
-					isAuthenticated: false,
-					accessToken: "",
-					refreshToken: "",
-					idToken: "",
-					logoutReason: EXPIRED_SESSION,
-					userId: "",
-				});
-			}
+			(async () => {
+				try {
+					const jwt = await verifyAndExtractToken(idToken);
+					if (jwt && jwt.payload[JWT.USER_ID_KEY] !== "") {
+						setAuthState({
+							isAuthenticated: true,
+							accessToken,
+							refreshToken,
+							idToken,
+							logoutReason: "",
+							userId: jwt.payload[JWT.USER_ID_KEY] as string,
+						});
+					}
+				} catch (_error) {
+					setAuthState({
+						isAuthenticated: false,
+						accessToken: "",
+						refreshToken: "",
+						idToken: "",
+						logoutReason: EXPIRED_SESSION,
+						userId: "",
+					});
+				}
+			})();
 		} else if (previousIdToken !== idToken && idToken === "") {
 			setAuthState({
 				isAuthenticated: false,
@@ -84,8 +87,9 @@ export const AuthProvider = ({
 		});
 
 		try {
-			const { _id }: { _id: string } = jose.decodeJwt(response.data.idToken);
-			if (_id) {
+			const jwt = await verifyAndExtractToken(response.data.idToken);
+
+			if (jwt && jwt.payload[JWT.USER_ID_KEY] !== "") {
 				setIdToken(response.data.idToken);
 				response.data.accessToken && setAccessToken(response.data.accessToken);
 				response.data.refreshToken &&
@@ -95,8 +99,7 @@ export const AuthProvider = ({
 					idToken: response.data.idToken,
 					accessToken: response.data.accessToken,
 					refreshToken: response.data.refreshToken,
-					userId: _id,
-					logoutReason: "",
+					userId: jwt.payload[JWT.USER_ID_KEY] as string,
 				});
 				return true;
 			}

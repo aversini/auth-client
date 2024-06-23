@@ -1,7 +1,8 @@
-import { HEADERS } from "@versini/auth-common";
+import { HEADERS, JWT } from "@versini/auth-common";
+import * as jose from "jose";
 import { v4 as uuidv4 } from "uuid";
 
-import { API_ENDPOINT } from "./constants";
+import { API_ENDPOINT, JWT_PUBLIC_KEY } from "./constants";
 import type { ServiceCallProps } from "./types";
 
 export const isProd = process.env.NODE_ENV === "production";
@@ -41,5 +42,18 @@ export const serviceCall = async ({ params = {} }: ServiceCallProps) => {
 	} catch (_error) {
 		console.error(_error);
 		return { status: 500, data: [] };
+	}
+};
+
+export const verifyAndExtractToken = async (token: string) => {
+	try {
+		const alg = JWT.ALG;
+		const spki = JWT_PUBLIC_KEY;
+		const publicKey = await jose.importSPKI(spki, alg);
+		return await jose.jwtVerify(token, publicKey, {
+			issuer: JWT.ISSUER,
+		});
+	} catch (_error) {
+		return undefined;
 	}
 };
