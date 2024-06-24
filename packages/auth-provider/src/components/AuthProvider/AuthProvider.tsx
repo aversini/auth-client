@@ -95,8 +95,12 @@ export const AuthProvider = ({
 
 	const getIdTokenClaims = async () => {
 		if (authState.isAuthenticated) {
-			const jwt = await verifyAndExtractToken(idToken, clientId);
-			return { ...jwt?.payload, [JWT.TOKEN_ID_KEY]: idToken };
+			try {
+				const jwt = await verifyAndExtractToken(idToken, clientId);
+				return { ...jwt?.payload, [JWT.TOKEN_ID_KEY]: idToken };
+			} catch (_error) {
+				return {};
+			}
 		}
 		return {};
 	};
