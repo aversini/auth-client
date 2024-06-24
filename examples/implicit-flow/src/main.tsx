@@ -65,7 +65,7 @@ export const App: React.FC = () => {
 							variant="danger"
 							disabled={!isAuthenticated}
 						>
-							Logout (valid)
+							Logout
 						</Button>
 					</FlexgridItem>
 				</Flexgrid>
