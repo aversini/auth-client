@@ -27,7 +27,7 @@
 		"lint": "biome lint src",
 		"start": "static-server dist --port 5173"
 	},
-	"peerDependencies": {
-		"jose": "^5.4.1"
+	"dependencies": {
+		"jose": "5.4.1"
 	}
 }

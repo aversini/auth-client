@@ -42,7 +42,7 @@ importers:
   packages/auth-common:
     dependencies:
       jose:
-        specifier: ^5.4.1
+        specifier: 5.4.1
         version: 5.4.1
 
   packages/auth-provider:
