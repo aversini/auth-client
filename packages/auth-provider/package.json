@@ -45,7 +45,7 @@
 	},
 	"dependencies": {
 		"@versini/auth-common": "workspace:../auth-common",
-		"@versini/ui-hooks": "3.0.0",
+		"@versini/ui-hooks": "3.0.1",
 		"jose": "5.4.1",
 		"uuid": "10.0.0"
 	}
