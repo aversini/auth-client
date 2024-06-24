@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.1.0](https://github.com/aversini/auth-client/compare/auth-provider-v2.0.2...auth-provider-v2.1.0) (2024-06-24)
+
+
+### Features
+
+* stronger security level for JWT verification with RSA keys ([#21](https://github.com/aversini/auth-client/issues/21)) ([0750b75](https://github.com/aversini/auth-client/commit/0750b75026d4870e632e1cbca6dcef0f851d8d83))
+
 ## [2.0.2](https://github.com/aversini/auth-client/compare/auth-provider-v2.0.1...auth-provider-v2.0.2) (2024-06-20)
 
 
