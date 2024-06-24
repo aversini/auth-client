@@ -38,5 +38,13 @@
       "limit": "9 kb",
       "passed": true
     }
+  },
+  "2.1.1": {
+    "dist/index.js": {
+      "fileSize": 25797,
+      "fileSizeGzip": 8072,
+      "limit": "9 kb",
+      "passed": true
+    }
   }
 }
