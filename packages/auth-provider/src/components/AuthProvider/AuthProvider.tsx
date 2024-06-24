@@ -48,6 +48,12 @@ export const AuthProvider = ({
 							logoutReason: "",
 							userId: jwt.payload[JWT.USER_ID_KEY] as string,
 						});
+					} else {
+						setAuthState({
+							isAuthenticated: false,
+							logoutReason: EXPIRED_SESSION,
+							userId: "",
+						});
 					}
 				} catch (_error) {
 					setAuthState({
