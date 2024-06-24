@@ -1,4 +1,4 @@
-import { JWT } from "@versini/auth-common";
+import { JWT, verifyAndExtractToken } from "@versini/auth-common";
 import { useLocalStorage } from "@versini/ui-hooks";
 import { useEffect, useState } from "react";
 
@@ -8,10 +8,7 @@ import {
 	LOGOUT_SESSION,
 } from "../../common/constants";
 import type { AuthProviderProps, AuthState } from "../../common/types";
-import {
-	authenticateUser,
-	verifyAndExtractToken,
-} from "../../common/utilities";
+import { authenticateUser } from "../../common/utilities";
 import { usePrevious } from "../hooks/usePrevious";
 import { AuthContext } from "./AuthContext";
 
