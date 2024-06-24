@@ -93,8 +93,18 @@ export const AuthProvider = ({
 		removeIdToken();
 	};
 
+	const getIdTokenClaims = async () => {
+		if (authState.isAuthenticated) {
+			const jwt = await verifyAndExtractToken(idToken, clientId);
+			return { ...jwt?.payload, [JWT.TOKEN_ID_KEY]: idToken };
+		}
+		return {};
+	};
+
 	return (
-		<AuthContext.Provider value={{ ...authState, login, logout }}>
+		<AuthContext.Provider
+			value={{ ...authState, login, logout, getIdTokenClaims }}
+		>
 			{children}
 		</AuthContext.Provider>
 	);
