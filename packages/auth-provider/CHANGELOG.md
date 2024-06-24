@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.1.1](https://github.com/aversini/auth-client/compare/auth-provider-v2.1.0...auth-provider-v2.1.1) (2024-06-24)
+
+
+### Bug Fixes
+
+* audience is now a required JWT claim for idToken ([#24](https://github.com/aversini/auth-client/issues/24)) ([c1730e7](https://github.com/aversini/auth-client/commit/c1730e7815a73bee592b2171a0fd8360f2fd1f71))
+
 ## [2.1.0](https://github.com/aversini/auth-client/compare/auth-provider-v2.0.2...auth-provider-v2.1.0) (2024-06-24)
 
 
