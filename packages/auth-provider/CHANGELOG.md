@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.2.0](https://github.com/aversini/auth-client/compare/auth-provider-v2.1.2...auth-provider-v2.2.0) (2024-06-24)
+
+
+### Features
+
+* moving verifyAndExtractToken to common package ([#28](https://github.com/aversini/auth-client/issues/28)) ([015b6df](https://github.com/aversini/auth-client/commit/015b6dfada0b8ecd2018819c62bb76e42cc3721e))
+
 ## [2.1.2](https://github.com/aversini/auth-client/compare/auth-provider-v2.1.1...auth-provider-v2.1.2) (2024-06-24)
 
 
