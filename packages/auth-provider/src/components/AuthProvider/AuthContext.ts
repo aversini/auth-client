@@ -10,8 +10,6 @@ export const AuthContext = createContext<AuthContextProps>({
 	isAuthenticated: false,
 	login: stub,
 	logout: stub,
-	accessToken: undefined,
-	refreshToken: undefined,
-	idToken: undefined,
+	getIdTokenClaims: stub,
 	logoutReason: "",
 });

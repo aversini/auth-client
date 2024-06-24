@@ -4,7 +4,8 @@ import { Flexgrid, FlexgridItem } from "@versini/ui-system";
 import * as React from "react";
 
 export const App: React.FC = () => {
-	const { login, logout, isAuthenticated } = useAuth();
+	const claimsRef = React.useRef<any>();
+	const { login, logout, isAuthenticated, getIdTokenClaims } = useAuth();
 
 	const handleValidLogin = async (e: { preventDefault: () => void }) => {
 		e.preventDefault();
@@ -33,6 +34,13 @@ export const App: React.FC = () => {
 			console.info(`==> [${Date.now()}] : `, response);
 		}
 	};
+
+	React.useEffect(() => {
+		(async () => {
+			const idTokenClaims = await getIdTokenClaims();
+			claimsRef.current = idTokenClaims;
+		})();
+	}, [getIdTokenClaims]);
 
 	return (
 		<div className="prose prose-dark dark:prose-lighter">
@@ -72,6 +80,15 @@ export const App: React.FC = () => {
 
 				<h2>State</h2>
 				<pre className="text-xs">{JSON.stringify(useAuth(), null, 2)}</pre>
+
+				<h2>idToken claims</h2>
+				<pre className="text-xs">
+					{JSON.stringify(
+						claimsRef.current || { error: "No claims available" },
+						null,
+						2,
+					)}
+				</pre>
 			</Main>
 		</div>
 	);
