@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.3.0](https://github.com/aversini/auth-client/compare/auth-common-v2.2.0...auth-common-v2.3.0) (2024-06-24)
+
+
+### Features
+
+* adding common constant for tokenId claims ([#30](https://github.com/aversini/auth-client/issues/30)) ([131aa70](https://github.com/aversini/auth-client/commit/131aa70b74bc4a2f6739cae5c1ef0ff2abcc9fa9))
+
 ## [2.2.0](https://github.com/aversini/auth-client/compare/auth-common-v2.1.0...auth-common-v2.2.0) (2024-06-24)
 
 
