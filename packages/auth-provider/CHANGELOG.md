@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.3.0](https://github.com/aversini/auth-client/compare/auth-provider-v2.2.0...auth-provider-v2.3.0) (2024-06-24)
+
+
+### Features
+
+* adding getIdTokenClaims ([#32](https://github.com/aversini/auth-client/issues/32)) ([bfaf502](https://github.com/aversini/auth-client/commit/bfaf502f83291b9eb03b0700c955fd80858afeca))
+
 ## [2.2.0](https://github.com/aversini/auth-client/compare/auth-provider-v2.1.2...auth-provider-v2.2.0) (2024-06-24)
 
 
