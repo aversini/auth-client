@@ -1,11 +1,17 @@
-import { AUTH_TYPES } from "@versini/auth-common";
+import { JWT } from "@versini/auth-common";
 import { useLocalStorage } from "@versini/ui-hooks";
-import * as jose from "jose";
 import { useEffect, useState } from "react";
 
-import { EXPIRED_SESSION } from "../../common/constants";
+import {
+	EXPIRED_SESSION,
+	LOCAL_STORAGE_PREFIX,
+	LOGOUT_SESSION,
+} from "../../common/constants";
 import type { AuthProviderProps, AuthState } from "../../common/types";
-import { serviceCall } from "../../common/utilities";
+import {
+	authenticateUser,
+	verifyAndExtractToken,
+} from "../../common/utilities";
 import { usePrevious } from "../hooks/usePrevious";
 import { AuthContext } from "./AuthContext";
 
@@ -13,102 +19,74 @@ export const AuthProvider = ({
 	children,
 	sessionExpiration,
 	clientId,
-	accessType,
 }: AuthProviderProps) => {
-	const [accessToken, setAccessToken, removeAccessToken] = useLocalStorage(
-		`@@auth@@::${clientId}::@@access@@`,
-		"",
-	);
-	const [refreshToken, setRefreshToken, removeRefreshToken] = useLocalStorage(
-		`@@auth@@::${clientId}::@@refresh@@`,
-		"",
-	);
-	const [idToken, setIdToken, removeIdToken] = useLocalStorage(
-		`@@auth@@::${clientId}::@@user@@`,
-		"",
-	);
+	const [idToken, setIdToken, , removeIdToken] = useLocalStorage({
+		key: `${LOCAL_STORAGE_PREFIX}::${clientId}::@@user@@`,
+	});
+
 	const [authState, setAuthState] = useState<AuthState>({
-		isAuthenticated: !!idToken,
-		accessToken,
-		refreshToken,
-		idToken,
+		isAuthenticated: Boolean(idToken),
 		logoutReason: "",
 		userId: "",
 	});
 
 	const previousIdToken = usePrevious(idToken) || "";
 
+	/**
+	 * This effect is responsible to set the authentication state based on the
+	 * idToken stored in the local storage. It is used when the page is being
+	 * refreshed.
+	 */
 	useEffect(() => {
-		if (previousIdToken !== idToken && idToken !== "") {
-			try {
-				const { _id }: { _id: string } = jose.decodeJwt(idToken);
-				setAuthState({
-					isAuthenticated: true,
-					accessToken,
-					refreshToken,
-					idToken,
-					logoutReason: "",
-					userId: _id || "",
-				});
-			} catch (_error) {
-				setAuthState({
-					isAuthenticated: false,
-					accessToken: "",
-					refreshToken: "",
-					idToken: "",
-					logoutReason: EXPIRED_SESSION,
-					userId: "",
-				});
-			}
-		} else if (previousIdToken !== idToken && idToken === "") {
-			setAuthState({
-				isAuthenticated: false,
-				accessToken: "",
-				refreshToken: "",
-				idToken: "",
-				logoutReason: EXPIRED_SESSION,
-				userId: "",
-			});
+		if (previousIdToken !== idToken && idToken !== null) {
+			(async () => {
+				try {
+					const jwt = await verifyAndExtractToken(idToken);
+					if (jwt && jwt.payload[JWT.USER_ID_KEY] !== "") {
+						setAuthState({
+							isAuthenticated: true,
+							logoutReason: "",
+							userId: jwt.payload[JWT.USER_ID_KEY] as string,
+						});
+					}
+				} catch (_error) {
+					setAuthState({
+						isAuthenticated: false,
+						logoutReason: EXPIRED_SESSION,
+						userId: "",
+					});
+				}
+			})();
 		}
-	}, [accessToken, refreshToken, idToken, previousIdToken]);
+	}, [idToken, previousIdToken]);
 
-	const login = async (username: string, password: string) => {
-		const response = await serviceCall({
-			params: {
-				type: accessType || AUTH_TYPES.ID_TOKEN,
-				username,
-				password,
-				sessionExpiration,
-				clientId,
-			},
+	const login = async (
+		username: string,
+		password: string,
+	): Promise<boolean> => {
+		const response = await authenticateUser({
+			username,
+			password,
+			clientId,
+			sessionExpiration,
 		});
-
-		try {
-			const { _id }: { _id: string } = jose.decodeJwt(response.data.idToken);
-			if (_id) {
-				setIdToken(response.data.idToken);
-				response.data.accessToken && setAccessToken(response.data.accessToken);
-				response.data.refreshToken &&
-					setRefreshToken(response.data.refreshToken);
-				setAuthState({
-					isAuthenticated: true,
-					idToken: response.data.idToken,
-					accessToken: response.data.accessToken,
-					refreshToken: response.data.refreshToken,
-					userId: _id,
-					logoutReason: "",
-				});
-				return true;
-			}
-			return false;
-		} catch (_error) {
-			return false;
+		if (response.status) {
+			setIdToken(response.idToken);
+			setAuthState({
+				isAuthenticated: true,
+				userId: response.userId,
+			});
+			return true;
 		}
+		return false;
 	};
 
 	const logout = () => {
-		removeAccessToken();
-		removeRefreshToken();
+		setAuthState({
+			isAuthenticated: false,
+			logoutReason: LOGOUT_SESSION,
+			userId: "",
+		});
 		removeIdToken();
 	};
 
