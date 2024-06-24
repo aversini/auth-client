@@ -41,7 +41,7 @@ export const AuthProvider = ({
 		if (previousIdToken !== idToken && idToken !== null) {
 			(async () => {
 				try {
-					const jwt = await verifyAndExtractToken(idToken);
+					const jwt = await verifyAndExtractToken(idToken, clientId);
 					if (jwt && jwt.payload[JWT.USER_ID_KEY] !== "") {
 						setAuthState({
 							isAuthenticated: true,
@@ -58,7 +58,7 @@ export const AuthProvider = ({
 				}
 			})();
 		}
-	}, [idToken, previousIdToken]);
+	}, [idToken, previousIdToken, clientId]);
 
 	const login = async (
 		username: string,

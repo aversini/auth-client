@@ -45,13 +45,17 @@ export const serviceCall = async ({ params = {} }: ServiceCallProps) => {
 	}
 };
 
-export const verifyAndExtractToken = async (token: string) => {
+export const verifyAndExtractToken = async (
+	token: string,
+	audience: string,
+) => {
 	try {
 		const alg = JWT.ALG;
 		const spki = JWT_PUBLIC_KEY;
 		const publicKey = await jose.importSPKI(spki, alg);
 		return await jose.jwtVerify(token, publicKey, {
 			issuer: JWT.ISSUER,
+			audience,
 		});
 	} catch (_error) {
 		return undefined;
@@ -79,7 +83,7 @@ export const authenticateUser = async ({
 				clientId,
 			},
 		});
-		const jwt = await verifyAndExtractToken(response.data.idToken);
+		const jwt = await verifyAndExtractToken(response.data.idToken, clientId);
 		if (jwt && jwt.payload[JWT.USER_ID_KEY] !== "") {
 			return {
 				idToken: response.data.idToken,
