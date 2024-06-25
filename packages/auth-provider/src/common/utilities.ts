@@ -63,7 +63,7 @@ export const authenticateUser = async ({
 	try {
 		const response = await serviceCall({
 			params: {
-				type: AUTH_TYPES.ID_TOKEN,
+				type: AUTH_TYPES.ID_AND_ACCESS_TOKEN,
 				username,
 				password,
 				sessionExpiration,
@@ -74,6 +74,7 @@ export const authenticateUser = async ({
 		if (jwt && jwt.payload[JWT.USER_ID_KEY] !== "") {
 			return {
 				idToken: response.data.idToken,
+				accessToken: response.data.accessToken,
 				userId: jwt.payload[JWT.USER_ID_KEY] as string,
 				status: true,
 			};
