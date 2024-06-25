@@ -1,11 +1,9 @@
 import { useAuth } from "@versini/auth-provider";
-import { Button, Header, Main } from "@versini/ui-components";
+import { Button, Footer, Header, Main } from "@versini/ui-components";
 import { Flexgrid, FlexgridItem } from "@versini/ui-system";
-import * as React from "react";
 
-export const App: React.FC = () => {
-	const claimsRef = React.useRef<any>();
-	const { login, logout, isAuthenticated, getIdTokenClaims } = useAuth();
+export const App = ({ timeout }: { timeout: string }) => {
+	const { login, logout, isAuthenticated } = useAuth();
 
 	const handleValidLogin = async (e: { preventDefault: () => void }) => {
 		e.preventDefault();
@@ -34,13 +32,6 @@ export const App: React.FC = () => {
 			console.info(`==> [${Date.now()}] : `, response);
 		}
 	};
-
-	React.useEffect(() => {
-		(async () => {
-			const idTokenClaims = await getIdTokenClaims();
-			claimsRef.current = idTokenClaims;
-		})();
-	}, [getIdTokenClaims]);
 
 	return (
 		<div className="prose prose-dark dark:prose-lighter">
@@ -80,16 +71,8 @@ export const App: React.FC = () => {
 
 				<h2>State</h2>
 				<pre className="text-xs">{JSON.stringify(useAuth(), null, 2)}</pre>
-
-				<h2>idToken claims</h2>
-				<pre className="text-xs">
-					{JSON.stringify(
-						claimsRef.current || { error: "No claims available" },
-						null,
-						2,
-					)}
-				</pre>
 			</Main>
+			<Footer row1={<p>Timeout: {timeout}</p>} />
 		</div>
 	);
 };

@@ -8,8 +8,9 @@ const stub = (): never => {
 
 export const AuthContext = createContext<AuthContextProps>({
 	isAuthenticated: false,
+	isLoading: false,
 	login: stub,
 	logout: stub,
-	getIdTokenClaims: stub,
 	logoutReason: "",
+	idTokenClaims: null,
 });
