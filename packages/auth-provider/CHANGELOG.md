@@ -1,5 +1,16 @@
 # Changelog
 
+## [3.0.0](https://github.com/aversini/auth-client/compare/auth-provider-v2.3.0...auth-provider-v3.0.0) (2024-06-25)
+
+
+### ⚠ BREAKING CHANGES
+
+* replacing `getIdTokenClaims()` with claims in state ([#34](https://github.com/aversini/auth-client/issues/34))
+
+### Features
+
+* replacing `getIdTokenClaims()` with claims in state ([#34](https://github.com/aversini/auth-client/issues/34)) ([b092e40](https://github.com/aversini/auth-client/commit/b092e409dbc06a912ef1e46d6b2f7bf41c389abc))
+
 ## [2.3.0](https://github.com/aversini/auth-client/compare/auth-provider-v2.2.0...auth-provider-v2.3.0) (2024-06-24)
 
 
