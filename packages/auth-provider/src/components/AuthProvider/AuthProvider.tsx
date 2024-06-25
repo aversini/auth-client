@@ -21,6 +21,9 @@ export const AuthProvider = ({
 	const [idToken, setIdToken, , removeIdToken] = useLocalStorage({
 		key: `${LOCAL_STORAGE_PREFIX}::${clientId}::@@user@@`,
 	});
+	const [accessToken, setAccessToken, , removeAccessToken] = useLocalStorage({
+		key: `${LOCAL_STORAGE_PREFIX}::${clientId}::@@access@@`,
+	});
 
 	const [authState, setAuthState] = useState<AuthState>({
 		isLoading: true,
@@ -42,8 +45,9 @@ export const AuthProvider = ({
 				idTokenClaims: null,
 			});
 			removeIdToken();
+			removeAccessToken();
 		},
-		[removeIdToken],
+		[removeIdToken, removeAccessToken],
 	);
 
 	/**
@@ -89,6 +93,7 @@ export const AuthProvider = ({
 		});
 		if (response.status) {
 			setIdToken(response.idToken);
+			setAccessToken(response.accessToken);
 			setAuthState({
 				isLoading: false,
 				isAuthenticated: true,
@@ -104,8 +109,14 @@ export const AuthProvider = ({
 		cleanupSession(LOGOUT_SESSION);
 	};
 
+	const getAccessToken = () => {
+		return accessToken;
+	};
+
 	return (
-		<AuthContext.Provider value={{ ...authState, login, logout }}>
+		<AuthContext.Provider
+			value={{ ...authState, login, logout, getAccessToken }}
+		>
 			{children}
 		</AuthContext.Provider>
 	);

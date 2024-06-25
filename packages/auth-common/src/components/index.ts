@@ -27,6 +27,11 @@ sjqybA9mARAqh9k/eiIopecWSiffNQTwVQVd2I9ZH3BalhEXHlqFgrjz51kFqg81
 awIDAQAB
 -----END PUBLIC KEY-----`;
 
+export const TOKEN_EXPIRATION = {
+	ACCESS: "5m",
+	ID: "90d",
+};
+
 export const verifyAndExtractToken = async (
 	token: string,
 	audience: string,

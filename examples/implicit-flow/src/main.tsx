@@ -71,6 +71,11 @@ export const App = ({ timeout }: { timeout: string }) => {
 
 				<h2>State</h2>
 				<pre className="text-xs">{JSON.stringify(useAuth(), null, 2)}</pre>
+
+				<h2>Access Token</h2>
+				<pre className="text-xs">
+					{JSON.stringify(useAuth().getAccessToken(), null, 2)}
+				</pre>
 			</Main>
 			<Footer row1={<p>Timeout: {timeout}</p>} />
 		</div>
