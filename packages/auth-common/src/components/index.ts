@@ -2,6 +2,8 @@ import * as jose from "jose";
 
 export const AUTH_TYPES = {
 	ID_TOKEN: "id_token",
+	ACCESS_TOKEN: "token",
+	ID_AND_ACCESS_TOKEN: "id_token token",
 };
 
 export const HEADERS = {
