@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.5.0](https://github.com/aversini/auth-client/compare/auth-common-v2.4.0...auth-common-v2.5.0) (2024-06-25)
+
+
+### Features
+
+* adding MVP support for access token ([#38](https://github.com/aversini/auth-client/issues/38)) ([a5a85fd](https://github.com/aversini/auth-client/commit/a5a85fda878670da64c7bb17aa39d36c333c6b06))
+
 ## [2.4.0](https://github.com/aversini/auth-client/compare/auth-common-v2.3.0...auth-common-v2.4.0) (2024-06-25)
 
 
