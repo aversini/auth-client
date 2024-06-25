@@ -10,13 +10,14 @@ export type AuthProviderProps = {
 };
 
 export type AuthState = {
+	isLoading: boolean;
 	isAuthenticated: boolean;
 	logoutReason?: string;
 	userId?: string;
+	idTokenClaims?: any;
 };
 
 export type AuthContextProps = {
 	login: (username: string, password: string) => Promise<boolean>;
 	logout: () => void;
-	getIdTokenClaims: () => Promise<any>;
 } & AuthState;

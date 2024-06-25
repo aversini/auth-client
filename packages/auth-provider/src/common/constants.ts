@@ -1,6 +1,7 @@
 export const EXPIRED_SESSION =
 	"Oops! It looks like your session has expired. For your security, please log in again to continue.";
 export const LOGOUT_SESSION = "Your session has been successfully terminated.";
+export const LOGIN_ERROR = "Login failed. Please try again.";
 
 export const AUTH_CONTEXT_ERROR =
 	"You forgot to wrap your component in <AuthProvider>.";

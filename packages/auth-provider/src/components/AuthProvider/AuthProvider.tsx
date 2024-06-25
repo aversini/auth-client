@@ -1,10 +1,11 @@
 import { JWT, verifyAndExtractToken } from "@versini/auth-common";
 import { useLocalStorage } from "@versini/ui-hooks";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 
 import {
 	EXPIRED_SESSION,
 	LOCAL_STORAGE_PREFIX,
+	LOGIN_ERROR,
 	LOGOUT_SESSION,
 } from "../../common/constants";
 import type { AuthProviderProps, AuthState } from "../../common/types";
@@ -22,12 +23,28 @@ export const AuthProvider = ({
 	});
 
 	const [authState, setAuthState] = useState<AuthState>({
-		isAuthenticated: Boolean(idToken),
+		isLoading: true,
+		isAuthenticated: false,
 		logoutReason: "",
 		userId: "",
+		idTokenClaims: null,
 	});
 
 	const previousIdToken = usePrevious(idToken) || "";
+
+	const cleanupSession = useCallback(
+		(logoutReason?: string) => {
+			setAuthState({
+				isLoading: false,
+				isAuthenticated: false,
+				logoutReason: logoutReason || EXPIRED_SESSION,
+				userId: "",
+				idTokenClaims: null,
+			});
+			removeIdToken();
+		},
+		[removeIdToken],
+	);
 
 	/**
 	 * This effect is responsible to set the authentication state based on the
@@ -41,27 +58,24 @@ export const AuthProvider = ({
 					const jwt = await verifyAndExtractToken(idToken, clientId);
 					if (jwt && jwt.payload[JWT.USER_ID_KEY] !== "") {
 						setAuthState({
+							isLoading: false,
 							isAuthenticated: true,
 							logoutReason: "",
 							userId: jwt.payload[JWT.USER_ID_KEY] as string,
+							idTokenClaims: {
+								...jwt?.payload,
+								[JWT.TOKEN_ID_KEY]: idToken,
+							},
 						});
 					} else {
-						setAuthState({
-							isAuthenticated: false,
-							logoutReason: EXPIRED_SESSION,
-							userId: "",
-						});
+						cleanupSession(EXPIRED_SESSION);
 					}
 				} catch (_error) {
-					setAuthState({
-						isAuthenticated: false,
-						logoutReason: EXPIRED_SESSION,
-						userId: "",
-					});
+					cleanupSession(EXPIRED_SESSION);
 				}
 			})();
 		}
-	}, [idToken, previousIdToken, clientId]);
+	}, [idToken, previousIdToken, clientId, cleanupSession]);
 
 	const login = async (
 		username: string,
@@ -76,39 +90,22 @@ export const AuthProvider = ({
 		if (response.status) {
 			setIdToken(response.idToken);
 			setAuthState({
+				isLoading: false,
 				isAuthenticated: true,
 				userId: response.userId,
 			});
 			return true;
 		}
+		cleanupSession(LOGIN_ERROR);
 		return false;
 	};
 
 	const logout = () => {
-		setAuthState({
-			isAuthenticated: false,
-			logoutReason: LOGOUT_SESSION,
-			userId: "",
-		});
-		removeIdToken();
-	};
-
-	const getIdTokenClaims = async () => {
-		if (authState.isAuthenticated) {
-			try {
-				const jwt = await verifyAndExtractToken(idToken, clientId);
-				return { ...jwt?.payload, [JWT.TOKEN_ID_KEY]: idToken };
-			} catch (_error) {
-				return {};
-			}
-		}
-		return {};
+		cleanupSession(LOGOUT_SESSION);
 	};
 
 	return (
-		<AuthContext.Provider
-			value={{ ...authState, login, logout, getIdTokenClaims }}
-		>
+		<AuthContext.Provider value={{ ...authState, login, logout }}>
 			{children}
 		</AuthContext.Provider>
 	);
