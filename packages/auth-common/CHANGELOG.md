@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.4.0](https://github.com/aversini/auth-client/compare/auth-common-v2.3.0...auth-common-v2.4.0) (2024-06-25)
+
+
+### Features
+
+* adding access and id token request type ([#36](https://github.com/aversini/auth-client/issues/36)) ([2c19bc3](https://github.com/aversini/auth-client/commit/2c19bc3da6d95898ec4a20a7f5452a6fb601d53f))
+
 ## [2.3.0](https://github.com/aversini/auth-client/compare/auth-common-v2.2.0...auth-common-v2.3.0) (2024-06-24)
 
 
