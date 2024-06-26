@@ -1,5 +1,16 @@
 # Changelog
 
+## [4.0.0](https://github.com/aversini/auth-client/compare/auth-provider-v3.1.0...auth-provider-v4.0.0) (2024-06-26)
+
+
+### ⚠ BREAKING CHANGES
+
+* moving nonce to JWT custom claims ([#42](https://github.com/aversini/auth-client/issues/42))
+
+### Bug Fixes
+
+* moving nonce to JWT custom claims ([#42](https://github.com/aversini/auth-client/issues/42)) ([c68cf06](https://github.com/aversini/auth-client/commit/c68cf06f539cb7a026556e04bcce98527d5aa0ff))
+
 ## [3.1.0](https://github.com/aversini/auth-client/compare/auth-provider-v3.0.0...auth-provider-v3.1.0) (2024-06-25)
 
 
