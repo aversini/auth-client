@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.6.0](https://github.com/aversini/auth-client/compare/auth-common-v2.5.0...auth-common-v2.6.0) (2024-06-26)
+
+
+### Features
+
+* adding common nonce custom JWT claim ([#40](https://github.com/aversini/auth-client/issues/40)) ([1beff57](https://github.com/aversini/auth-client/commit/1beff579f6e074063d2db5f4b06e5f01276293c6))
+
 ## [2.5.0](https://github.com/aversini/auth-client/compare/auth-common-v2.4.0...auth-common-v2.5.0) (2024-06-25)
 
 
