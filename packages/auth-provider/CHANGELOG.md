@@ -1,5 +1,12 @@
 # Changelog
 
+## [4.1.0](https://github.com/aversini/auth-client/compare/auth-provider-v4.0.0...auth-provider-v4.1.0) (2024-06-26)
+
+
+### Features
+
+* using the new logout endpoint ([#44](https://github.com/aversini/auth-client/issues/44)) ([9d23bd1](https://github.com/aversini/auth-client/commit/9d23bd19f2c37fbdc52b39adf1b58a51f5dfd7c6))
+
 ## [4.0.0](https://github.com/aversini/auth-client/compare/auth-provider-v3.1.0...auth-provider-v4.0.0) (2024-06-26)
 
 
