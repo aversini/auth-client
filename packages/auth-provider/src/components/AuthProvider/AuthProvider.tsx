@@ -10,7 +10,7 @@ import {
 	LOGOUT_SESSION,
 } from "../../common/constants";
 import type { AuthProviderProps, AuthState } from "../../common/types";
-import { authenticateUser } from "../../common/utilities";
+import { authenticateUser, logoutUser } from "../../common/utilities";
 import { usePrevious } from "../hooks/usePrevious";
 import { AuthContext } from "./AuthContext";
 
@@ -115,7 +115,14 @@ export const AuthProvider = ({
 		return false;
 	};
 
-	const logout = () => {
+	const logout = async () => {
+		const response = await logoutUser({
+			idToken: idToken,
+			accessToken: accessToken,
+			clientId: clientId,
+		});
+		console.info(`==> [${Date.now()}] response: `, response);
+
 		cleanupSession(LOGOUT_SESSION);
 	};
 
