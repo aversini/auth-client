@@ -1,6 +1,7 @@
 import { JWT, verifyAndExtractToken } from "@versini/auth-common";
 import { useLocalStorage } from "@versini/ui-hooks";
 import { useCallback, useEffect, useState } from "react";
+import { v4 as uuidv4 } from "uuid";
 
 import {
 	EXPIRED_SESSION,
@@ -24,6 +25,9 @@ export const AuthProvider = ({
 	const [accessToken, setAccessToken, , removeAccessToken] = useLocalStorage({
 		key: `${LOCAL_STORAGE_PREFIX}::${clientId}::@@access@@`,
 	});
+	const [, setNonce, , removeNonce] = useLocalStorage({
+		key: `${LOCAL_STORAGE_PREFIX}::${clientId}::@@nonce@@`,
+	});
 
 	const [authState, setAuthState] = useState<AuthState>({
 		isLoading: true,
@@ -46,14 +50,17 @@ export const AuthProvider = ({
 			});
 			removeIdToken();
 			removeAccessToken();
+			removeNonce();
 		},
-		[removeIdToken, removeAccessToken],
+		[removeIdToken, removeAccessToken, removeNonce],
 	);
 
 	/**
 	 * This effect is responsible to set the authentication state based on the
 	 * idToken stored in the local storage. It is used when the page is being
-	 * refreshed.
+	 * first loaded or refreshed.
+	 * NOTE: we are extending the state with the idTokenClaims to store the
+	 * idToken "string" and other claims in the state.
 	 */
 	useEffect(() => {
 		if (previousIdToken !== idToken && idToken !== null) {
@@ -85,11 +92,14 @@ export const AuthProvider = ({
 		username: string,
 		password: string,
 	): Promise<boolean> => {
+		const _nonce = uuidv4();
+		setNonce(_nonce);
 		const response = await authenticateUser({
 			username,
 			password,
 			clientId,
 			sessionExpiration,
+			nonce: _nonce,
 		});
 		if (response.status) {
 			setIdToken(response.idToken);

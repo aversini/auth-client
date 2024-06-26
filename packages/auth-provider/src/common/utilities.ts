@@ -4,7 +4,6 @@ import {
 	JWT,
 	verifyAndExtractToken,
 } from "@versini/auth-common";
-import { v4 as uuidv4 } from "uuid";
 
 import { API_ENDPOINT } from "./constants";
 import type { ServiceCallProps } from "./types";
@@ -14,7 +13,6 @@ export const isDev = !isProd;
 
 export const serviceCall = async ({ params = {} }: ServiceCallProps) => {
 	try {
-		const nonce = uuidv4();
 		const response = await fetch(
 			isDev
 				? `${API_ENDPOINT.dev}/authenticate`
@@ -26,7 +24,7 @@ export const serviceCall = async ({ params = {} }: ServiceCallProps) => {
 					"Content-Type": "application/json",
 					[HEADERS.CLIENT_ID]: `${params.clientId}`,
 				},
-				body: JSON.stringify({ ...params, nonce }),
+				body: JSON.stringify(params),
 			},
 		);
 
@@ -34,9 +32,6 @@ export const serviceCall = async ({ params = {} }: ServiceCallProps) => {
 			return { status: response.status, data: [] };
 		}
 		const { data, errors } = await response.json();
-		if (data.nonce !== nonce) {
-			return { status: 500, data: [] };
-		}
 
 		return {
 			status: response.status,
@@ -53,11 +48,13 @@ export const authenticateUser = async ({
 	username,
 	password,
 	clientId,
+	nonce,
 	sessionExpiration,
 }: {
 	username: string;
 	password: string;
 	clientId: string;
+	nonce: string;
 	sessionExpiration?: string;
 }) => {
 	try {
@@ -68,10 +65,15 @@ export const authenticateUser = async ({
 				password,
 				sessionExpiration,
 				clientId,
+				nonce,
 			},
 		});
 		const jwt = await verifyAndExtractToken(response.data.idToken, clientId);
-		if (jwt && jwt.payload[JWT.USER_ID_KEY] !== "") {
+		if (
+			jwt &&
+			jwt.payload[JWT.USER_ID_KEY] !== "" &&
+			jwt.payload[JWT.NONCE_KEY] === nonce
+		) {
 			return {
 				idToken: response.data.idToken,
 				accessToken: response.data.accessToken,
