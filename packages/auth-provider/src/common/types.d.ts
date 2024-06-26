@@ -1,5 +1,6 @@
 export type ServiceCallProps = {
 	params: any;
+	type: "authenticate" | "logout" | (string & {});
 };
 
 export type AuthProviderProps = {

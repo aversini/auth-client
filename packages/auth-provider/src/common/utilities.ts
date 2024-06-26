@@ -8,15 +8,17 @@ import {
 import { API_ENDPOINT } from "./constants";
 import type { ServiceCallProps } from "./types";
 
-export const isProd = process.env.NODE_ENV === "production";
-export const isDev = !isProd;
+const isProd = process.env.NODE_ENV === "production";
+const isDev = !isProd;
+const API_TYPE = {
+	AUTHENTICATE: "authenticate",
+	LOGOUT: "logout",
+};
 
-export const serviceCall = async ({ params = {} }: ServiceCallProps) => {
+export const serviceCall = async ({ type, params = {} }: ServiceCallProps) => {
 	try {
 		const response = await fetch(
-			isDev
-				? `${API_ENDPOINT.dev}/authenticate`
-				: `${API_ENDPOINT.prod}/authenticate`,
+			isDev ? `${API_ENDPOINT.dev}/${type}` : `${API_ENDPOINT.prod}/${type}`,
 			{
 				credentials: "include",
 				method: "POST",
@@ -43,6 +45,29 @@ export const serviceCall = async ({ params = {} }: ServiceCallProps) => {
 		return { status: 500, data: [] };
 	}
 };
+export const logoutUser = async ({
+	idToken,
+	accessToken,
+	clientId,
+}: { idToken: string; accessToken: string; clientId: string }) => {
+	try {
+		const response = await serviceCall({
+			type: API_TYPE.LOGOUT,
+			params: {
+				idToken,
+				accessToken,
+				clientId,
+			},
+		});
+		return {
+			status: response.status === 200,
+		};
+	} catch (_error) {
+		return {
+			status: false,
+		};
+	}
+};
 
 export const authenticateUser = async ({
 	username,
@@ -59,6 +84,7 @@ export const authenticateUser = async ({
 }) => {
 	try {
 		const response = await serviceCall({
+			type: API_TYPE.AUTHENTICATE,
 			params: {
 				type: AUTH_TYPES.ID_AND_ACCESS_TOKEN,
 				username,

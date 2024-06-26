@@ -10,8 +10,7 @@ import {
 	LOGOUT_SESSION,
 } from "../../common/constants";
 import type { AuthProviderProps, AuthState } from "../../common/types";
-import { authenticateUser } from "../../common/utilities";
-import { usePrevious } from "../hooks/usePrevious";
+import { authenticateUser, logoutUser } from "../../common/utilities";
 import { AuthContext } from "./AuthContext";
 
 export const AuthProvider = ({
@@ -37,9 +36,7 @@ export const AuthProvider = ({
 		idTokenClaims: null,
 	});
 
-	const previousIdToken = usePrevious(idToken) || "";
-
-	const cleanupSession = useCallback(
+	const removeStateAndLocalStorage = useCallback(
 		(logoutReason?: string) => {
 			setAuthState({
 				isLoading: false,
@@ -63,7 +60,7 @@ export const AuthProvider = ({
 	 * idToken "string" and other claims in the state.
 	 */
 	useEffect(() => {
-		if (previousIdToken !== idToken && idToken !== null) {
+		if (authState.isLoading && idToken !== null) {
 			(async () => {
 				try {
 					const jwt = await verifyAndExtractToken(idToken, clientId);
@@ -79,14 +76,30 @@ export const AuthProvider = ({
 							},
 						});
 					} else {
-						cleanupSession(EXPIRED_SESSION);
+						removeStateAndLocalStorage(EXPIRED_SESSION);
+						await logoutUser({
+							idToken: idToken,
+							accessToken: accessToken,
+							clientId: clientId,
+						});
 					}
 				} catch (_error) {
-					cleanupSession(EXPIRED_SESSION);
+					removeStateAndLocalStorage(EXPIRED_SESSION);
+					await logoutUser({
+						idToken: idToken,
+						accessToken: accessToken,
+						clientId: clientId,
+					});
 				}
 			})();
 		}
-	}, [idToken, previousIdToken, clientId, cleanupSession]);
+	}, [
+		authState.isLoading,
+		accessToken,
+		idToken,
+		clientId,
+		removeStateAndLocalStorage,
+	]);
 
 	const login = async (
 		username: string,
@@ -111,16 +124,23 @@ export const AuthProvider = ({
 			});
 			return true;
 		}
-		cleanupSession(LOGIN_ERROR);
+		removeStateAndLocalStorage(LOGIN_ERROR);
 		return false;
 	};
 
-	const logout = () => {
-		cleanupSession(LOGOUT_SESSION);
+	const logout = async () => {
+		removeStateAndLocalStorage(LOGOUT_SESSION);
+		await logoutUser({
+			idToken: idToken,
+			accessToken: accessToken,
+			clientId: clientId,
+		});
 	};
 
 	const getAccessToken = () => {
-		return accessToken;
+		if (authState.isAuthenticated && accessToken) {
+			return accessToken;
+		}
 	};
 
 	return (
