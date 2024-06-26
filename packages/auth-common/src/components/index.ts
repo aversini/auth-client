@@ -14,6 +14,7 @@ export const JWT = {
 	ALG: "RS256",
 	USER_ID_KEY: "_id",
 	TOKEN_ID_KEY: "__raw",
+	NONCE_KEY: "_nonce",
 	ISSUER: "gizmette.com",
 };
 
