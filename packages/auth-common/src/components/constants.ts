@@ -2,6 +2,7 @@ export const AUTH_TYPES = {
 	ID_TOKEN: "id_token",
 	ACCESS_TOKEN: "token",
 	ID_AND_ACCESS_TOKEN: "id_token token",
+	CODE: "code",
 };
 
 export const HEADERS = {
@@ -29,4 +30,10 @@ awIDAQAB
 export const TOKEN_EXPIRATION = {
 	ACCESS: "5m",
 	ID: "90d",
+};
+
+export const API_TYPE = {
+	AUTHENTICATE: "authenticate",
+	CODE: "code",
+	LOGOUT: "logout",
 };
