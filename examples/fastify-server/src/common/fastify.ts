@@ -4,9 +4,7 @@ import fastifyCookie from "@fastify/cookie";
 import fastifyCors from "@fastify/cors";
 import { verifyAndExtractToken } from "@versini/auth-common";
 import Fastify from "fastify";
-import mercurius from "mercurius";
 
-import { resolvers, schema } from "../services/graphql.js";
 import fastifyLogs from "../services/logs.js";
 import { getData } from "../services/routes/getData.js";
 import { CorsOptions } from "./types.js";
@@ -50,10 +48,7 @@ export const initServer = async () => {
 	fastify.register(fastifyCache, {
 		privacy: "no-cache",
 	});
-	fastify.register(mercurius, {
-		schema,
-		resolvers,
-	});
+
 	fastify.register(fastifyCors, () => {
 		return async (request: any, callback: any) => {
 			let isAllowed = false;
