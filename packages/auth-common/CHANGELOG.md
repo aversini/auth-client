@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.7.1](https://github.com/aversini/auth-client/compare/auth-common-v2.7.0...auth-common-v2.7.1) (2024-06-27)
+
+
+### Bug Fixes
+
+* adding code request type and api type to common ([#49](https://github.com/aversini/auth-client/issues/49)) ([7a31f63](https://github.com/aversini/auth-client/commit/7a31f63e3420f50113d8be625e38c62f54e33075))
+
 ## [2.7.0](https://github.com/aversini/auth-client/compare/auth-common-v2.6.0...auth-common-v2.7.0) (2024-06-27)
 
 
