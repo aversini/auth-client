@@ -1,5 +1,12 @@
 # Changelog
 
+## [4.2.0](https://github.com/aversini/auth-client/compare/auth-provider-v4.1.0...auth-provider-v4.2.0) (2024-06-27)
+
+
+### Features
+
+* adding support for refresh tokens ([#51](https://github.com/aversini/auth-client/issues/51)) ([93c70b5](https://github.com/aversini/auth-client/commit/93c70b580b88db813ae2338c9d6f781e4f5ab07b))
+
 ## [4.1.0](https://github.com/aversini/auth-client/compare/auth-provider-v4.0.0...auth-provider-v4.1.0) (2024-06-26)
 
 
