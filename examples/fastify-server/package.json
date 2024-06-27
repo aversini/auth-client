@@ -5,13 +5,8 @@
 	"type": "module",
 	"node": ">=20",
 	"scripts": {
-		"build": "yarn run clean && yarn run build:types && yarn run build:js&& yarn run build:barrel",
-		"build:barrel": "barrelsby --delete --directory dist --pattern \"**/*.d.ts\" --name \"index.d\"",
-		"build:js": "swc --strip-leading-paths --source-maps --out-dir dist src --copy-files",
-		"build:types": "tsc",
 		"clean": "rimraf dist types coverage",
 		"dev": "nodemon dist/server.js --db tmp/auth.json",
-		"fix:sessions": "cross-env NODE_ENV==\"production\" node dist/doctor.js --db tmp/auth.json --sessions",
 		"lint": "biome lint src",
 		"start": "cross-env NODE_ENV==\"production\" node dist/server.js --db auth.json",
 		"watch": "swc --strip-leading-paths --watch --out-dir dist src"
