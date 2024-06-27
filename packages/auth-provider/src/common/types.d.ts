@@ -22,4 +22,5 @@ export type AuthContextProps = {
 	login: (username: string, password: string) => Promise<boolean>;
 	logout: () => void;
 	getAccessToken: () => string;
+	getIdToken: () => string;
 } & AuthState;
