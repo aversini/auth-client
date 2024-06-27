@@ -11,7 +11,7 @@ export const HEADERS = {
 
 export const JWT = {
 	ALG: "RS256",
-	USER_ID_KEY: "_id",
+	USER_ID_KEY: "sub",
 	TOKEN_ID_KEY: "__raw",
 	NONCE_KEY: "_nonce",
 	ISSUER: "gizmette.com",
@@ -30,6 +30,7 @@ awIDAQAB
 export const TOKEN_EXPIRATION = {
 	ACCESS: "5m",
 	ID: "90d",
+	REFRESH: "90d",
 };
 
 export const API_TYPE = {

@@ -76,6 +76,5 @@ export async function verifyChallenge(
 	code_verifier: string,
 	expectedChallenge: string,
 ) {
-	const actualChallenge = await generateCodeChallenge(code_verifier);
-	return actualChallenge === expectedChallenge;
+	return expectedChallenge === (await generateCodeChallenge(code_verifier));
 }

@@ -14,5 +14,4 @@ export const AuthContext = createContext<AuthContextProps>({
 	getAccessToken: stub,
 	getIdToken: stub,
 	logoutReason: "",
-	idTokenClaims: null,
 });

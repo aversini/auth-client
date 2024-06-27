@@ -1,4 +1,5 @@
 import {
+	API_TYPE,
 	AUTH_TYPES,
 	HEADERS,
 	JWT,
@@ -10,12 +11,12 @@ import type { ServiceCallProps } from "./types";
 
 const isProd = process.env.NODE_ENV === "production";
 const isDev = !isProd;
-const API_TYPE = {
-	AUTHENTICATE: "authenticate",
-	LOGOUT: "logout",
-};
 
-export const serviceCall = async ({ type, params = {} }: ServiceCallProps) => {
+export const serviceCall = async ({
+	type,
+	clientId,
+	params = {},
+}: ServiceCallProps) => {
 	try {
 		const response = await fetch(
 			isDev ? `${API_ENDPOINT.dev}/${type}` : `${API_ENDPOINT.prod}/${type}`,
@@ -24,7 +25,7 @@ export const serviceCall = async ({ type, params = {} }: ServiceCallProps) => {
 				method: "POST",
 				headers: {
 					"Content-Type": "application/json",
-					[HEADERS.CLIENT_ID]: `${params.clientId}`,
+					[HEADERS.CLIENT_ID]: `${clientId}`,
 				},
 				body: JSON.stringify(params),
 			},
@@ -45,18 +46,26 @@ export const serviceCall = async ({ type, params = {} }: ServiceCallProps) => {
 		return { status: 500, data: [] };
 	}
 };
+
 export const logoutUser = async ({
 	idToken,
 	accessToken,
+	refreshToken,
 	clientId,
-}: { idToken: string; accessToken: string; clientId: string }) => {
+}: {
+	idToken: string;
+	accessToken: string;
+	refreshToken: string;
+	clientId: string;
+}) => {
 	try {
 		const response = await serviceCall({
 			type: API_TYPE.LOGOUT,
+			clientId,
 			params: {
 				idToken,
 				accessToken,
-				clientId,
+				refreshToken,
 			},
 		});
 		return {
@@ -76,6 +85,8 @@ export const authenticateUser = async ({
 	nonce,
 	type,
 	sessionExpiration,
+	code,
+	code_verifier,
 }: {
 	username: string;
 	password: string;
@@ -83,17 +94,21 @@ export const authenticateUser = async ({
 	nonce: string;
 	type?: string;
 	sessionExpiration?: string;
+	code?: string;
+	code_verifier?: string;
 }) => {
 	try {
 		const response = await serviceCall({
 			type: API_TYPE.AUTHENTICATE,
+			clientId,
 			params: {
 				type: type || AUTH_TYPES.ID_AND_ACCESS_TOKEN,
 				username,
 				password,
 				sessionExpiration,
-				clientId,
 				nonce,
+				code,
+				code_verifier,
 			},
 		});
 		const jwt = await verifyAndExtractToken(response.data.idToken);
@@ -105,8 +120,41 @@ export const authenticateUser = async ({
 			return {
 				idToken: response.data.idToken,
 				accessToken: response.data.accessToken,
+				refreshToken: response.data.refreshToken,
 				userId: jwt.payload[JWT.USER_ID_KEY] as string,
 				status: true,
+			};
+		} else {
+			return {
+				status: false,
+			};
+		}
+	} catch (_error) {
+		return {
+			status: false,
+		};
+	}
+};
+
+export const getPreAuthCode = async ({
+	nonce,
+	clientId,
+	code_challenge,
+}: { clientId: string; nonce: string; code_challenge: string }) => {
+	try {
+		const response = await serviceCall({
+			type: API_TYPE.CODE,
+			clientId,
+			params: {
+				type: AUTH_TYPES.CODE,
+				nonce,
+				code_challenge,
+			},
+		});
+		if (response.data.code) {
+			return {
+				status: true,
+				code: response.data.code,
 			};
 		} else {
 			return {
