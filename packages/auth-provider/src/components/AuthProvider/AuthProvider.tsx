@@ -1,4 +1,9 @@
-import { JWT, verifyAndExtractToken } from "@versini/auth-common";
+import {
+	AUTH_TYPES,
+	JWT,
+	pkceChallengePair,
+	verifyAndExtractToken,
+} from "@versini/auth-common";
 import { useLocalStorage } from "@versini/ui-hooks";
 import { useCallback, useEffect, useState } from "react";
 import { v4 as uuidv4 } from "uuid";
@@ -10,7 +15,11 @@ import {
 	LOGOUT_SESSION,
 } from "../../common/constants";
 import type { AuthProviderProps, AuthState } from "../../common/types";
-import { authenticateUser, logoutUser } from "../../common/utilities";
+import {
+	authenticateUser,
+	getPreAuthCode,
+	logoutUser,
+} from "../../common/utilities";
 import { AuthContext } from "./AuthContext";
 
 export const AuthProvider = ({
@@ -24,6 +33,11 @@ export const AuthProvider = ({
 	const [accessToken, setAccessToken, , removeAccessToken] = useLocalStorage({
 		key: `${LOCAL_STORAGE_PREFIX}::${clientId}::@@access@@`,
 	});
+	const [refreshToken, setRefreshToken, , removeRefreshToken] = useLocalStorage(
+		{
+			key: `${LOCAL_STORAGE_PREFIX}::${clientId}::@@refresh@@`,
+		},
+	);
 	const [, setNonce, , removeNonce] = useLocalStorage({
 		key: `${LOCAL_STORAGE_PREFIX}::${clientId}::@@nonce@@`,
 	});
@@ -47,9 +61,10 @@ export const AuthProvider = ({
 			});
 			removeIdToken();
 			removeAccessToken();
+			removeRefreshToken();
 			removeNonce();
 		},
-		[removeIdToken, removeAccessToken, removeNonce],
+		[removeIdToken, removeAccessToken, removeNonce, removeRefreshToken],
 	);
 
 	/**
@@ -78,17 +93,19 @@ export const AuthProvider = ({
 					} else {
 						removeStateAndLocalStorage(EXPIRED_SESSION);
 						await logoutUser({
-							idToken: idToken,
-							accessToken: accessToken,
-							clientId: clientId,
+							idToken,
+							accessToken,
+							refreshToken,
+							clientId,
 						});
 					}
 				} catch (_error) {
 					removeStateAndLocalStorage(EXPIRED_SESSION);
 					await logoutUser({
-						idToken: idToken,
-						accessToken: accessToken,
-						clientId: clientId,
+						idToken,
+						accessToken,
+						refreshToken,
+						clientId,
 					});
 				}
 			})();
@@ -97,6 +114,7 @@ export const AuthProvider = ({
 		authState.isLoading,
 		accessToken,
 		idToken,
+		refreshToken,
 		clientId,
 		removeStateAndLocalStorage,
 	]);
@@ -108,6 +126,44 @@ export const AuthProvider = ({
 	): Promise<boolean> => {
 		const _nonce = uuidv4();
 		setNonce(_nonce);
+
+		if (type === AUTH_TYPES.CODE) {
+			const { code_verifier, code_challenge } = await pkceChallengePair();
+
+			const preResponse = await getPreAuthCode({
+				nonce: _nonce,
+				clientId,
+				code_challenge,
+			});
+			if (preResponse.status) {
+				// we received the auth code, now we need to exchange it for the tokens
+				const response = await authenticateUser({
+					username,
+					password,
+					clientId,
+					sessionExpiration,
+					nonce: _nonce,
+					type,
+					code: preResponse.code,
+					code_verifier,
+				});
+				if (response.status) {
+					setIdToken(response.idToken);
+					setAccessToken(response.accessToken);
+					setRefreshToken(response.refreshToken);
+					setAuthState({
+						isLoading: false,
+						isAuthenticated: true,
+						userId: response.userId,
+					});
+					return true;
+				}
+				removeStateAndLocalStorage(LOGIN_ERROR);
+				return false;
+			}
+			return false;
+		}
+
 		const response = await authenticateUser({
 			username,
 			password,
@@ -119,6 +175,7 @@ export const AuthProvider = ({
 		if (response.status) {
 			setIdToken(response.idToken);
 			setAccessToken(response.accessToken);
+			setRefreshToken(response.refreshToken);
 			setAuthState({
 				isLoading: false,
 				isAuthenticated: true,
@@ -133,9 +190,10 @@ export const AuthProvider = ({
 	const logout = async () => {
 		removeStateAndLocalStorage(LOGOUT_SESSION);
 		await logoutUser({
-			idToken: idToken,
-			accessToken: accessToken,
-			clientId: clientId,
+			idToken,
+			accessToken,
+			refreshToken,
+			clientId,
 		});
 	};
 

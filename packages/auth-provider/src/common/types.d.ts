@@ -1,5 +1,6 @@
 export type ServiceCallProps = {
 	params: any;
+	clientId: string;
 	type: "authenticate" | "logout" | (string & {});
 };
 

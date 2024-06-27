@@ -1,4 +1,4 @@
-import { useAuth } from "@versini/auth-provider";
+import { AUTH_TYPES, useAuth } from "@versini/auth-provider";
 import { Button, Footer, Header, Main } from "@versini/ui-components";
 import { Flexgrid, FlexgridItem } from "@versini/ui-system";
 import { useState } from "react";
@@ -12,6 +12,7 @@ export const App = ({ timeout }: { timeout: string }) => {
 		const response = await login(
 			process.env.PUBLIC_TEST_USER as string,
 			process.env.PUBLIC_TEST_USER_PASSWORD as string,
+			AUTH_TYPES.CODE,
 		);
 		if (!response) {
 			console.error(`==> [${Date.now()}] : `, "Login failed");

@@ -30,6 +30,7 @@ awIDAQAB
 export const TOKEN_EXPIRATION = {
 	ACCESS: "5m",
 	ID: "90d",
+	REFRESH: "90d",
 };
 
 export const API_TYPE = {
