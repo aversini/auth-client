@@ -45,9 +45,8 @@ export const AuthProvider = ({
 	const [authState, setAuthState] = useState<AuthState>({
 		isLoading: true,
 		isAuthenticated: false,
-		logoutReason: "",
 		userId: "",
-		idTokenClaims: null,
+		logoutReason: "",
 	});
 
 	const removeStateAndLocalStorage = useCallback(
@@ -55,9 +54,8 @@ export const AuthProvider = ({
 			setAuthState({
 				isLoading: false,
 				isAuthenticated: false,
-				logoutReason: logoutReason || EXPIRED_SESSION,
 				userId: "",
-				idTokenClaims: null,
+				logoutReason: logoutReason || EXPIRED_SESSION,
 			});
 			removeIdToken();
 			removeAccessToken();
@@ -71,8 +69,6 @@ export const AuthProvider = ({
 	 * This effect is responsible to set the authentication state based on the
 	 * idToken stored in the local storage. It is used when the page is being
 	 * first loaded or refreshed.
-	 * NOTE: we are extending the state with the idTokenClaims to store the
-	 * idToken "string" and other claims in the state.
 	 */
 	useEffect(() => {
 		if (authState.isLoading && idToken !== null) {
@@ -83,12 +79,8 @@ export const AuthProvider = ({
 						setAuthState({
 							isLoading: false,
 							isAuthenticated: true,
-							logoutReason: "",
 							userId: jwt.payload[JWT.USER_ID_KEY] as string,
-							idTokenClaims: {
-								...jwt?.payload,
-								[JWT.TOKEN_ID_KEY]: idToken,
-							},
+							logoutReason: "",
 						});
 					} else {
 						removeStateAndLocalStorage(EXPIRED_SESSION);
@@ -155,6 +147,7 @@ export const AuthProvider = ({
 						isLoading: false,
 						isAuthenticated: true,
 						userId: response.userId,
+						logoutReason: "",
 					});
 					return true;
 				}

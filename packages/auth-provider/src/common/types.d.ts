@@ -16,7 +16,6 @@ export type AuthState = {
 	isAuthenticated: boolean;
 	logoutReason?: string;
 	userId?: string;
-	idTokenClaims?: any;
 };
 
 export type AuthContextProps = {
