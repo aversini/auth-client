@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.7.0](https://github.com/aversini/auth-client/compare/auth-common-v2.6.0...auth-common-v2.7.0) (2024-06-27)
+
+
+### Features
+
+* adding PKCE code challenge support ([#47](https://github.com/aversini/auth-client/issues/47)) ([3d28250](https://github.com/aversini/auth-client/commit/3d28250210ab254fefb93146577ab322b3c785e5))
+
 ## [2.6.0](https://github.com/aversini/auth-client/compare/auth-common-v2.5.0...auth-common-v2.6.0) (2024-06-26)
 
 
