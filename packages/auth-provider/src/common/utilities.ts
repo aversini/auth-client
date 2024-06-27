@@ -74,19 +74,21 @@ export const authenticateUser = async ({
 	password,
 	clientId,
 	nonce,
+	type,
 	sessionExpiration,
 }: {
 	username: string;
 	password: string;
 	clientId: string;
 	nonce: string;
+	type?: string;
 	sessionExpiration?: string;
 }) => {
 	try {
 		const response = await serviceCall({
 			type: API_TYPE.AUTHENTICATE,
 			params: {
-				type: AUTH_TYPES.ID_AND_ACCESS_TOKEN,
+				type: type || AUTH_TYPES.ID_AND_ACCESS_TOKEN,
 				username,
 				password,
 				sessionExpiration,
@@ -94,7 +96,7 @@ export const authenticateUser = async ({
 				nonce,
 			},
 		});
-		const jwt = await verifyAndExtractToken(response.data.idToken, clientId);
+		const jwt = await verifyAndExtractToken(response.data.idToken);
 		if (
 			jwt &&
 			jwt.payload[JWT.USER_ID_KEY] !== "" &&

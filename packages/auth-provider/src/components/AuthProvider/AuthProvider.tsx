@@ -104,6 +104,7 @@ export const AuthProvider = ({
 	const login = async (
 		username: string,
 		password: string,
+		type?: string,
 	): Promise<boolean> => {
 		const _nonce = uuidv4();
 		setNonce(_nonce);
@@ -113,6 +114,7 @@ export const AuthProvider = ({
 			clientId,
 			sessionExpiration,
 			nonce: _nonce,
+			type,
 		});
 		if (response.status) {
 			setIdToken(response.idToken);
