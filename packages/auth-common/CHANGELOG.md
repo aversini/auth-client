@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.8.0](https://github.com/aversini/auth-client/compare/auth-common-v2.7.1...auth-common-v2.8.0) (2024-06-27)
+
+
+### Features
+
+* adding support for refresh tokens ([#51](https://github.com/aversini/auth-client/issues/51)) ([93c70b5](https://github.com/aversini/auth-client/commit/93c70b580b88db813ae2338c9d6f781e4f5ab07b))
+
 ## [2.7.1](https://github.com/aversini/auth-client/compare/auth-common-v2.7.0...auth-common-v2.7.1) (2024-06-27)
 
 
