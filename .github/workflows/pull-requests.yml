@@ -23,8 +23,8 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: ${{ matrix.node-version }}
+      - uses: pnpm/action-setup@v4
       - run: |
-          corepack enable
           pnpm install
           npx lerna run build
           npx lerna run stats:pr
@@ -49,8 +49,8 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: ${{ matrix.node-version }}
+      - uses: pnpm/action-setup@v4
       - run: |
-          corepack enable
           pnpm install
           npx lerna run lint
           npx lerna run build
@@ -84,8 +84,8 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: ${{ matrix.node-version }}
+      - uses: pnpm/action-setup@v4
       - run: |
-          corepack enable
           pnpm install
           npx lerna run build
           npx lerna run stats:release
