@@ -33,17 +33,13 @@ export const TOKEN_EXPIRATION = {
 	ID: "90d",
 };
 
-export const verifyAndExtractToken = async (
-	token: string,
-	audience: string,
-) => {
+export const verifyAndExtractToken = async (token: string) => {
 	try {
 		const alg = JWT.ALG;
 		const spki = JWT_PUBLIC_KEY;
 		const publicKey = await jose.importSPKI(spki, alg);
 		return await jose.jwtVerify(token, publicKey, {
 			issuer: JWT.ISSUER,
-			audience,
 		});
 	} catch (_error) {
 		return undefined;

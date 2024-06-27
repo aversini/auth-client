@@ -1,0 +1,47 @@
+{
+	"name": "@versini/example-fastify-server",
+	"version": "0.0.0",
+	"type": "module",
+	"node": ">=20",
+	"scripts": {
+		"build": "yarn run clean && yarn run build:types && yarn run build:js&& yarn run build:barrel",
+		"build:barrel": "barrelsby --delete --directory dist --pattern \"**/*.d.ts\" --name \"index.d\"",
+		"build:js": "swc --strip-leading-paths --source-maps --out-dir dist src --copy-files",
+		"build:types": "tsc",
+		"clean": "rimraf dist types coverage",
+		"dev": "nodemon dist/server.js --db tmp/auth.json",
+		"fix:sessions": "cross-env NODE_ENV==\"production\" node dist/doctor.js --db tmp/auth.json --sessions",
+		"lint": "biome lint src",
+		"start": "cross-env NODE_ENV==\"production\" node dist/server.js --db auth.json",
+		"watch": "swc --strip-leading-paths --watch --out-dir dist src"
+	},
+	"dependencies": {
+		"@fastify/auth": "4.6.1",
+		"@fastify/caching": "8.3.0",
+		"@fastify/compress": "7.0.3",
+		"@fastify/cookie": "9.3.1",
+		"@fastify/cors": "9.0.1",
+		"@fastify/static": "7.0.4",
+		"@node-cli/logger": "1.2.5",
+		"@node-cli/secret": "1.2.0",
+		"@versini/auth-common": "workspace:../../packages/auth-common",
+		"@versini/dev-dependencies-server": "5.1.0",
+		"dotenv": "16.4.5",
+		"fastify": "4.28.0",
+		"fastify-plugin": "4.5.1",
+		"joi": "17.13.3",
+		"jose": "5.4.1",
+		"kleur": "4.1.5",
+		"lodash": "4.17.21",
+		"lowdb": "7.0.1",
+		"mercurius": "14.1.0",
+		"ms": "2.1.3",
+		"pino-pretty": "11.2.1",
+		"portfinder": "1.0.32",
+		"uuid": "10.0.0",
+		"yargs": "17.7.2"
+	},
+	"publishConfig": {
+		"access": "public"
+	}
+}

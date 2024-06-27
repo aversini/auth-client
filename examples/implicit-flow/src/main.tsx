@@ -1,9 +1,12 @@
 import { useAuth } from "@versini/auth-provider";
 import { Button, Footer, Header, Main } from "@versini/ui-components";
 import { Flexgrid, FlexgridItem } from "@versini/ui-system";
+import { useState } from "react";
 
 export const App = ({ timeout }: { timeout: string }) => {
-	const { login, logout, isAuthenticated } = useAuth();
+	const { login, logout, isAuthenticated, getAccessToken, idTokenClaims } =
+		useAuth();
+	const [apiResponse, setApiResponse] = useState({ data: "" });
 
 	const handleValidLogin = async (e: { preventDefault: () => void }) => {
 		e.preventDefault();
@@ -33,12 +36,32 @@ export const App = ({ timeout }: { timeout: string }) => {
 		}
 	};
 
+	const handleValidAPICall = async (
+		e: { preventDefault: () => void },
+		idToken: string,
+	) => {
+		e.preventDefault();
+		const response = await fetch(
+			"https://api.gizmette.local.com:3004/getData",
+			{
+				headers: {
+					"Content-Type": "application/json",
+					Authorization: `Bearer ${getAccessToken()}`,
+					// Authorization: `Bearer ${idToken}`,
+				},
+			},
+		);
+		const data = await response.json();
+		setApiResponse(data);
+	};
+
 	return (
 		<div className="prose prose-dark dark:prose-lighter">
 			<Header>
 				<h1>Implicit Flow</h1>
 			</Header>
 			<Main>
+				<h2>Authentication Actions</h2>
 				<Flexgrid rowGap={2} direction="column">
 					<FlexgridItem>
 						<Button
@@ -68,6 +91,22 @@ export const App = ({ timeout }: { timeout: string }) => {
 						</Button>
 					</FlexgridItem>
 				</Flexgrid>
+
+				<h2>API Actions</h2>
+				<Flexgrid rowGap={2} direction="column">
+					<FlexgridItem>
+						<Button
+							size="small"
+							spacing={{ r: 2 }}
+							onClick={(e) => handleValidAPICall(e, idTokenClaims?.__raw)}
+						>
+							API call (valid)
+						</Button>
+					</FlexgridItem>
+				</Flexgrid>
+
+				<h2>API response</h2>
+				<pre className="text-xs">{JSON.stringify(apiResponse, null, 2)}</pre>
 
 				<h2>State</h2>
 				<pre className="text-xs">{JSON.stringify(useAuth(), null, 2)}</pre>

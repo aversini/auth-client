@@ -63,7 +63,7 @@ export const AuthProvider = ({
 		if (authState.isLoading && idToken !== null) {
 			(async () => {
 				try {
-					const jwt = await verifyAndExtractToken(idToken, clientId);
+					const jwt = await verifyAndExtractToken(idToken);
 					if (jwt && jwt.payload[JWT.USER_ID_KEY] !== "") {
 						setAuthState({
 							isLoading: false,
@@ -143,9 +143,15 @@ export const AuthProvider = ({
 		}
 	};
 
+	const getIdToken = () => {
+		if (authState.isAuthenticated && idToken) {
+			return idToken;
+		}
+	};
+
 	return (
 		<AuthContext.Provider
-			value={{ ...authState, login, logout, getAccessToken }}
+			value={{ ...authState, login, logout, getAccessToken, getIdToken }}
 		>
 			{children}
 		</AuthContext.Provider>
