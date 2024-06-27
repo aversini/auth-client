@@ -24,7 +24,6 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
       - run: |
-          corepack enable
           pnpm install
           npx lerna run build
           npx lerna run stats:pr
@@ -50,7 +49,6 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
       - run: |
-          corepack enable
           pnpm install
           npx lerna run lint
           npx lerna run build
@@ -85,7 +83,6 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
       - run: |
-          corepack enable
           pnpm install
           npx lerna run build
           npx lerna run stats:release
