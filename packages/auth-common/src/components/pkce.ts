@@ -5,8 +5,8 @@ const crypto = globalThis.crypto;
 /**
  * Generate a PKCE challenge verifier.
  *
- * @param length Length of the verifier
- * @returns A random verifier `length` characters long
+ * @param length Length of the verifier.
+ * @returns A random verifier `length` characters long.
  */
 const generateCodeVerifier = (length: number): string => {
 	return `${uuidv4()}${uuidv4()}`.slice(0, length);
@@ -15,8 +15,8 @@ const generateCodeVerifier = (length: number): string => {
 /**
  * Converts an ArrayBuffer to base64 string.
  *
- * @param val ArrayBuffer to convert
- * @returns Base64 string
+ * @param val ArrayBuffer to convert.
+ * @returns Base64 string.
  */
 const toBase64 = (val: ArrayBuffer): string =>
 	btoa(
@@ -27,7 +27,7 @@ const toBase64 = (val: ArrayBuffer): string =>
  * Generate a PKCE code challenge from a code verifier.
  *
  * @param code_verifier
- * @returns The base64 url encoded code challenge
+ * @returns The base64 url encoded code challenge.
  */
 export async function generateCodeChallenge(code_verifier: string) {
 	if (!crypto.subtle) {
@@ -47,7 +47,7 @@ export async function generateCodeChallenge(code_verifier: string) {
  * Generate a PKCE challenge pair.
  *
  * @param length Length of the verifier (between 43-128). Defaults to 43.
- * @returns PKCE challenge pair
+ * @returns PKCE challenge pair.
  */
 export async function pkceChallengePair(length?: number): Promise<{
 	code_verifier: string;
@@ -69,7 +69,7 @@ export async function pkceChallengePair(length?: number): Promise<{
  * Verify that a code_verifier produces the expected code challenge.
  *
  * @param code_verifier
- * @param expectedChallenge The code challenge to verify
+ * @param expectedChallenge The code challenge to verify.
  * @returns True if challenges are equal. False otherwise.
  */
 export async function verifyChallenge(
