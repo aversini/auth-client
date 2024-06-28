@@ -18,9 +18,15 @@ export type AuthState = {
 	userId?: string;
 };
 
+export type LoginType = (
+	username: string,
+	password: string,
+	type?: string,
+) => Promise<boolean>;
+
 export type AuthContextProps = {
-	login: (username: string, password: string) => Promise<boolean>;
+	login: LoginType;
 	logout: () => void;
-	getAccessToken: () => string;
+	getAccessToken: () => Promise<string>;
 	getIdToken: () => string;
 } & AuthState;

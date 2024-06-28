@@ -1,9 +1,10 @@
 import { AUTH_TYPES, useAuth } from "@versini/auth-provider";
 import { Button, Footer, Header, Main } from "@versini/ui-components";
 import { Flexgrid, FlexgridItem } from "@versini/ui-system";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 export const App = ({ timeout }: { timeout: string }) => {
+	const accessTokenRef = useRef("");
 	const { login, logout, isAuthenticated, getAccessToken } = useAuth();
 	const [apiResponse, setApiResponse] = useState({ data: "" });
 
@@ -43,13 +44,22 @@ export const App = ({ timeout }: { timeout: string }) => {
 			{
 				headers: {
 					"Content-Type": "application/json",
-					Authorization: `Bearer ${getAccessToken()}`,
+					Authorization: `Bearer ${await getAccessToken()}`,
 				},
 			},
 		);
 		const data = await response.json();
 		setApiResponse(data);
 	};
+
+	useEffect(() => {
+		if (isAuthenticated) {
+			(async () => {
+				accessTokenRef.current = await getAccessToken();
+			})();
+		}
+		accessTokenRef.current = "";
+	}, [getAccessToken, isAuthenticated]);
 
 	return (
 		<div className="prose prose-dark dark:prose-lighter">
@@ -108,9 +118,7 @@ export const App = ({ timeout }: { timeout: string }) => {
 				<pre className="text-xs">{JSON.stringify(useAuth(), null, 2)}</pre>
 
 				<h2>Access Token</h2>
-				<pre className="text-xs">
-					{JSON.stringify(useAuth().getAccessToken(), null, 2)}
-				</pre>
+				<pre className="text-xs">{accessTokenRef.current}</pre>
 			</Main>
 			<Footer row1={<p>Timeout: {timeout}</p>} />
 		</div>
