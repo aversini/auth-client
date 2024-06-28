@@ -3,6 +3,7 @@ export const AUTH_TYPES = {
 	ACCESS_TOKEN: "token",
 	ID_AND_ACCESS_TOKEN: "id_token token",
 	CODE: "code",
+	REFRESH_TOKEN: "refresh_token",
 };
 
 export const HEADERS = {
