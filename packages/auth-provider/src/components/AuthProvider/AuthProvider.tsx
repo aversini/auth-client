@@ -9,14 +9,20 @@ import { useCallback, useEffect, useState } from "react";
 import { v4 as uuidv4 } from "uuid";
 
 import {
+	ACCESS_TOKEN_ERROR,
 	EXPIRED_SESSION,
 	LOCAL_STORAGE_PREFIX,
 	LOGIN_ERROR,
 	LOGOUT_SESSION,
 } from "../../common/constants";
-import type { AuthProviderProps, AuthState } from "../../common/types";
+import type {
+	AuthProviderProps,
+	AuthState,
+	LoginType,
+} from "../../common/types";
 import {
 	authenticateUser,
+	getAccessTokenSilently,
 	getPreAuthCode,
 	logoutUser,
 } from "../../common/utilities";
@@ -38,7 +44,7 @@ export const AuthProvider = ({
 			key: `${LOCAL_STORAGE_PREFIX}::${clientId}::@@refresh@@`,
 		},
 	);
-	const [, setNonce, , removeNonce] = useLocalStorage({
+	const [nonce, setNonce, , removeNonce] = useLocalStorage({
 		key: `${LOCAL_STORAGE_PREFIX}::${clientId}::@@nonce@@`,
 	});
 
@@ -111,11 +117,7 @@ export const AuthProvider = ({
 		removeStateAndLocalStorage,
 	]);
 
-	const login = async (
-		username: string,
-		password: string,
-		type?: string,
-	): Promise<boolean> => {
+	const login: LoginType = async (username, password, type) => {
 		const _nonce = uuidv4();
 		setNonce(_nonce);
 
@@ -190,9 +192,45 @@ export const AuthProvider = ({
 		});
 	};
 
-	const getAccessToken = () => {
-		if (authState.isAuthenticated && accessToken) {
-			return accessToken;
+	const getAccessToken = async () => {
+		const { isAuthenticated, userId } = authState;
+		try {
+			if (isAuthenticated && userId && accessToken) {
+				const jwtAccess = await verifyAndExtractToken(accessToken);
+				if (jwtAccess && jwtAccess.payload[JWT.USER_ID_KEY] !== "") {
+					return accessToken;
+				}
+				/**
+				 * accessToken is not valid, so we need to refresh it using the
+				 * refreshToken - this is a silent refresh.
+				 */
+				const jwtRefresh = await verifyAndExtractToken(refreshToken);
+				if (jwtRefresh && jwtRefresh.payload[JWT.USER_ID_KEY] !== "") {
+					const response = await getAccessTokenSilently({
+						clientId,
+						userId,
+						nonce,
+						refreshToken,
+						accessToken,
+					});
+					if (response.status) {
+						setAccessToken(response.accessToken);
+						setRefreshToken(response.refreshToken);
+						return response.accessToken;
+					}
+					removeStateAndLocalStorage(ACCESS_TOKEN_ERROR);
+				}
+				/**
+				 * refreshToken is not valid, so we need to re-authenticate the user.
+				 */
+				removeStateAndLocalStorage(ACCESS_TOKEN_ERROR);
+				console.error(ACCESS_TOKEN_ERROR);
+				return "";
+			}
+		} catch (_error) {
+			removeStateAndLocalStorage(ACCESS_TOKEN_ERROR);
+			console.error(ACCESS_TOKEN_ERROR);
+			return "";
 		}
 	};
 

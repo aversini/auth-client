@@ -167,3 +167,52 @@ export const getPreAuthCode = async ({
 		};
 	}
 };
+
+export const getAccessTokenSilently = async ({
+	clientId,
+	userId,
+	nonce,
+	refreshToken,
+	accessToken,
+}: {
+	clientId: string;
+	userId: string;
+	nonce: string;
+	refreshToken: string;
+	accessToken: string;
+}) => {
+	try {
+		const response = await serviceCall({
+			type: API_TYPE.AUTHENTICATE,
+			clientId,
+			params: {
+				type: AUTH_TYPES.REFRESH_TOKEN,
+				userId,
+				nonce,
+				refreshToken,
+				accessToken,
+			},
+		});
+		const jwt = await verifyAndExtractToken(response.data.accessToken);
+		if (
+			jwt &&
+			jwt.payload[JWT.USER_ID_KEY] !== "" &&
+			jwt.payload[JWT.NONCE_KEY] === nonce
+		) {
+			return {
+				accessToken: response.data.accessToken,
+				refreshToken: response.data.refreshToken,
+				userId: jwt.payload[JWT.USER_ID_KEY] as string,
+				status: true,
+			};
+		} else {
+			return {
+				status: false,
+			};
+		}
+	} catch (_error) {
+		return {
+			status: false,
+		};
+	}
+};
