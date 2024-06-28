@@ -1,5 +1,12 @@
 # Changelog
 
+## [4.3.0](https://github.com/aversini/auth-client/compare/auth-provider-v4.2.0...auth-provider-v4.3.0) (2024-06-28)
+
+
+### Features
+
+* enabling access token renewal via refresh token ([#55](https://github.com/aversini/auth-client/issues/55)) ([b23f003](https://github.com/aversini/auth-client/commit/b23f0031c9bd77514c6377f1aa3a12232b100087))
+
 ## [4.2.0](https://github.com/aversini/auth-client/compare/auth-provider-v4.1.0...auth-provider-v4.2.0) (2024-06-27)
 
 
