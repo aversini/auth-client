@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.9.0](https://github.com/aversini/auth-client/compare/auth-common-v2.8.0...auth-common-v2.9.0) (2024-06-28)
+
+
+### Features
+
+* adding common constant for refresh token ([#53](https://github.com/aversini/auth-client/issues/53)) ([600af2f](https://github.com/aversini/auth-client/commit/600af2fe835a3e486dd1a984af8e083eb0d7f2ec))
+
 ## [2.8.0](https://github.com/aversini/auth-client/compare/auth-common-v2.7.1...auth-common-v2.8.0) (2024-06-27)
 
 
