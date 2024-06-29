@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.10.1](https://github.com/aversini/auth-client/compare/auth-common-v2.10.0...auth-common-v2.10.1) (2024-06-29)
+
+
+### Bug Fixes
+
+* adding missing username key to common constants ([#59](https://github.com/aversini/auth-client/issues/59)) ([613ba8f](https://github.com/aversini/auth-client/commit/613ba8f926fa6b0ca36469d1a50b8580dcdd95e0))
+
 ## [2.10.0](https://github.com/aversini/auth-client/compare/auth-common-v2.9.0...auth-common-v2.10.0) (2024-06-29)
 
 
