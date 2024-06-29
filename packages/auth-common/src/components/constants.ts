@@ -15,6 +15,7 @@ export const JWT = {
 	USER_ID_KEY: "sub",
 	TOKEN_ID_KEY: "__raw",
 	NONCE_KEY: "_nonce",
+	USERNAME_KEY: "username",
 	ISSUER: "gizmette.com",
 };
 
