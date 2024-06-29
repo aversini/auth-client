@@ -51,7 +51,7 @@ export const AuthProvider = ({
 	const [authState, setAuthState] = useState<AuthState>({
 		isLoading: true,
 		isAuthenticated: false,
-		userId: "",
+		user: undefined,
 		logoutReason: "",
 	});
 
@@ -60,7 +60,7 @@ export const AuthProvider = ({
 			setAuthState({
 				isLoading: false,
 				isAuthenticated: false,
-				userId: "",
+				user: undefined,
 				logoutReason: logoutReason || EXPIRED_SESSION,
 			});
 			removeIdToken();
@@ -85,7 +85,10 @@ export const AuthProvider = ({
 						setAuthState({
 							isLoading: false,
 							isAuthenticated: true,
-							userId: jwt.payload[JWT.USER_ID_KEY] as string,
+							user: {
+								userId: jwt.payload[JWT.USER_ID_KEY] as string,
+								username: jwt.payload[JWT.USERNAME_KEY] as string,
+							},
 							logoutReason: "",
 						});
 					} else {
@@ -148,7 +151,10 @@ export const AuthProvider = ({
 					setAuthState({
 						isLoading: false,
 						isAuthenticated: true,
-						userId: response.userId,
+						user: {
+							userId: response.userId,
+							username,
+						},
 						logoutReason: "",
 					});
 					return true;
@@ -174,7 +180,10 @@ export const AuthProvider = ({
 			setAuthState({
 				isLoading: false,
 				isAuthenticated: true,
-				userId: response.userId,
+				user: {
+					userId: response.userId,
+					username,
+				},
 			});
 			return true;
 		}
@@ -193,9 +202,9 @@ export const AuthProvider = ({
 	};
 
 	const getAccessToken = async () => {
-		const { isAuthenticated, userId } = authState;
+		const { isAuthenticated, user } = authState;
 		try {
-			if (isAuthenticated && userId && accessToken) {
+			if (isAuthenticated && user && user.userId && accessToken) {
 				const jwtAccess = await verifyAndExtractToken(accessToken);
 				if (jwtAccess && jwtAccess.payload[JWT.USER_ID_KEY] !== "") {
 					return accessToken;
@@ -208,7 +217,7 @@ export const AuthProvider = ({
 				if (jwtRefresh && jwtRefresh.payload[JWT.USER_ID_KEY] !== "") {
 					const response = await getAccessTokenSilently({
 						clientId,
-						userId,
+						userId: user.userId as string,
 						nonce,
 						refreshToken,
 						accessToken,
