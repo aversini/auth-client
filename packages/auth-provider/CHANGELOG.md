@@ -1,5 +1,12 @@
 # Changelog
 
+## [4.4.0](https://github.com/aversini/auth-client/compare/auth-provider-v4.3.0...auth-provider-v4.4.0) (2024-06-29)
+
+
+### Features
+
+* adding decodeToken ([#57](https://github.com/aversini/auth-client/issues/57)) ([3d03af9](https://github.com/aversini/auth-client/commit/3d03af988be13eab5d9cdf6bd124fa0a6530786e))
+
 ## [4.3.0](https://github.com/aversini/auth-client/compare/auth-provider-v4.2.0...auth-provider-v4.3.0) (2024-06-28)
 
 
