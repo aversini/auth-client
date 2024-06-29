@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.10.0](https://github.com/aversini/auth-client/compare/auth-common-v2.9.0...auth-common-v2.10.0) (2024-06-29)
+
+
+### Features
+
+* adding decodeToken ([#57](https://github.com/aversini/auth-client/issues/57)) ([3d03af9](https://github.com/aversini/auth-client/commit/3d03af988be13eab5d9cdf6bd124fa0a6530786e))
+
 ## [2.9.0](https://github.com/aversini/auth-client/compare/auth-common-v2.8.0...auth-common-v2.9.0) (2024-06-28)
 
 
