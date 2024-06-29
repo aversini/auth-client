@@ -15,7 +15,10 @@ export type AuthState = {
 	isLoading: boolean;
 	isAuthenticated: boolean;
 	logoutReason?: string;
-	userId?: string;
+	user?: {
+		userId?: string;
+		username?: string;
+	};
 };
 
 export type LoginType = (
