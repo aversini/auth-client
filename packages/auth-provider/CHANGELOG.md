@@ -1,5 +1,16 @@
 # Changelog
 
+## [5.0.0](https://github.com/aversini/auth-client/compare/auth-provider-v4.4.0...auth-provider-v5.0.0) (2024-06-29)
+
+
+### ⚠ BREAKING CHANGES
+
+* useAuth now return user object instead of just userId ([#61](https://github.com/aversini/auth-client/issues/61))
+
+### Features
+
+* useAuth now return user object instead of just userId ([#61](https://github.com/aversini/auth-client/issues/61)) ([d5ac71e](https://github.com/aversini/auth-client/commit/d5ac71e41440f3b07ab7a471e764326d5366ba1e))
+
 ## [4.4.0](https://github.com/aversini/auth-client/compare/auth-provider-v4.3.0...auth-provider-v4.4.0) (2024-06-29)
 
 
