@@ -1,7 +1,7 @@
 import { AUTH_TYPES, useAuth } from "@versini/auth-provider";
 import { Button, Footer, Header, Main } from "@versini/ui-components";
 import { Flexgrid, FlexgridItem } from "@versini/ui-system";
-import { useEffect, useRef, useState } from "react";
+import { useState } from "react";
 
 export const App = ({ timeout }: { timeout: string }) => {
 	const [accessToken, setAccessToken] = useState();
@@ -59,15 +59,6 @@ export const App = ({ timeout }: { timeout: string }) => {
 		const token = await getAccessToken();
 		setAccessToken(token);
 	};
-
-	// useEffect(() => {
-	// 	if (isAuthenticated) {
-	// 		(async () => {
-	// 			accessTokenRef.current = await getAccessToken();
-	// 		})();
-	// 	}
-	// 	accessTokenRef.current = "";
-	// }, [getAccessToken, isAuthenticated]);
 
 	return (
 		<div className="prose prose-dark dark:prose-lighter">
