@@ -1,5 +1,12 @@
 # Changelog
 
+## [5.0.1](https://github.com/aversini/auth-client/compare/auth-provider-v5.0.0...auth-provider-v5.0.1) (2024-07-03)
+
+
+### Bug Fixes
+
+* try to get access token with refresh token even with no access t… ([#65](https://github.com/aversini/auth-client/issues/65)) ([f746456](https://github.com/aversini/auth-client/commit/f746456f32c021127791dba32a239754eea6ed9d))
+
 ## [5.0.0](https://github.com/aversini/auth-client/compare/auth-provider-v4.4.0...auth-provider-v5.0.0) (2024-06-29)
 
 
