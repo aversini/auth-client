@@ -32,7 +32,7 @@
 		"test": "vitest run"
 	},
 	"dependencies": {
-		"jose": "5.6.2",
+		"jose": "5.6.3",
 		"uuid": "10.0.0"
 	}
 }
