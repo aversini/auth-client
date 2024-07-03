@@ -57,6 +57,7 @@ export const AuthProvider = ({
 
 	const removeStateAndLocalStorage = useCallback(
 		(logoutReason?: string) => {
+			console.warn(logoutReason);
 			setAuthState({
 				isLoading: false,
 				isAuthenticated: false,
@@ -230,22 +231,18 @@ export const AuthProvider = ({
 						return response.accessToken;
 					}
 					removeStateAndLocalStorage(ACCESS_TOKEN_ERROR);
-					console.error(ACCESS_TOKEN_ERROR);
 					return "";
 				}
 				/**
 				 * refreshToken is not valid, so we need to re-authenticate the user.
 				 */
 				removeStateAndLocalStorage(ACCESS_TOKEN_ERROR);
-				console.error(ACCESS_TOKEN_ERROR);
 				return "";
 			}
 			removeStateAndLocalStorage(ACCESS_TOKEN_ERROR);
-			console.error(ACCESS_TOKEN_ERROR);
 			return "";
 		} catch (_error) {
 			removeStateAndLocalStorage(ACCESS_TOKEN_ERROR);
-			console.error(ACCESS_TOKEN_ERROR);
 			return "";
 		}
 	};
