@@ -204,13 +204,15 @@ export const AuthProvider = ({
 	const getAccessToken = async () => {
 		const { isAuthenticated, user } = authState;
 		try {
-			if (isAuthenticated && user && user.userId && accessToken) {
-				const jwtAccess = await verifyAndExtractToken(accessToken);
-				if (jwtAccess && jwtAccess.payload[JWT.USER_ID_KEY] !== "") {
-					return accessToken;
+			if (isAuthenticated && user && user.userId) {
+				if (accessToken) {
+					const jwtAccess = await verifyAndExtractToken(accessToken);
+					if (jwtAccess && jwtAccess.payload[JWT.USER_ID_KEY] !== "") {
+						return accessToken;
+					}
 				}
 				/**
-				 * accessToken is not valid, so we need to refresh it using the
+				 * accessToken is not valid, so we need to try to refresh it using the
 				 * refreshToken - this is a silent refresh.
 				 */
 				const jwtRefresh = await verifyAndExtractToken(refreshToken);
@@ -228,6 +230,8 @@ export const AuthProvider = ({
 						return response.accessToken;
 					}
 					removeStateAndLocalStorage(ACCESS_TOKEN_ERROR);
+					console.error(ACCESS_TOKEN_ERROR);
+					return "";
 				}
 				/**
 				 * refreshToken is not valid, so we need to re-authenticate the user.
@@ -236,6 +240,9 @@ export const AuthProvider = ({
 				console.error(ACCESS_TOKEN_ERROR);
 				return "";
 			}
+			removeStateAndLocalStorage(ACCESS_TOKEN_ERROR);
+			console.error(ACCESS_TOKEN_ERROR);
+			return "";
 		} catch (_error) {
 			removeStateAndLocalStorage(ACCESS_TOKEN_ERROR);
 			console.error(ACCESS_TOKEN_ERROR);

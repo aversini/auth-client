@@ -4,7 +4,7 @@ import { Flexgrid, FlexgridItem } from "@versini/ui-system";
 import { useEffect, useRef, useState } from "react";
 
 export const App = ({ timeout }: { timeout: string }) => {
-	const accessTokenRef = useRef("");
+	const [accessToken, setAccessToken] = useState();
 	const { login, logout, isAuthenticated, getAccessToken } = useAuth();
 	const [apiResponse, setApiResponse] = useState({ data: "" });
 
@@ -52,14 +52,22 @@ export const App = ({ timeout }: { timeout: string }) => {
 		setApiResponse(data);
 	};
 
-	useEffect(() => {
-		if (isAuthenticated) {
-			(async () => {
-				accessTokenRef.current = await getAccessToken();
-			})();
-		}
-		accessTokenRef.current = "";
-	}, [getAccessToken, isAuthenticated]);
+	const handleClickOnGetAccessToken = async (e: {
+		preventDefault: () => void;
+	}) => {
+		e.preventDefault();
+		const token = await getAccessToken();
+		setAccessToken(token);
+	};
+
+	// useEffect(() => {
+	// 	if (isAuthenticated) {
+	// 		(async () => {
+	// 			accessTokenRef.current = await getAccessToken();
+	// 		})();
+	// 	}
+	// 	accessTokenRef.current = "";
+	// }, [getAccessToken, isAuthenticated]);
 
 	return (
 		<div className="prose prose-dark dark:prose-lighter">
@@ -118,7 +126,9 @@ export const App = ({ timeout }: { timeout: string }) => {
 				<pre className="text-xs">{JSON.stringify(useAuth(), null, 2)}</pre>
 
 				<h2>Access Token</h2>
-				<pre className="text-xs">{accessTokenRef.current}</pre>
+
+				<Button onClick={handleClickOnGetAccessToken}>get Access Token</Button>
+				<pre className="text-xs">{accessToken}</pre>
 			</Main>
 			<Footer row1={<p>Timeout: {timeout}</p>} />
 		</div>
