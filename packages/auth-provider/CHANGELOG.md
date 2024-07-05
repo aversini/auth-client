@@ -1,5 +1,12 @@
 # Changelog
 
+## [5.0.3](https://github.com/aversini/auth-client/compare/auth-provider-v5.0.2...auth-provider-v5.0.3) (2024-07-05)
+
+
+### Bug Fixes
+
+* reset isLoading between state changes (login, logout) ([#71](https://github.com/aversini/auth-client/issues/71)) ([a994408](https://github.com/aversini/auth-client/commit/a994408afc916690c19a645d566aa5f30cd66ba6))
+
 ## [5.0.2](https://github.com/aversini/auth-client/compare/auth-provider-v5.0.1...auth-provider-v5.0.2) (2024-07-05)
 
 
