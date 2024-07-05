@@ -252,7 +252,7 @@ export const AuthProvider = ({
 					userId: user.userId as string,
 					nonce,
 				});
-				if (res.status) {
+				if (res.status && res.status === "success") {
 					setAccessToken(res.newAccessToken);
 					setRefreshToken(res.newRefreshToken);
 					return res.newAccessToken;
