@@ -74,6 +74,23 @@ export const AuthProvider = ({
 		[removeIdToken, removeAccessToken, removeNonce, removeRefreshToken],
 	);
 
+	const invalidateAndLogout = useCallback(
+		async (message: string) => {
+			removeStateAndLocalStorage(message || EXPIRED_SESSION);
+			await logoutUser({
+				idToken,
+				accessToken,
+				refreshToken,
+				clientId,
+			});
+			setAuthState((prev) => ({
+				...prev,
+				isLoading: false,
+			}));
+		},
+		[accessToken, clientId, idToken, removeStateAndLocalStorage, refreshToken],
+	);
+
 	/**
 	 * This effect is responsible to set the authentication state based on the
 	 * idToken stored in the local storage. It is used when the page is being
@@ -98,30 +115,10 @@ export const AuthProvider = ({
 							logoutReason: "",
 						});
 					} else {
-						removeStateAndLocalStorage(EXPIRED_SESSION);
-						await logoutUser({
-							idToken,
-							accessToken,
-							refreshToken,
-							clientId,
-						});
-						setAuthState((prev) => ({
-							...prev,
-							isLoading: false,
-						}));
+						await invalidateAndLogout(EXPIRED_SESSION);
 					}
 				} catch (_error) {
-					removeStateAndLocalStorage(EXPIRED_SESSION);
-					await logoutUser({
-						idToken,
-						accessToken,
-						refreshToken,
-						clientId,
-					});
-					setAuthState((prev) => ({
-						...prev,
-						isLoading: false,
-					}));
+					await invalidateAndLogout(EXPIRED_SESSION);
 				}
 			})();
 		} else {
@@ -133,14 +130,7 @@ export const AuthProvider = ({
 		return () => {
 			effectDidRunRef.current = true;
 		};
-	}, [
-		authState,
-		accessToken,
-		idToken,
-		refreshToken,
-		clientId,
-		removeStateAndLocalStorage,
-	]);
+	}, [authState.isLoading, idToken, invalidateAndLogout]);
 
 	const login: LoginType = async (username, password, type) => {
 		const _nonce = uuidv4();
@@ -219,18 +209,7 @@ export const AuthProvider = ({
 
 	const logout = async (e: any) => {
 		e?.preventDefault();
-
-		removeStateAndLocalStorage(LOGOUT_SESSION);
-		await logoutUser({
-			idToken,
-			accessToken,
-			refreshToken,
-			clientId,
-		});
-		setAuthState((prev) => ({
-			...prev,
-			isLoading: false,
-		}));
+		await invalidateAndLogout(LOGOUT_SESSION);
 	};
 
 	const getAccessToken = async () => {
@@ -260,13 +239,13 @@ export const AuthProvider = ({
 				/**
 				 * refreshToken is not valid, so we need to re-authenticate the user.
 				 */
-				removeStateAndLocalStorage(ACCESS_TOKEN_ERROR);
+				await invalidateAndLogout(ACCESS_TOKEN_ERROR);
 				return "";
 			}
-			removeStateAndLocalStorage(ACCESS_TOKEN_ERROR);
+			await invalidateAndLogout(ACCESS_TOKEN_ERROR);
 			return "";
 		} catch (_error) {
-			removeStateAndLocalStorage(ACCESS_TOKEN_ERROR);
+			await invalidateAndLogout(ACCESS_TOKEN_ERROR);
 			return "";
 		}
 	};
