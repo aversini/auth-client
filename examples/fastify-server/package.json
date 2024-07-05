@@ -23,7 +23,7 @@
 		"@versini/auth-common": "workspace:../../packages/auth-common",
 		"@versini/dev-dependencies-server": "5.1.0",
 		"dotenv": "16.4.5",
-		"fastify": "4.28.0",
+		"fastify": "4.28.1",
 		"fastify-plugin": "4.5.1",
 		"joi": "17.13.3",
 		"jose": "5.6.3",
