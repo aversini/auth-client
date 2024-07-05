@@ -1,5 +1,12 @@
 # Changelog
 
+## [5.0.4](https://github.com/aversini/auth-client/compare/auth-provider-v5.0.3...auth-provider-v5.0.4) (2024-07-05)
+
+
+### Bug Fixes
+
+* session should invalidate if refreshing access token fails ([#73](https://github.com/aversini/auth-client/issues/73)) ([5096258](https://github.com/aversini/auth-client/commit/509625898ef2e045144fe6c9301706b6f56524a3))
+
 ## [5.0.3](https://github.com/aversini/auth-client/compare/auth-provider-v5.0.2...auth-provider-v5.0.3) (2024-07-05)
 
 
