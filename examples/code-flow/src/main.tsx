@@ -4,10 +4,14 @@ import { Flexgrid, FlexgridItem } from "@versini/ui-system";
 import { useState } from "react";
 
 export const App = ({ timeout }: { timeout: string }) => {
-	const [accessToken, setAccessToken] = useState();
-	const { login, logout, isAuthenticated, getAccessToken } = useAuth();
+	const [accessToken, setAccessToken] = useState("");
+	const { login, logout, isAuthenticated, getAccessToken, isLoading } =
+		useAuth();
 	const [apiResponse, setApiResponse] = useState({ data: "" });
 
+	const logger = console;
+	logger.log("isAuthenticated", isAuthenticated);
+	logger.log("isLoading", isLoading);
 	const handleValidLogin = async (e: { preventDefault: () => void }) => {
 		e.preventDefault();
 		const response = await login(
