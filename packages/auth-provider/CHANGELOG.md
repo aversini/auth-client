@@ -1,5 +1,12 @@
 # Changelog
 
+## [5.0.2](https://github.com/aversini/auth-client/compare/auth-provider-v5.0.1...auth-provider-v5.0.2) (2024-07-05)
+
+
+### Bug Fixes
+
+* refactor getAccessToken to prevent async issues ([#69](https://github.com/aversini/auth-client/issues/69)) ([7edb48b](https://github.com/aversini/auth-client/commit/7edb48b66d9a1a1c55bbab377de11cbbbade787f))
+
 ## [5.0.1](https://github.com/aversini/auth-client/compare/auth-provider-v5.0.0...auth-provider-v5.0.1) (2024-07-03)
 
 
