@@ -21,8 +21,8 @@ import type {
 	LoginType,
 } from "../../common/types";
 import {
+	TokenManager,
 	authenticateUser,
-	getAccessTokenSilently,
 	getPreAuthCode,
 	logoutUser,
 } from "../../common/utilities";
@@ -47,6 +47,7 @@ export const AuthProvider = ({
 	const [nonce, setNonce, , removeNonce] = useLocalStorage({
 		key: `${LOCAL_STORAGE_PREFIX}::${clientId}::@@nonce@@`,
 	});
+	const tokenManager = new TokenManager(accessToken, refreshToken);
 
 	const [authState, setAuthState] = useState<AuthState>({
 		isLoading: true,
@@ -216,22 +217,15 @@ export const AuthProvider = ({
 				 * accessToken is not valid, so we need to try to refresh it using the
 				 * refreshToken - this is a silent refresh.
 				 */
-				const jwtRefresh = await verifyAndExtractToken(refreshToken);
-				if (jwtRefresh && jwtRefresh.payload[JWT.USER_ID_KEY] !== "") {
-					const response = await getAccessTokenSilently({
-						clientId,
-						userId: user.userId as string,
-						nonce,
-						refreshToken,
-						accessToken,
-					});
-					if (response.status) {
-						setAccessToken(response.accessToken);
-						setRefreshToken(response.refreshToken);
-						return response.accessToken;
-					}
-					removeStateAndLocalStorage(ACCESS_TOKEN_ERROR);
-					return "";
+				const res = await tokenManager.refreshtoken({
+					clientId,
+					userId: user.userId as string,
+					nonce,
+				});
+				if (res.status) {
+					setAccessToken(res.newAccessToken);
+					setRefreshToken(res.newRefreshToken);
+					return res.newAccessToken;
 				}
 				/**
 				 * refreshToken is not valid, so we need to re-authenticate the user.
