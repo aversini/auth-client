@@ -29,7 +29,7 @@ export type LoginType = (
 
 export type AuthContextProps = {
 	login: LoginType;
-	logout: () => void;
+	logout: (e?: any) => void;
 	getAccessToken: () => Promise<string>;
 	getIdToken: () => string;
 } & AuthState;

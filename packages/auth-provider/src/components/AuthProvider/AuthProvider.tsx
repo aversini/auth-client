@@ -5,7 +5,7 @@ import {
 	verifyAndExtractToken,
 } from "@versini/auth-common";
 import { useLocalStorage } from "@versini/ui-hooks";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { v4 as uuidv4 } from "uuid";
 
 import {
@@ -33,6 +33,7 @@ export const AuthProvider = ({
 	sessionExpiration,
 	clientId,
 }: AuthProviderProps) => {
+	const effectDidRunRef = useRef(false);
 	const [idToken, setIdToken, , removeIdToken] = useLocalStorage({
 		key: `${LOCAL_STORAGE_PREFIX}::${clientId}::@@user@@`,
 	});
@@ -60,7 +61,7 @@ export const AuthProvider = ({
 		(logoutReason?: string) => {
 			console.warn(logoutReason);
 			setAuthState({
-				isLoading: false,
+				isLoading: true,
 				isAuthenticated: false,
 				user: undefined,
 				logoutReason: logoutReason || EXPIRED_SESSION,
@@ -79,6 +80,9 @@ export const AuthProvider = ({
 	 * first loaded or refreshed.
 	 */
 	useEffect(() => {
+		if (effectDidRunRef.current) {
+			return;
+		}
 		if (authState.isLoading && idToken !== null) {
 			(async () => {
 				try {
@@ -101,6 +105,10 @@ export const AuthProvider = ({
 							refreshToken,
 							clientId,
 						});
+						setAuthState((prev) => ({
+							...prev,
+							isLoading: false,
+						}));
 					}
 				} catch (_error) {
 					removeStateAndLocalStorage(EXPIRED_SESSION);
@@ -110,11 +118,23 @@ export const AuthProvider = ({
 						refreshToken,
 						clientId,
 					});
+					setAuthState((prev) => ({
+						...prev,
+						isLoading: false,
+					}));
 				}
 			})();
+		} else {
+			setAuthState((prev) => ({
+				...prev,
+				isLoading: false,
+			}));
 		}
+		return () => {
+			effectDidRunRef.current = true;
+		};
 	}, [
-		authState.isLoading,
+		authState,
 		accessToken,
 		idToken,
 		refreshToken,
@@ -125,6 +145,10 @@ export const AuthProvider = ({
 	const login: LoginType = async (username, password, type) => {
 		const _nonce = uuidv4();
 		setNonce(_nonce);
+		setAuthState((prev) => ({
+			...prev,
+			isLoading: true,
+		}));
 
 		if (type === AUTH_TYPES.CODE) {
 			const { code_verifier, code_challenge } = await pkceChallengePair();
@@ -193,7 +217,9 @@ export const AuthProvider = ({
 		return false;
 	};
 
-	const logout = async () => {
+	const logout = async (e: any) => {
+		e?.preventDefault();
+
 		removeStateAndLocalStorage(LOGOUT_SESSION);
 		await logoutUser({
 			idToken,
@@ -201,6 +227,10 @@ export const AuthProvider = ({
 			refreshToken,
 			clientId,
 		});
+		setAuthState((prev) => ({
+			...prev,
+			isLoading: false,
+		}));
 	};
 
 	const getAccessToken = async () => {
