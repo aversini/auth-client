@@ -1,5 +1,12 @@
 # Changelog
 
+## [5.0.5](https://github.com/aversini/auth-client/compare/auth-provider-v5.0.4...auth-provider-v5.0.5) (2024-07-05)
+
+
+### Bug Fixes
+
+* refactor to catch token error and invalidate session consistently ([#75](https://github.com/aversini/auth-client/issues/75)) ([d02c421](https://github.com/aversini/auth-client/commit/d02c421f0db973302c962a4273cba8b45a716170))
+
 ## [5.0.4](https://github.com/aversini/auth-client/compare/auth-provider-v5.0.3...auth-provider-v5.0.4) (2024-07-05)
 
 
