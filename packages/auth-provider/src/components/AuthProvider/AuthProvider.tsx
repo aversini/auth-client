@@ -139,6 +139,9 @@ export const AuthProvider = ({
 			...prev,
 			isLoading: true,
 		}));
+		removeIdToken();
+		removeAccessToken();
+		removeRefreshToken();
 
 		if (type === AUTH_TYPES.CODE) {
 			const { code_verifier, code_challenge } = await pkceChallengePair();
