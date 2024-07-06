@@ -1,5 +1,12 @@
 # Changelog
 
+## [5.0.6](https://github.com/aversini/auth-client/compare/auth-provider-v5.0.5...auth-provider-v5.0.6) (2024-07-06)
+
+
+### Bug Fixes
+
+* remove existing tokens on login if any ([#77](https://github.com/aversini/auth-client/issues/77)) ([b1f7df9](https://github.com/aversini/auth-client/commit/b1f7df9eb09ec7702e6e5b3ccacd95c6c8adaef4))
+
 ## [5.0.5](https://github.com/aversini/auth-client/compare/auth-provider-v5.0.4...auth-provider-v5.0.5) (2024-07-05)
 
 
