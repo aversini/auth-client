@@ -1,5 +1,12 @@
 # Changelog
 
+## [5.1.0](https://github.com/aversini/auth-client/compare/auth-provider-v5.0.6...auth-provider-v5.1.0) (2024-07-07)
+
+
+### Features
+
+* enabling access token fallback via secure cookie ([#79](https://github.com/aversini/auth-client/issues/79)) ([fc64e50](https://github.com/aversini/auth-client/commit/fc64e509c8cf149a14ae63354547d15fbd92bd0b))
+
 ## [5.0.6](https://github.com/aversini/auth-client/compare/auth-provider-v5.0.5...auth-provider-v5.0.6) (2024-07-06)
 
 
