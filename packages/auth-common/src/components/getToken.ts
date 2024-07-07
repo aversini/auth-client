@@ -1,4 +1,4 @@
-type HeadersLike = Record<string, unknown> & {
+export type HeadersLike = Record<string, unknown> & {
 	authorization?: string;
 	"content-type"?: string;
 	cookie?: string;
