@@ -46,6 +46,7 @@ export const App = ({ timeout }: { timeout: string }) => {
 		const response = await fetch(
 			"https://api.gizmette.local.com:3004/getData",
 			{
+				credentials: "include",
 				headers: {
 					"Content-Type": "application/json",
 					Authorization: `Bearer ${await getAccessToken()}`,

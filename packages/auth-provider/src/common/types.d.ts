@@ -9,6 +9,7 @@ export type AuthProviderProps = {
 	sessionExpiration?: string;
 	clientId: string;
 	accessType?: string;
+	domain?: string;
 };
 
 export type AuthState = {
