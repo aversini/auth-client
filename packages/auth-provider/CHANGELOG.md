@@ -1,5 +1,12 @@
 # Changelog
 
+## [5.1.1](https://github.com/aversini/auth-client/compare/auth-provider-v5.1.0...auth-provider-v5.1.1) (2024-07-07)
+
+
+### Bug Fixes
+
+* use domain and rely on the server to setup the cookie ([#81](https://github.com/aversini/auth-client/issues/81)) ([75f5569](https://github.com/aversini/auth-client/commit/75f55691b6acf2f7f701c09e4e1601939419a52b))
+
 ## [5.1.0](https://github.com/aversini/auth-client/compare/auth-provider-v5.0.6...auth-provider-v5.1.0) (2024-07-07)
 
 
