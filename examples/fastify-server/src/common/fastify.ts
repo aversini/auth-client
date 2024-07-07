@@ -2,7 +2,7 @@ import fastifyAuth from "@fastify/auth";
 import fastifyCache from "@fastify/caching";
 import fastifyCookie from "@fastify/cookie";
 import fastifyCors from "@fastify/cors";
-import { verifyAndExtractToken } from "@versini/auth-common";
+import { getToken, verifyAndExtractToken } from "@versini/auth-common";
 import Fastify from "fastify";
 
 import fastifyLogs from "../services/logs.js";
@@ -64,6 +64,7 @@ export const initServer = async () => {
 				corsOptions.origin = request.headers.origin;
 				isAllowed = true;
 			} else {
+				corsOptions.origin = request.headers.origin;
 				isAllowed = true;
 			}
 
@@ -77,12 +78,16 @@ export const initServer = async () => {
 
 	fastify
 		.decorate("isAllowed", async (_request: any, _reply: any, done: any) => {
+			console.info(`==> [${Date.now()}] : hello?`);
 			try {
-				const accessToken = _reply.request.headers.authorization.replace(
-					"Bearer ",
-					"",
+				const accessToken = getToken(
+					_reply.request.headers,
+					"b44c68f0-e5b3-4a1d-a3e3-df8632b0223b",
 				);
+				console.info(`==> [${Date.now()}] : `, { accessToken });
+
 				const res = await verifyAndExtractToken(accessToken);
+				console.info(`==> [${Date.now()}] : `, { res });
 				if (res) {
 					return done();
 				}

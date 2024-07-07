@@ -6,6 +6,7 @@ import {
 } from "@versini/auth-common";
 import { useLocalStorage } from "@versini/ui-hooks";
 import { useCallback, useEffect, useRef, useState } from "react";
+import { useCookies } from "react-cookie";
 import { v4 as uuidv4 } from "uuid";
 
 import {
@@ -32,8 +33,11 @@ export const AuthProvider = ({
 	children,
 	sessionExpiration,
 	clientId,
+	domain,
 }: AuthProviderProps) => {
 	const effectDidRunRef = useRef(false);
+	const [, setCookie, removeCookie] = useCookies([`auth.${clientId}`]);
+
 	const [idToken, setIdToken, , removeIdToken] = useLocalStorage({
 		key: `${LOCAL_STORAGE_PREFIX}::${clientId}::@@user@@`,
 	});
@@ -70,8 +74,22 @@ export const AuthProvider = ({
 			removeAccessToken();
 			removeRefreshToken();
 			removeNonce();
+			if (domain) {
+				removeCookie(`auth.${clientId}`, {
+					secure: true,
+					domain,
+				});
+			}
 		},
-		[removeIdToken, removeAccessToken, removeNonce, removeRefreshToken],
+		[
+			clientId,
+			domain,
+			removeAccessToken,
+			removeCookie,
+			removeIdToken,
+			removeNonce,
+			removeRefreshToken,
+		],
 	);
 
 	const invalidateAndLogout = useCallback(
@@ -164,6 +182,12 @@ export const AuthProvider = ({
 					code_verifier,
 				});
 				if (response.status) {
+					if (domain) {
+						setCookie(`auth.${clientId}`, response.accessToken, {
+							secure: true,
+							domain,
+						});
+					}
 					setIdToken(response.idToken);
 					setAccessToken(response.accessToken);
 					setRefreshToken(response.refreshToken);
@@ -193,6 +217,12 @@ export const AuthProvider = ({
 			type,
 		});
 		if (response.status) {
+			if (domain) {
+				setCookie(`auth.${clientId}`, response.accessToken, {
+					secure: true,
+					domain,
+				});
+			}
 			setIdToken(response.idToken);
 			setAccessToken(response.accessToken);
 			setRefreshToken(response.refreshToken);
@@ -235,6 +265,12 @@ export const AuthProvider = ({
 					nonce,
 				});
 				if (res.status && res.status === "success") {
+					if (domain) {
+						setCookie(`auth.${clientId}`, res.newAccessToken, {
+							secure: true,
+							domain,
+						});
+					}
 					setAccessToken(res.newAccessToken);
 					setRefreshToken(res.newRefreshToken);
 					return res.newAccessToken;
