@@ -14,9 +14,7 @@
 	"type": "module",
 	"main": "dist/index.js",
 	"types": "dist/index.d.ts",
-	"files": [
-		"dist"
-	],
+	"files": ["dist"],
 	"scripts": {
 		"build:check": "tsc",
 		"build:js": "vite build",
@@ -47,7 +45,6 @@
 		"@versini/auth-common": "workspace:../auth-common",
 		"@versini/ui-hooks": "4.0.0",
 		"jose": "5.6.3",
-		"react-cookie": "7.1.4",
 		"uuid": "10.0.0"
 	}
 }

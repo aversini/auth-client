@@ -52,11 +52,13 @@ export const logoutUser = async ({
 	accessToken,
 	refreshToken,
 	clientId,
+	domain,
 }: {
 	idToken: string;
 	accessToken: string;
 	refreshToken: string;
 	clientId: string;
+	domain: string;
 }) => {
 	try {
 		const response = await serviceCall({
@@ -66,6 +68,7 @@ export const logoutUser = async ({
 				idToken,
 				accessToken,
 				refreshToken,
+				domain,
 			},
 		});
 		return {
@@ -78,6 +81,17 @@ export const logoutUser = async ({
 	}
 };
 
+export type AuthenticateUserProps = {
+	username: string;
+	password: string;
+	clientId: string;
+	nonce: string;
+	type?: string;
+	sessionExpiration?: string;
+	code?: string;
+	code_verifier?: string;
+	domain: string;
+};
 export const authenticateUser = async ({
 	username,
 	password,
@@ -87,16 +101,8 @@ export const authenticateUser = async ({
 	sessionExpiration,
 	code,
 	code_verifier,
-}: {
-	username: string;
-	password: string;
-	clientId: string;
-	nonce: string;
-	type?: string;
-	sessionExpiration?: string;
-	code?: string;
-	code_verifier?: string;
-}) => {
+	domain,
+}: AuthenticateUserProps) => {
 	try {
 		const response = await serviceCall({
 			type: API_TYPE.AUTHENTICATE,
@@ -109,6 +115,7 @@ export const authenticateUser = async ({
 				nonce,
 				code,
 				code_verifier,
+				domain,
 			},
 		});
 		const jwt = await verifyAndExtractToken(response.data.idToken);
@@ -168,19 +175,22 @@ export const getPreAuthCode = async ({
 	}
 };
 
+export type getAccessTokenSilently = {
+	clientId: string;
+	userId: string;
+	nonce: string;
+	refreshToken: string;
+	accessToken: string;
+	domain: string;
+};
 export const getAccessTokenSilently = async ({
 	clientId,
 	userId,
 	nonce,
 	refreshToken,
 	accessToken,
-}: {
-	clientId: string;
-	userId: string;
-	nonce: string;
-	refreshToken: string;
-	accessToken: string;
-}) => {
+	domain,
+}: getAccessTokenSilently) => {
 	try {
 		const response = await serviceCall({
 			type: API_TYPE.AUTHENTICATE,
@@ -191,6 +201,7 @@ export const getAccessTokenSilently = async ({
 				nonce,
 				refreshToken,
 				accessToken,
+				domain,
 			},
 		});
 		const jwt = await verifyAndExtractToken(response.data.accessToken);
@@ -226,6 +237,7 @@ type RefreshTokenProps = {
 	clientId: string;
 	userId: string;
 	nonce: string;
+	domain: string;
 };
 export class TokenManager {
 	private refreshTokenPromise: Promise<any> | null = null;
@@ -244,6 +256,7 @@ export class TokenManager {
 		clientId,
 		userId,
 		nonce,
+		domain,
 	}: RefreshTokenProps): Promise<RefreshTokenResponse> {
 		if (!this.refreshTokenPromise) {
 			// No existing refresh in progress, start a new one
@@ -251,6 +264,7 @@ export class TokenManager {
 				clientId,
 				userId,
 				nonce,
+				domain,
 			});
 		}
 
@@ -267,6 +281,7 @@ export class TokenManager {
 		clientId,
 		userId,
 		nonce,
+		domain,
 	}: RefreshTokenProps): Promise<RefreshTokenResponse> {
 		const jwtRefresh = await verifyAndExtractToken(this.refreshToken);
 		if (jwtRefresh && jwtRefresh.payload[JWT.USER_ID_KEY] !== "") {
@@ -277,6 +292,7 @@ export class TokenManager {
 				nonce,
 				refreshToken: this.refreshToken,
 				accessToken: this.accessToken,
+				domain,
 			});
 			if (response.status) {
 				this.accessToken = response.accessToken;
