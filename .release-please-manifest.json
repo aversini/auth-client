@@ -1,4 +1,4 @@
 {
-	"packages/auth-provider": "5.0.6",
-	"packages/auth-common": "2.10.1"
+	"packages/auth-provider": "5.1.0",
+	"packages/auth-common": "2.11.0"
 }

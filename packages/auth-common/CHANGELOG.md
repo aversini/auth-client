@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.11.0](https://github.com/aversini/auth-client/compare/auth-common-v2.10.1...auth-common-v2.11.0) (2024-07-07)
+
+
+### Features
+
+* enabling access token fallback via secure cookie ([#79](https://github.com/aversini/auth-client/issues/79)) ([fc64e50](https://github.com/aversini/auth-client/commit/fc64e509c8cf149a14ae63354547d15fbd92bd0b))
+
 ## [2.10.1](https://github.com/aversini/auth-client/compare/auth-common-v2.10.0...auth-common-v2.10.1) (2024-06-29)
 
 
