@@ -30,11 +30,13 @@ const toBase64 = (val: ArrayBuffer): string =>
  * @returns The base64 url encoded code challenge.
  */
 export async function generateCodeChallenge(code_verifier: string) {
+	/* c8 ignore start */
 	if (!crypto.subtle) {
 		throw new Error(
 			"crypto.subtle is available only in secure contexts (HTTPS).",
 		);
 	}
+	/* c8 ignore end */
 	const data = new TextEncoder().encode(code_verifier);
 	const hashed = await crypto.subtle.digest("SHA-256", data);
 	return toBase64(hashed)
