@@ -21,7 +21,7 @@
 		"@node-cli/logger": "1.2.5",
 		"@node-cli/secret": "1.2.0",
 		"@versini/auth-common": "workspace:../../packages/auth-common",
-		"@versini/dev-dependencies-server": "5.1.0",
+		"@versini/dev-dependencies-server": "5.1.1",
 		"dotenv": "16.4.5",
 		"fastify": "4.28.1",
 		"fastify-plugin": "4.5.1",
