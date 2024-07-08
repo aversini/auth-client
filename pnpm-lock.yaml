@@ -9,8 +9,8 @@ importers:
   .:
     devDependencies:
       '@node-cli/bundlesize':
-        specifier: 4.1.0
-        version: 4.1.0
+        specifier: 4.2.0
+        version: 4.2.0
       '@versini/dev-dependencies-client':
         specifier: 5.1.0
         version: 5.1.0(@jest/globals@29.7.0)(@microsoft/api-extractor@7.43.0(@types/node@20.14.9))(@swc/core@1.6.5(@swc/helpers@0.5.3))(@swc/helpers@0.5.3)(@types/jest@29.5.12)(@types/node@20.14.9)(@types/react-dom@18.3.0)(@types/react@18.3.3)(encoding@0.1.13)(happy-dom@14.12.0)(jest@29.7.0(@types/node@20.14.9))(jsdom@24.1.0)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(typescript@5.5.2)
@@ -972,8 +972,8 @@ packages:
     resolution: {integrity: sha512-sTGoeZnjI8N4KS+sW2AN95gDBErhAguvkw/tWdCjeM8bvxpz5lqrnd0vOJABA1A+Ic3zED7PYoLP/RANLgVotA==}
     engines: {node: ^12.20.0 || ^14.13.1 || >=16.0.0}
 
-  '@node-cli/bundlesize@4.1.0':
-    resolution: {integrity: sha512-XCN1WWPX/j3VfrJPlevfdiGai+2rsoyJI/NsswV2biozNCwHNGoBygnyh6wtKPdrHri6R42GHO9JZ+B7AfPk/g==}
+  '@node-cli/bundlesize@4.2.0':
+    resolution: {integrity: sha512-a9mK/7GsA+EpSj1AvWww2MxCSr8fy0mKtdBHRWUyXxGaC6JRc6aP1xbHeCFSF4cvFlD3lrr/FWPNi0gYmxYUiw==}
     hasBin: true
 
   '@node-cli/logger@1.2.5':
@@ -3186,11 +3186,6 @@ packages:
     resolution: {integrity: sha512-XxwI8EOhVQgWp6iDL+3b0r86f4d6AX6zSU55HfB4ydCEuXLXc5FcYeOu+nnGftS4TEju/11rt4KJPTMgbfmv4A==}
     engines: {node: '>=10.13.0'}
 
-  glob@10.3.15:
-    resolution: {integrity: sha512-0c6RlJt1TICLyvJYIApxb8GsXoai0KUP7AxKKAtsYXdgJR1mGEUa7DgwShbdk1nly0PYoZj01xd4hzbq3fsjpw==}
-    engines: {node: '>=16 || 14 >=14.18'}
-    hasBin: true
-
   glob@10.4.1:
     resolution: {integrity: sha512-2jelhlq3E4ho74ZyVLN03oKdAZVUa6UDZzFLVH1H7dnoax+y9qyaq8zBkfDIggjniU19z0wU18y16jMB2eyVIw==}
     engines: {node: '>=16 || 14 >=14.18'}
@@ -3199,6 +3194,11 @@ packages:
   glob@10.4.2:
     resolution: {integrity: sha512-GwMlUF6PkPo3Gk21UxkCohOv0PLcIXVtKyLlpEI28R/cO/4eNOdmLk3CMW1wROV/WR/EsZOWAfBbBOqYvs88/w==}
     engines: {node: '>=16 || 14 >=14.18'}
+    hasBin: true
+
+  glob@10.4.3:
+    resolution: {integrity: sha512-Q38SGlYRpVtDBPSWEylRyctn7uDeTp4NQERTLiCT1FqA9JXPYWqAVmQU6qh4r/zMM5ehxTcbaO8EjhWnvEhmyg==}
+    engines: {node: '>=18'}
     hasBin: true
 
   glob@7.2.3:
@@ -3675,10 +3675,6 @@ packages:
   istanbul-reports@3.1.7:
     resolution: {integrity: sha512-BewmUXImeuRk2YY0PVbxgKAysvhRPUQE0h5QRM++nVWyubKGV0l8qQ5op8+B2DOmwSe63Jivj0BjkPQVf8fP5g==}
     engines: {node: '>=8'}
-
-  jackspeak@2.3.6:
-    resolution: {integrity: sha512-N3yCS/NegsOBokc8GAdM8UcmfsKiSS8cipheD/nivzr700H+nsMOxJjQnvwOcRYVuFkdH0wGUvW2WbXGmrZGbQ==}
-    engines: {node: '>=14'}
 
   jackspeak@3.4.0:
     resolution: {integrity: sha512-JVYhQnN59LVPFCEcVa2C3CrEKYacvjRfqIQl+h8oi91aLYQVWRYbxjPcv1bUiUy/kLmQaANrYfNMCO3kuEDHfw==}
@@ -7135,13 +7131,13 @@ snapshots:
       got: 11.8.6
       os-filter-obj: 2.0.0
 
-  '@node-cli/bundlesize@4.1.0':
+  '@node-cli/bundlesize@4.2.0':
     dependencies:
       '@node-cli/logger': 1.2.5
       '@node-cli/parser': 2.3.4
       bytes: 3.1.2
       fs-extra: 11.2.0
-      glob: 10.3.15
+      glob: 10.4.3
       semver: 7.6.2
 
   '@node-cli/logger@1.2.5':
@@ -9759,14 +9755,6 @@ snapshots:
     dependencies:
       is-glob: 4.0.3
 
-  glob@10.3.15:
-    dependencies:
-      foreground-child: 3.2.1
-      jackspeak: 2.3.6
-      minimatch: 9.0.5
-      minipass: 7.1.2
-      path-scurry: 1.11.1
-
   glob@10.4.1:
     dependencies:
       foreground-child: 3.2.1
@@ -9776,6 +9764,15 @@ snapshots:
       path-scurry: 1.11.1
 
   glob@10.4.2:
+    dependencies:
+      foreground-child: 3.2.1
+      jackspeak: 3.4.0
+      minimatch: 9.0.5
+      minipass: 7.1.2
+      package-json-from-dist: 1.0.0
+      path-scurry: 1.11.1
+
+  glob@10.4.3:
     dependencies:
       foreground-child: 3.2.1
       jackspeak: 3.4.0
@@ -10282,12 +10279,6 @@ snapshots:
     dependencies:
       html-escaper: 2.0.2
       istanbul-lib-report: 3.0.1
-
-  jackspeak@2.3.6:
-    dependencies:
-      '@isaacs/cliui': 8.0.2
-    optionalDependencies:
-      '@pkgjs/parseargs': 0.11.0
 
   jackspeak@3.4.0:
     dependencies:
@@ -11308,7 +11299,7 @@ snapshots:
       array-differ: 3.0.0
       array-union: 2.1.0
       arrify: 2.0.1
-      minimatch: 3.0.5
+      minimatch: 3.1.2
 
   mute-stream@0.0.8: {}
 
