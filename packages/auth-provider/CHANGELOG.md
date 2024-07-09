@@ -1,5 +1,12 @@
 # Changelog
 
+## [5.1.3](https://github.com/aversini/auth-client/compare/auth-provider-v5.1.2...auth-provider-v5.1.3) (2024-07-09)
+
+
+### Bug Fixes
+
+* userId will be required in a future auth server update ([#92](https://github.com/aversini/auth-client/issues/92)) ([611de3f](https://github.com/aversini/auth-client/commit/611de3fb45c49c234567181be59e855b16943aef))
+
 ## [5.1.2](https://github.com/aversini/auth-client/compare/auth-provider-v5.1.1...auth-provider-v5.1.2) (2024-07-09)
 
 
