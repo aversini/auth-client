@@ -1,5 +1,12 @@
 # Changelog
 
+## [5.2.1](https://github.com/aversini/auth-client/compare/auth-provider-v5.2.0...auth-provider-v5.2.1) (2024-07-09)
+
+
+### Bug Fixes
+
+* logout reason should reset when login is successful ([#96](https://github.com/aversini/auth-client/issues/96)) ([44f1fdf](https://github.com/aversini/auth-client/commit/44f1fdfc8884e916bd027f7aa278053ef6d170ae))
+
 ## [5.2.0](https://github.com/aversini/auth-client/compare/auth-provider-v5.1.3...auth-provider-v5.2.0) (2024-07-09)
 
 
