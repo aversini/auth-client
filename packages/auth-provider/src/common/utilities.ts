@@ -48,12 +48,14 @@ export const serviceCall = async ({
 };
 
 export const logoutUser = async ({
+	userId,
 	idToken,
 	accessToken,
 	refreshToken,
 	clientId,
 	domain,
 }: {
+	userId: string;
 	idToken: string;
 	accessToken: string;
 	refreshToken: string;
@@ -65,6 +67,7 @@ export const logoutUser = async ({
 			type: API_TYPE.LOGOUT,
 			clientId,
 			params: {
+				userId,
 				idToken,
 				accessToken,
 				refreshToken,

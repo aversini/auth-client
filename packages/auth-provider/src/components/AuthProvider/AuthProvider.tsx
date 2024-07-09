@@ -78,8 +78,11 @@ export const AuthProvider = ({
 
 	const invalidateAndLogout = useCallback(
 		async (message: string) => {
+			const { user } = authState;
 			removeStateAndLocalStorage(message || EXPIRED_SESSION);
+
 			await logoutUser({
+				userId: user?.userId || "",
 				idToken,
 				accessToken,
 				refreshToken,
@@ -93,6 +96,7 @@ export const AuthProvider = ({
 		},
 		[
 			accessToken,
+			authState,
 			clientId,
 			domain,
 			idToken,
