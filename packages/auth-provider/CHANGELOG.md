@@ -1,5 +1,12 @@
 # Changelog
 
+## [5.2.0](https://github.com/aversini/auth-client/compare/auth-provider-v5.1.3...auth-provider-v5.2.0) (2024-07-09)
+
+
+### Features
+
+* replacing useState with useReducer ([#94](https://github.com/aversini/auth-client/issues/94)) ([ab23ac3](https://github.com/aversini/auth-client/commit/ab23ac34f8a37722a405a20033b50b01b1d86bfd))
+
 ## [5.1.3](https://github.com/aversini/auth-client/compare/auth-provider-v5.1.2...auth-provider-v5.1.3) (2024-07-09)
 
 
