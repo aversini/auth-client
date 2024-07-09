@@ -5,21 +5,20 @@ import {
 	verifyAndExtractToken,
 } from "@versini/auth-common";
 import { useLocalStorage } from "@versini/ui-hooks";
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useReducer, useRef } from "react";
 import { v4 as uuidv4 } from "uuid";
 
 import {
 	ACCESS_TOKEN_ERROR,
+	ACTION_TYPE_LOADING,
+	ACTION_TYPE_LOGIN,
+	ACTION_TYPE_LOGOUT,
 	EXPIRED_SESSION,
 	LOCAL_STORAGE_PREFIX,
 	LOGIN_ERROR,
 	LOGOUT_SESSION,
 } from "../../common/constants";
-import type {
-	AuthProviderProps,
-	AuthState,
-	LoginType,
-} from "../../common/types";
+import type { AuthProviderProps, LoginType } from "../../common/types";
 import {
 	TokenManager,
 	authenticateUser,
@@ -27,6 +26,8 @@ import {
 	logoutUser,
 } from "../../common/utilities";
 import { AuthContext } from "./AuthContext";
+import { InternalContext } from "./InternalContext";
+import { reducer } from "./reducer";
 
 export const AuthProvider = ({
 	children,
@@ -34,6 +35,13 @@ export const AuthProvider = ({
 	clientId,
 	domain = "",
 }: AuthProviderProps) => {
+	const [state, dispatch] = useReducer(reducer, {
+		isLoading: true,
+		isAuthenticated: false,
+		user: undefined,
+		logoutReason: "",
+	});
+
 	const effectDidRunRef = useRef(false);
 
 	const [idToken, setIdToken, , removeIdToken] = useLocalStorage({
@@ -52,35 +60,27 @@ export const AuthProvider = ({
 	});
 	const tokenManager = new TokenManager(accessToken, refreshToken);
 
-	const [authState, setAuthState] = useState<AuthState>({
-		isLoading: true,
-		isAuthenticated: false,
-		user: undefined,
-		logoutReason: "",
-	});
-
 	const removeStateAndLocalStorage = useCallback(
 		(logoutReason?: string) => {
 			console.warn(logoutReason);
-			setAuthState({
-				isLoading: true,
-				isAuthenticated: false,
-				user: undefined,
-				logoutReason: logoutReason || EXPIRED_SESSION,
+			dispatch({
+				type: ACTION_TYPE_LOGOUT,
+				payload: {
+					logoutReason: logoutReason || EXPIRED_SESSION,
+				},
 			});
 			removeIdToken();
 			removeAccessToken();
 			removeRefreshToken();
 			removeNonce();
+			dispatch({ type: ACTION_TYPE_LOADING, payload: { isLoading: false } });
 		},
 		[removeAccessToken, removeIdToken, removeNonce, removeRefreshToken],
 	);
 
 	const invalidateAndLogout = useCallback(
 		async (message: string) => {
-			const { user } = authState;
-			removeStateAndLocalStorage(message || EXPIRED_SESSION);
-
+			const { user } = state;
 			await logoutUser({
 				userId: user?.userId || "",
 				idToken,
@@ -89,14 +89,11 @@ export const AuthProvider = ({
 				clientId,
 				domain,
 			});
-			setAuthState((prev) => ({
-				...prev,
-				isLoading: false,
-			}));
+			removeStateAndLocalStorage(message || EXPIRED_SESSION);
 		},
 		[
 			accessToken,
-			authState,
+			state,
 			clientId,
 			domain,
 			idToken,
@@ -114,19 +111,19 @@ export const AuthProvider = ({
 		if (effectDidRunRef.current) {
 			return;
 		}
-		if (authState.isLoading && idToken !== null) {
+		if (state.isLoading && idToken !== null) {
 			(async () => {
 				try {
 					const jwt = await verifyAndExtractToken(idToken);
 					if (jwt && jwt.payload[JWT.USER_ID_KEY] !== "") {
-						setAuthState({
-							isLoading: false,
-							isAuthenticated: true,
-							user: {
-								userId: jwt.payload[JWT.USER_ID_KEY] as string,
-								username: jwt.payload[JWT.USERNAME_KEY] as string,
+						dispatch({
+							type: ACTION_TYPE_LOGIN,
+							payload: {
+								user: {
+									userId: jwt.payload[JWT.USER_ID_KEY] as string,
+									username: jwt.payload[JWT.USERNAME_KEY] as string,
+								},
 							},
-							logoutReason: "",
 						});
 					} else {
 						await invalidateAndLogout(EXPIRED_SESSION);
@@ -136,23 +133,17 @@ export const AuthProvider = ({
 				}
 			})();
 		} else {
-			setAuthState((prev) => ({
-				...prev,
-				isLoading: false,
-			}));
+			dispatch({ type: ACTION_TYPE_LOADING, payload: { isLoading: false } });
 		}
 		return () => {
 			effectDidRunRef.current = true;
 		};
-	}, [authState.isLoading, idToken, invalidateAndLogout]);
+	}, [state.isLoading, idToken, invalidateAndLogout]);
 
 	const login: LoginType = async (username, password, type) => {
 		const _nonce = uuidv4();
 		setNonce(_nonce);
-		setAuthState((prev) => ({
-			...prev,
-			isLoading: true,
-		}));
+		dispatch({ type: ACTION_TYPE_LOADING, payload: { isLoading: true } });
 		removeIdToken();
 		removeAccessToken();
 		removeRefreshToken();
@@ -182,22 +173,18 @@ export const AuthProvider = ({
 					setIdToken(response.idToken);
 					setAccessToken(response.accessToken);
 					setRefreshToken(response.refreshToken);
-					setAuthState({
-						isLoading: false,
-						isAuthenticated: true,
-						user: {
-							userId: response.userId,
-							username,
+					dispatch({
+						type: ACTION_TYPE_LOGIN,
+						payload: {
+							user: {
+								userId: response.userId as string,
+								username,
+							},
 						},
-						logoutReason: "",
 					});
 					return true;
 				}
 				removeStateAndLocalStorage(LOGIN_ERROR);
-				setAuthState((prev) => ({
-					...prev,
-					isLoading: false,
-				}));
 				return false;
 			}
 			return false;
@@ -216,21 +203,18 @@ export const AuthProvider = ({
 			setIdToken(response.idToken);
 			setAccessToken(response.accessToken);
 			setRefreshToken(response.refreshToken);
-			setAuthState({
-				isLoading: false,
-				isAuthenticated: true,
-				user: {
-					userId: response.userId,
-					username,
+			dispatch({
+				type: ACTION_TYPE_LOGIN,
+				payload: {
+					user: {
+						userId: response.userId as string,
+						username,
+					},
 				},
 			});
 			return true;
 		}
 		removeStateAndLocalStorage(LOGIN_ERROR);
-		setAuthState((prev) => ({
-			...prev,
-			isLoading: false,
-		}));
 		return false;
 	};
 
@@ -240,7 +224,7 @@ export const AuthProvider = ({
 	};
 
 	const getAccessToken = async () => {
-		const { isAuthenticated, user } = authState;
+		const { isAuthenticated, user } = state;
 		try {
 			if (isAuthenticated && user && user.userId) {
 				if (accessToken) {
@@ -279,16 +263,18 @@ export const AuthProvider = ({
 	};
 
 	const getIdToken = () => {
-		if (authState.isAuthenticated && idToken) {
+		if (state.isAuthenticated && idToken) {
 			return idToken;
 		}
 	};
 
 	return (
-		<AuthContext.Provider
-			value={{ ...authState, login, logout, getAccessToken, getIdToken }}
-		>
-			{children}
-		</AuthContext.Provider>
+		<InternalContext.Provider value={{ state, dispatch }}>
+			<AuthContext.Provider
+				value={{ ...state, login, logout, getAccessToken, getIdToken }}
+			>
+				{children}
+			</AuthContext.Provider>
+		</InternalContext.Provider>
 	);
 };

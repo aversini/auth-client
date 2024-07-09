@@ -1,3 +1,9 @@
+import {
+	ACTION_TYPE_LOADING,
+	ACTION_TYPE_LOGIN,
+	ACTION_TYPE_LOGOUT,
+} from "./constants";
+
 export type ServiceCallProps = {
 	params: any;
 	clientId: string;
@@ -34,3 +40,27 @@ export type AuthContextProps = {
 	getAccessToken: () => Promise<string>;
 	getIdToken: () => string;
 } & AuthState;
+
+export type InternalActions =
+	| undefined
+	| {
+			type: typeof ACTION_TYPE_LOADING;
+			payload: {
+				isLoading: boolean;
+			};
+	  }
+	| {
+			type: typeof ACTION_TYPE_LOGIN;
+			payload: {
+				user: {
+					userId: string;
+					username: string;
+				};
+			};
+	  }
+	| {
+			type: typeof ACTION_TYPE_LOGOUT;
+			payload: {
+				logoutReason: string;
+			};
+	  };
