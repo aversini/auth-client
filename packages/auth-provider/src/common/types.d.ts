@@ -42,7 +42,6 @@ export type AuthContextProps = {
 } & AuthState;
 
 export type InternalActions =
-	| undefined
 	| {
 			type: typeof ACTION_TYPE_LOADING;
 			payload: {
