@@ -9,6 +9,8 @@ export const App = ({ timeout }: { timeout: string }) => {
 		useAuth();
 	const [apiResponse, setApiResponse] = useState({ data: "" });
 
+	console.info({ isAuthenticated, isLoading });
+
 	const logger = console;
 	logger.log("isAuthenticated", isAuthenticated);
 	logger.log("isLoading", isLoading);
@@ -32,6 +34,7 @@ export const App = ({ timeout }: { timeout: string }) => {
 		const response = await login(
 			process.env.PUBLIC_TEST_USER as string,
 			"invalid-password",
+			AUTH_TYPES.CODE,
 		);
 		if (!response) {
 			console.error(`==> [${Date.now()}] : `, "Login failed");

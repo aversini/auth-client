@@ -190,6 +190,10 @@ export const AuthProvider = ({
 					return true;
 				}
 				removeStateAndLocalStorage(LOGIN_ERROR);
+				setAuthState((prev) => ({
+					...prev,
+					isLoading: false,
+				}));
 				return false;
 			}
 			return false;
@@ -219,6 +223,10 @@ export const AuthProvider = ({
 			return true;
 		}
 		removeStateAndLocalStorage(LOGIN_ERROR);
+		setAuthState((prev) => ({
+			...prev,
+			isLoading: false,
+		}));
 		return false;
 	};
 
