@@ -1,5 +1,13 @@
 # Changelog
 
+## [5.1.2](https://github.com/aversini/auth-client/compare/auth-provider-v5.1.1...auth-provider-v5.1.2) (2024-07-09)
+
+
+### Bug Fixes
+
+* bump dependencies to latest ([#91](https://github.com/aversini/auth-client/issues/91)) ([8dc7158](https://github.com/aversini/auth-client/commit/8dc7158bc463c91d919991e5df91a35be8ef7999))
+* on failed login, isLading is never reset ([#89](https://github.com/aversini/auth-client/issues/89)) ([a8f52e7](https://github.com/aversini/auth-client/commit/a8f52e77b8813273cccb27bc32af36f3fafe7825))
+
 ## [5.1.1](https://github.com/aversini/auth-client/compare/auth-provider-v5.1.0...auth-provider-v5.1.1) (2024-07-07)
 
 
