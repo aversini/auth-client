@@ -8,6 +8,7 @@ import { useLocalStorage } from "@versini/ui-hooks";
 import { useCallback, useEffect, useReducer, useRef } from "react";
 import { v4 as uuidv4 } from "uuid";
 
+import { TokenManager } from "../../common/TokenManager";
 import {
 	ACCESS_TOKEN_ERROR,
 	ACTION_TYPE_LOADING,
@@ -20,7 +21,6 @@ import {
 } from "../../common/constants";
 import type { AuthProviderProps, LoginType } from "../../common/types";
 import {
-	TokenManager,
 	authenticateUser,
 	getPreAuthCode,
 	logoutUser,
