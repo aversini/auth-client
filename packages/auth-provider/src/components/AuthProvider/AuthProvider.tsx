@@ -1,4 +1,8 @@
 import {
+	startAuthentication,
+	startRegistration,
+} from "@simplewebauthn/browser";
+import {
 	AUTH_TYPES,
 	JWT,
 	pkceChallengePair,
@@ -21,8 +25,10 @@ import {
 } from "../../common/constants";
 import type { AuthProviderProps, LoginType } from "../../common/types";
 import {
+	SERVICE_TYPES,
 	authenticateUser,
 	getPreAuthCode,
+	graphQLCall,
 	logoutUser,
 } from "../../common/utilities";
 import { AuthContext } from "./AuthContext";
@@ -268,10 +274,131 @@ export const AuthProvider = ({
 		}
 	};
 
+	const registeringForPasskey = async () => {
+		const { user } = state;
+		let response = await graphQLCall({
+			accessToken,
+			clientId,
+			type: SERVICE_TYPES.GET_REGISTRATION_OPTIONS,
+			params: {
+				clientId,
+				id: user?.userId,
+				username: user?.username,
+			},
+		});
+		if (response.status) {
+			try {
+				const registration = await startRegistration(response.data);
+				response = await graphQLCall({
+					accessToken,
+					clientId,
+					type: SERVICE_TYPES.VERIFY_REGISTRATION,
+					params: {
+						clientId,
+						id: user?.userId,
+						username: user?.username,
+						registration,
+					},
+				});
+			} catch (_error) {
+				await graphQLCall({
+					accessToken,
+					clientId,
+					type: SERVICE_TYPES.VERIFY_REGISTRATION,
+					params: {
+						clientId,
+						id: user?.userId,
+						username: user?.username,
+						registration: {},
+					},
+				});
+				return false;
+			}
+		}
+	};
+
+	const loginWithPasskey = async () => {
+		const _nonce = uuidv4();
+		setNonce(_nonce);
+		dispatch({ type: ACTION_TYPE_LOADING, payload: { isLoading: true } });
+		removeIdToken();
+		removeAccessToken();
+		removeRefreshToken();
+
+		const temporaryAnonymousUserId = uuidv4();
+		let response = await graphQLCall({
+			accessToken,
+			clientId,
+			type: SERVICE_TYPES.GET_AUTHENTICATION_OPTIONS,
+			params: {
+				id: temporaryAnonymousUserId,
+				clientId,
+			},
+		});
+		if (response.status) {
+			try {
+				const authentication = await startAuthentication(response.data);
+				response = await graphQLCall({
+					accessToken,
+					clientId,
+					type: SERVICE_TYPES.VERIFY_AUTHENTICATION,
+					params: {
+						clientId,
+						id: temporaryAnonymousUserId,
+						authentication,
+						nonce: _nonce,
+						domain,
+					},
+				});
+
+				if (response.data.status === "success") {
+					setIdToken(response.data.idToken);
+					setAccessToken(response.data.accessToken);
+					setRefreshToken(response.data.refreshToken);
+					dispatch({
+						type: ACTION_TYPE_LOGIN,
+						payload: {
+							user: {
+								userId: response.data.userId as string,
+								username: response.data.username as string,
+							},
+						},
+					});
+					return true;
+				}
+				removeStateAndLocalStorage(LOGIN_ERROR);
+				return false;
+			} catch (_error) {
+				await graphQLCall({
+					accessToken,
+					clientId,
+					type: SERVICE_TYPES.VERIFY_AUTHENTICATION,
+					params: {
+						clientId,
+						id: temporaryAnonymousUserId,
+						authentication: {},
+						nonce: _nonce,
+						domain,
+					},
+				});
+				removeStateAndLocalStorage(LOGIN_ERROR);
+				return false;
+			}
+		}
+	};
+
 	return (
 		<InternalContext.Provider value={{ state, dispatch }}>
 			<AuthContext.Provider
-				value={{ ...state, login, logout, getAccessToken, getIdToken }}
+				value={{
+					...state,
+					login,
+					logout,
+					getAccessToken,
+					getIdToken,
+					registeringForPasskey,
+					loginWithPasskey,
+				}}
 			>
 				{children}
 			</AuthContext.Provider>
