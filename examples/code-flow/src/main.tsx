@@ -5,8 +5,15 @@ import { useState } from "react";
 
 export const App = ({ timeout }: { timeout: string }) => {
 	const [accessToken, setAccessToken] = useState("");
-	const { login, logout, isAuthenticated, getAccessToken, isLoading } =
-		useAuth();
+	const {
+		login,
+		logout,
+		isAuthenticated,
+		getAccessToken,
+		isLoading,
+		registeringForPasskey,
+		loginWithPasskey,
+	} = useAuth();
 	const [apiResponse, setApiResponse] = useState({ data: "" });
 
 	console.info({ isAuthenticated, isLoading });
@@ -68,6 +75,22 @@ export const App = ({ timeout }: { timeout: string }) => {
 		setAccessToken(token);
 	};
 
+	const handleValidRegistration = async (e: {
+		preventDefault: () => void;
+	}) => {
+		e.preventDefault();
+		console.info(`==> [${Date.now()}] : `, "Registering for passkey");
+		await registeringForPasskey();
+	};
+
+	const handleValidLoginWithPasskey = async (e: {
+		preventDefault: () => void;
+	}) => {
+		e.preventDefault();
+		console.info(`==> [${Date.now()}] : `, "Login with passkey");
+		await loginWithPasskey();
+	};
+
 	return (
 		<div className="prose prose-dark dark:prose-lighter">
 			<Header>
@@ -86,11 +109,27 @@ export const App = ({ timeout }: { timeout: string }) => {
 							Login (valid)
 						</Button>
 						<Button
+							spacing={{ r: 2 }}
 							size="small"
 							onClick={handleInvalidLogin}
 							disabled={isAuthenticated}
 						>
 							Login (invalid)
+						</Button>
+						<Button
+							spacing={{ r: 2 }}
+							size="small"
+							onClick={handleValidRegistration}
+							disabled={!isAuthenticated}
+						>
+							Register for Passkey (valid)
+						</Button>
+						<Button
+							size="small"
+							onClick={handleValidLoginWithPasskey}
+							disabled={isAuthenticated}
+						>
+							Login with Passkey (valid)
 						</Button>
 					</FlexgridItem>
 					<FlexgridItem>

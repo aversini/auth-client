@@ -13,5 +13,7 @@ export const AuthContext = createContext<AuthContextProps>({
 	logout: stub,
 	getAccessToken: stub,
 	getIdToken: stub,
+	registeringForPasskey: stub,
+	loginWithPasskey: stub,
 	logoutReason: "",
 });

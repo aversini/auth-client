@@ -1,3 +1,4 @@
+import { AUTH_TYPES } from "@versini/auth-common";
 import {
 	ACTION_TYPE_LOADING,
 	ACTION_TYPE_LOGIN,
@@ -31,7 +32,7 @@ export type AuthState = {
 export type LoginType = (
 	username: string,
 	password: string,
-	type?: string,
+	type?: typeof AUTH_TYPES.CODE | typeof AUTH_TYPES.PASSKEY,
 ) => Promise<boolean>;
 
 export type AuthContextProps = {
@@ -39,6 +40,8 @@ export type AuthContextProps = {
 	logout: (e?: any) => void;
 	getAccessToken: () => Promise<string>;
 	getIdToken: () => string;
+	registeringForPasskey: () => Promise<any>;
+	loginWithPasskey: () => Promise<any>;
 } & AuthState;
 
 export type InternalActions =
