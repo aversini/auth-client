@@ -1,5 +1,12 @@
 # Changelog
 
+## [5.3.0](https://github.com/aversini/auth-client/compare/auth-provider-v5.2.1...auth-provider-v5.3.0) (2024-07-14)
+
+
+### Features
+
+* adding support for Passkeys ([#99](https://github.com/aversini/auth-client/issues/99)) ([d005ae1](https://github.com/aversini/auth-client/commit/d005ae1682b512f669939a94d16b8f4821c988a9))
+
 ## [5.2.1](https://github.com/aversini/auth-client/compare/auth-provider-v5.2.0...auth-provider-v5.2.1) (2024-07-09)
 
 
