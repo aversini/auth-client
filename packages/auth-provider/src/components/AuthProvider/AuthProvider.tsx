@@ -303,14 +303,19 @@ export const AuthProvider = ({
 					},
 				});
 				console.info("verify registration response", { response });
-			} catch (error) {
-				if ((error as Error).name === "InvalidStateError") {
-					console.error(
-						"Error: Authenticator was probably already registered by user",
-					);
-				} else {
-					console.error("error", { error });
-				}
+			} catch (_error) {
+				await graphQLCall({
+					accessToken,
+					clientId,
+					type: SERVICE_TYPES.VERIFY_REGISTRATION,
+					params: {
+						clientId,
+						id: user?.userId,
+						username: user?.username,
+						registration: {},
+					},
+				});
+				return false;
 			}
 		}
 	};
@@ -324,7 +329,6 @@ export const AuthProvider = ({
 		removeRefreshToken();
 
 		const temporaryAnonymousUserId = uuidv4();
-		// const temporaryAnonymousUserId = "80c5fa45-37a3-4ff4-88ff-e51c4618548a";
 		console.info(`==> [${Date.now()}] : `, "Login with passkey");
 		let response = await graphQLCall({
 			accessToken,
@@ -371,8 +375,21 @@ export const AuthProvider = ({
 				}
 				removeStateAndLocalStorage(LOGIN_ERROR);
 				return false;
-			} catch (error) {
-				console.error("error", { error });
+			} catch (_error) {
+				await graphQLCall({
+					accessToken,
+					clientId,
+					type: SERVICE_TYPES.VERIFY_AUTHENTICATION,
+					params: {
+						clientId,
+						id: temporaryAnonymousUserId,
+						authentication: {},
+						nonce: _nonce,
+						domain,
+					},
+				});
+				removeStateAndLocalStorage(LOGIN_ERROR);
+				return false;
 			}
 		}
 	};
