@@ -286,11 +286,9 @@ export const AuthProvider = ({
 				username: user?.username,
 			},
 		});
-		console.info("get registration options response", { response });
 		if (response.status) {
 			try {
 				const registration = await startRegistration(response.data);
-				console.info("registration", { registration });
 				response = await graphQLCall({
 					accessToken,
 					clientId,
@@ -302,7 +300,6 @@ export const AuthProvider = ({
 						registration,
 					},
 				});
-				console.info("verify registration response", { response });
 			} catch (_error) {
 				await graphQLCall({
 					accessToken,
@@ -329,7 +326,6 @@ export const AuthProvider = ({
 		removeRefreshToken();
 
 		const temporaryAnonymousUserId = uuidv4();
-		console.info(`==> [${Date.now()}] : `, "Login with passkey");
 		let response = await graphQLCall({
 			accessToken,
 			clientId,
@@ -339,11 +335,9 @@ export const AuthProvider = ({
 				clientId,
 			},
 		});
-		console.info("get authentication options response", { response });
 		if (response.status) {
 			try {
 				const authentication = await startAuthentication(response.data);
-				console.info("authentication: ", { authentication });
 				response = await graphQLCall({
 					accessToken,
 					clientId,
@@ -356,7 +350,6 @@ export const AuthProvider = ({
 						domain,
 					},
 				});
-				console.info("verify authentication response", { response });
 
 				if (response.data.status === "success") {
 					setIdToken(response.data.idToken);

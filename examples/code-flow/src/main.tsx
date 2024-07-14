@@ -79,7 +79,6 @@ export const App = ({ timeout }: { timeout: string }) => {
 		preventDefault: () => void;
 	}) => {
 		e.preventDefault();
-		console.info(`==> [${Date.now()}] : `, "Registering for passkey");
 		await registeringForPasskey();
 	};
 
@@ -87,7 +86,6 @@ export const App = ({ timeout }: { timeout: string }) => {
 		preventDefault: () => void;
 	}) => {
 		e.preventDefault();
-		console.info(`==> [${Date.now()}] : `, "Login with passkey");
 		await loginWithPasskey();
 	};
 

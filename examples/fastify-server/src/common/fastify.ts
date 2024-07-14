@@ -78,7 +78,6 @@ export const initServer = async () => {
 
 	fastify
 		.decorate("isAllowed", async (_request: any, _reply: any, done: any) => {
-			console.info(`==> [${Date.now()}] : hello?`);
 			try {
 				const accessToken = getToken(
 					_reply.request.headers,
