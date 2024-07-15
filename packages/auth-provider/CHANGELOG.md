@@ -1,5 +1,16 @@
 # Changelog
 
+## [6.0.0](https://github.com/aversini/auth-client/compare/auth-provider-v5.4.0...auth-provider-v6.0.0) (2024-07-15)
+
+
+### ⚠ BREAKING CHANGES
+
+* need to scope API calls for auth ([#107](https://github.com/aversini/auth-client/issues/107))
+
+### Features
+
+* need to scope API calls for auth ([#107](https://github.com/aversini/auth-client/issues/107)) ([b1e877b](https://github.com/aversini/auth-client/commit/b1e877b2e5af0227cc120e36fd36f2404866efc5))
+
 ## [5.4.0](https://github.com/aversini/auth-client/compare/auth-provider-v5.3.0...auth-provider-v5.4.0) (2024-07-15)
 
 
