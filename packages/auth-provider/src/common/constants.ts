@@ -10,7 +10,7 @@ export const AUTH_CONTEXT_ERROR =
 
 export const API_ENDPOINT = {
 	dev: "https://auth.gizmette.local.com:3003",
-	prod: "https://mylogin.gizmette.com",
+	prod: "https://mylogin.gizmette.com/auth",
 };
 
 export const LOCAL_STORAGE_PREFIX = "@@auth@@";
