@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.12.1](https://github.com/aversini/auth-client/compare/auth-common-v2.12.0...auth-common-v2.12.1) (2024-07-15)
+
+
+### Bug Fixes
+
+* adding missing AUTH_TYPE_KEY to JWT constant ([#103](https://github.com/aversini/auth-client/issues/103)) ([6de762b](https://github.com/aversini/auth-client/commit/6de762bdbab1f6982508d17eb921bebcc349a8af))
+
 ## [2.12.0](https://github.com/aversini/auth-client/compare/auth-common-v2.11.0...auth-common-v2.12.0) (2024-07-15)
 
 
