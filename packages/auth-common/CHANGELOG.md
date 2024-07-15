@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.12.0](https://github.com/aversini/auth-client/compare/auth-common-v2.11.0...auth-common-v2.12.0) (2024-07-15)
+
+
+### Features
+
+* adding new auth types ([#101](https://github.com/aversini/auth-client/issues/101)) ([688a3c1](https://github.com/aversini/auth-client/commit/688a3c1bd4136572d20574e26cf44ea1d6646612))
+
 ## [2.11.0](https://github.com/aversini/auth-client/compare/auth-common-v2.10.1...auth-common-v2.11.0) (2024-07-07)
 
 
