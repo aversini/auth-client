@@ -5,6 +5,14 @@ import {
 	ACTION_TYPE_LOGOUT,
 } from "./constants";
 
+type AuthenticationTypes =
+	| typeof AUTH_TYPES.PASSKEY
+	| typeof AUTH_TYPES.CODE
+	| typeof AUTH_TYPES.ID_TOKEN
+	| typeof AUTH_TYPES.ACCESS_TOKEN
+	| typeof AUTH_TYPES.ID_AND_ACCESS_TOKEN
+	| null;
+
 export type ServiceCallProps = {
 	params: any;
 	clientId: string;
@@ -23,6 +31,7 @@ export type AuthState = {
 	isLoading: boolean;
 	isAuthenticated: boolean;
 	logoutReason?: string;
+	authenticationType: AuthenticationTypes;
 	user?: {
 		userId?: string;
 		username?: string;
@@ -54,6 +63,7 @@ export type InternalActions =
 	| {
 			type: typeof ACTION_TYPE_LOGIN;
 			payload: {
+				authenticationType: AuthenticationTypes;
 				user: {
 					userId: string;
 					username: string;

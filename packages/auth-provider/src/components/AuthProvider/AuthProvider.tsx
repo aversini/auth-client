@@ -44,6 +44,7 @@ export const AuthProvider = ({
 	const [state, dispatch] = useReducer(reducer, {
 		isLoading: true,
 		isAuthenticated: false,
+		authenticationType: null,
 		user: undefined,
 		logoutReason: "",
 	});
@@ -125,6 +126,7 @@ export const AuthProvider = ({
 						dispatch({
 							type: ACTION_TYPE_LOGIN,
 							payload: {
+								authenticationType: jwt.payload[JWT.AUTH_TYPE_KEY] as string,
 								user: {
 									userId: jwt.payload[JWT.USER_ID_KEY] as string,
 									username: jwt.payload[JWT.USERNAME_KEY] as string,
@@ -182,6 +184,7 @@ export const AuthProvider = ({
 					dispatch({
 						type: ACTION_TYPE_LOGIN,
 						payload: {
+							authenticationType: type,
 							user: {
 								userId: response.userId as string,
 								username,
@@ -212,6 +215,7 @@ export const AuthProvider = ({
 			dispatch({
 				type: ACTION_TYPE_LOGIN,
 				payload: {
+					authenticationType: type as string,
 					user: {
 						userId: response.userId as string,
 						username,
@@ -358,6 +362,7 @@ export const AuthProvider = ({
 					dispatch({
 						type: ACTION_TYPE_LOGIN,
 						payload: {
+							authenticationType: AUTH_TYPES.PASSKEY,
 							user: {
 								userId: response.data.userId as string,
 								username: response.data.username as string,

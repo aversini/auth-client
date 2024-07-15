@@ -8,6 +8,7 @@ export const InternalContext = React.createContext<{
 	state: {
 		isLoading: true,
 		isAuthenticated: false,
+		authenticationType: null,
 		user: undefined,
 		logoutReason: "",
 	},
