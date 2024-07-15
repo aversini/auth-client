@@ -13,10 +13,13 @@ export const HEADERS = {
 
 export const JWT = {
 	ALG: "RS256",
+
 	USER_ID_KEY: "sub",
 	TOKEN_ID_KEY: "__raw",
 	NONCE_KEY: "_nonce",
 	USERNAME_KEY: "username",
+	AUTH_TYPE_KEY: "auth_type",
+
 	ISSUER: "gizmette.com",
 };
 
