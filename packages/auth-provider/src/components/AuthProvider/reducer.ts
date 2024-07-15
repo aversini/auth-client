@@ -19,6 +19,7 @@ export const reducer = (state: AuthState, action: InternalActions) => {
 			isLoading: false,
 			isAuthenticated: true,
 			user: action.payload.user,
+			authenticationType: action.payload.authenticationType,
 			logoutReason: "",
 		};
 	}
@@ -29,6 +30,7 @@ export const reducer = (state: AuthState, action: InternalActions) => {
 			isLoading: false,
 			isAuthenticated: false,
 			user: undefined,
+			authenticationType: null,
 			logoutReason: action.payload.logoutReason,
 		};
 	}
