@@ -1,5 +1,12 @@
 # Changelog
 
+## [5.4.0](https://github.com/aversini/auth-client/compare/auth-provider-v5.3.0...auth-provider-v5.4.0) (2024-07-15)
+
+
+### Features
+
+* adding authenticationType to Auth state ([#105](https://github.com/aversini/auth-client/issues/105)) ([6a315dc](https://github.com/aversini/auth-client/commit/6a315dcd554b7d178b9b120791abd101cedcce4a))
+
 ## [5.3.0](https://github.com/aversini/auth-client/compare/auth-provider-v5.2.1...auth-provider-v5.3.0) (2024-07-14)
 
 
