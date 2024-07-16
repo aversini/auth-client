@@ -14,9 +14,7 @@
 	"type": "module",
 	"main": "dist/index.js",
 	"types": "dist/index.d.ts",
-	"files": [
-		"dist"
-	],
+	"files": ["dist"],
 	"scripts": {
 		"build:check": "tsc",
 		"build:js": "vite build",
@@ -45,6 +43,7 @@
 	},
 	"dependencies": {
 		"@simplewebauthn/browser": "10.0.0",
+		"@thumbmarkjs/thumbmarkjs": "0.14.8",
 		"@versini/auth-common": "workspace:../auth-common",
 		"@versini/ui-hooks": "4.0.1",
 		"jose": "5.6.3",

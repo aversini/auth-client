@@ -2,6 +2,7 @@ import {
 	startAuthentication,
 	startRegistration,
 } from "@simplewebauthn/browser";
+
 import {
 	AUTH_TYPES,
 	JWT,
@@ -27,6 +28,7 @@ import type { AuthProviderProps, LoginType } from "../../common/types";
 import {
 	SERVICE_TYPES,
 	authenticateUser,
+	getCustomFingerprint,
 	getPreAuthCode,
 	graphQLCall,
 	logoutUser,
@@ -176,6 +178,7 @@ export const AuthProvider = ({
 					code: preResponse.code,
 					code_verifier,
 					domain,
+					fingerprint: await getCustomFingerprint(),
 				});
 				if (response.status) {
 					setIdToken(response.idToken);
@@ -207,6 +210,7 @@ export const AuthProvider = ({
 			nonce: _nonce,
 			type,
 			domain,
+			fingerprint: await getCustomFingerprint(),
 		});
 		if (response.status) {
 			setIdToken(response.idToken);
@@ -352,6 +356,7 @@ export const AuthProvider = ({
 						authentication,
 						nonce: _nonce,
 						domain,
+						fingerprint: await getCustomFingerprint(),
 					},
 				});
 
