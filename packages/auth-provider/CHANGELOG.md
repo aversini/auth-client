@@ -1,5 +1,12 @@
 # Changelog
 
+## [6.1.1](https://github.com/aversini/auth-client/compare/auth-provider-v6.1.0...auth-provider-v6.1.1) (2024-07-16)
+
+
+### Bug Fixes
+
+* missing fingerprint when refreshing token silently ([#111](https://github.com/aversini/auth-client/issues/111)) ([cf78b8b](https://github.com/aversini/auth-client/commit/cf78b8bf031e1ce6bf68c3b4aea7cd68efc8058e))
+
 ## [6.1.0](https://github.com/aversini/auth-client/compare/auth-provider-v6.0.0...auth-provider-v6.1.0) (2024-07-16)
 
 
