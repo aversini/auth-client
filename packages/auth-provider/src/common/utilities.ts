@@ -384,6 +384,7 @@ export const getCustomFingerprint = async () => {
 		} else if (res.hash && typeof res.hash === "string") {
 			return res.hash;
 		}
+		return "";
 	} catch (_error) {
 		return "";
 	}
