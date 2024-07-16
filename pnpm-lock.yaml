@@ -149,6 +149,9 @@ importers:
       '@simplewebauthn/browser':
         specifier: 10.0.0
         version: 10.0.0
+      '@thumbmarkjs/thumbmarkjs':
+        specifier: 0.14.8
+        version: 0.14.8
       '@versini/auth-common':
         specifier: workspace:../auth-common
         version: link:../auth-common
@@ -1512,6 +1515,9 @@ packages:
     engines: {node: '>=12', npm: '>=6'}
     peerDependencies:
       '@testing-library/dom': '>=7.21.4'
+
+  '@thumbmarkjs/thumbmarkjs@0.14.8':
+    resolution: {integrity: sha512-J+/HnYBv24ufFCoyqbFhtZk1zTGKWzHfyN15sc6kJq/1D/6H1oaKt+W1yWxkUwzclMS1n36EaoHbNjFeiuDqDg==}
 
   '@tokenizer/token@0.3.0':
     resolution: {integrity: sha512-OvjF+z51L3ov0OyAU0duzsYuvO01PH7x4t6DJx+guahgTnBHkhJdG7soQeTSFLWN3efnHyibZ4Z8l2EuWwJN3A==}
@@ -7560,6 +7566,8 @@ snapshots:
   '@testing-library/user-event@14.5.2(@testing-library/dom@10.3.1)':
     dependencies:
       '@testing-library/dom': 10.3.1
+
+  '@thumbmarkjs/thumbmarkjs@0.14.8': {}
 
   '@tokenizer/token@0.3.0': {}
 

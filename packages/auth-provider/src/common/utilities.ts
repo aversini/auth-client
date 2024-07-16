@@ -1,3 +1,4 @@
+import { getFingerprint } from "@thumbmarkjs/thumbmarkjs";
 import {
 	API_TYPE,
 	AUTH_TYPES,
@@ -94,6 +95,7 @@ export type AuthenticateUserProps = {
 	code?: string;
 	code_verifier?: string;
 	domain: string;
+	fingerprint: string;
 };
 export const authenticateUser = async ({
 	username,
@@ -105,6 +107,7 @@ export const authenticateUser = async ({
 	code,
 	code_verifier,
 	domain,
+	fingerprint,
 }: AuthenticateUserProps) => {
 	try {
 		const response = await serviceCall({
@@ -119,6 +122,7 @@ export const authenticateUser = async ({
 				code,
 				code_verifier,
 				domain,
+				fingerprint,
 			},
 		});
 		const jwt = await verifyAndExtractToken(response.data.idToken);
@@ -289,13 +293,15 @@ const GRAPHQL_QUERIES = {
 		$id: String!,
 		$authentication: AuthenticationOptionsInput!,
 		$nonce: String!,
-		$domain: String) {
+		$domain: String,
+		$fingerprint: String) {
 		verifyPasskeyAuthentication(
 			clientId: $clientId,
 			id: $id,
 			authentication: $authentication,
 			nonce: $nonce,
-			domain: $domain) {
+			domain: $domain,
+			fingerprint: $fingerprint) {
 				status,
 				idToken,
 				accessToken,
@@ -368,4 +374,14 @@ export const graphQLCall = async ({
 		console.error(_error);
 		return { status: 500, data: [] };
 	}
+};
+
+export const getCustomFingerprint = async () => {
+	const res = await getFingerprint();
+	if (typeof res === "string") {
+		return res;
+	} else if (res.hash && typeof res.hash === "string") {
+		return res.hash;
+	}
+	return "";
 };
