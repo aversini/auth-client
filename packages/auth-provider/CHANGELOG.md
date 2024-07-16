@@ -1,5 +1,12 @@
 # Changelog
 
+## [6.1.0](https://github.com/aversini/auth-client/compare/auth-provider-v6.0.0...auth-provider-v6.1.0) (2024-07-16)
+
+
+### Features
+
+* adding fingerprints to sessions ([#109](https://github.com/aversini/auth-client/issues/109)) ([3dbd8c8](https://github.com/aversini/auth-client/commit/3dbd8c8e00108eed21be4144013304cc35ad3cd4))
+
 ## [6.0.0](https://github.com/aversini/auth-client/compare/auth-provider-v5.4.0...auth-provider-v6.0.0) (2024-07-15)
 
 
