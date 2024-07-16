@@ -377,11 +377,14 @@ export const graphQLCall = async ({
 };
 
 export const getCustomFingerprint = async () => {
-	const res = await getFingerprint();
-	if (typeof res === "string") {
-		return res;
-	} else if (res.hash && typeof res.hash === "string") {
-		return res.hash;
+	try {
+		const res = await getFingerprint();
+		if (typeof res === "string") {
+			return res;
+		} else if (res.hash && typeof res.hash === "string") {
+			return res.hash;
+		}
+	} catch (_error) {
+		return "";
 	}
-	return "";
 };
