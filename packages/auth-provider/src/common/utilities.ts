@@ -209,6 +209,7 @@ export const getAccessTokenSilently = async ({
 				refreshToken,
 				accessToken,
 				domain,
+				fingerprint: await getCustomFingerprint(),
 			},
 		});
 		const jwt = await verifyAndExtractToken(response.data.accessToken);
