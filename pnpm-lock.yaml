@@ -149,12 +149,12 @@ importers:
       '@simplewebauthn/browser':
         specifier: 10.0.0
         version: 10.0.0
-      '@thumbmarkjs/thumbmarkjs':
-        specifier: 0.14.8
-        version: 0.14.8
       '@versini/auth-common':
         specifier: workspace:../auth-common
         version: link:../auth-common
+      '@versini/ui-fingerprint':
+        specifier: 1.0.1
+        version: 1.0.1
       '@versini/ui-hooks':
         specifier: 4.0.1
         version: 4.0.1(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
@@ -1516,9 +1516,6 @@ packages:
     peerDependencies:
       '@testing-library/dom': '>=7.21.4'
 
-  '@thumbmarkjs/thumbmarkjs@0.14.8':
-    resolution: {integrity: sha512-J+/HnYBv24ufFCoyqbFhtZk1zTGKWzHfyN15sc6kJq/1D/6H1oaKt+W1yWxkUwzclMS1n36EaoHbNjFeiuDqDg==}
-
   '@tokenizer/token@0.3.0':
     resolution: {integrity: sha512-OvjF+z51L3ov0OyAU0duzsYuvO01PH7x4t6DJx+guahgTnBHkhJdG7soQeTSFLWN3efnHyibZ4Z8l2EuWwJN3A==}
 
@@ -1682,6 +1679,9 @@ packages:
     peerDependencies:
       react: ^18.3.1
       react-dom: ^18.3.1
+
+  '@versini/ui-fingerprint@1.0.1':
+    resolution: {integrity: sha512-V7Gtyk2FU7lRv3+qcWEHtvTV3XbZSVm9Q2/t28DChQZO89MMHWZQRfrfFH2UV30j8aRxDX0Z/jao0+ZOZ9Ixbg==}
 
   '@versini/ui-hooks@4.0.1':
     resolution: {integrity: sha512-LiYYRGg5j1jFyQniJVx/Ke8hXaXIHBo7LPt0MyJR5b7FfF0AbxoIt8AfQrpYFERvjpq8kXlib0ELMdC0nbO4yw==}
@@ -7567,8 +7567,6 @@ snapshots:
     dependencies:
       '@testing-library/dom': 10.3.1
 
-  '@thumbmarkjs/thumbmarkjs@0.14.8': {}
-
   '@tokenizer/token@0.3.0': {}
 
   '@tufjs/canonical-json@2.0.0': {}
@@ -7904,6 +7902,8 @@ snapshots:
       tailwindcss: 3.4.4
     transitivePeerDependencies:
       - ts-node
+
+  '@versini/ui-fingerprint@1.0.1': {}
 
   '@versini/ui-hooks@4.0.1(react-dom@18.3.1(react@18.3.1))(react@18.3.1)':
     dependencies:

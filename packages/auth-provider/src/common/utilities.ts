@@ -1,4 +1,3 @@
-import { getFingerprint } from "@thumbmarkjs/thumbmarkjs";
 import {
 	API_TYPE,
 	AUTH_TYPES,
@@ -6,6 +5,7 @@ import {
 	JWT,
 	verifyAndExtractToken,
 } from "@versini/auth-common";
+import { getFingerprintHash } from "@versini/ui-fingerprint";
 
 import { API_ENDPOINT } from "./constants";
 import type { ServiceCallProps } from "./types";
@@ -379,13 +379,7 @@ export const graphQLCall = async ({
 
 export const getCustomFingerprint = async () => {
 	try {
-		const res = await getFingerprint();
-		if (typeof res === "string") {
-			return res;
-		} else if (res.hash && typeof res.hash === "string") {
-			return res.hash;
-		}
-		return "";
+		return await getFingerprintHash();
 	} catch (_error) {
 		return "";
 	}

@@ -25,6 +25,7 @@ export type AuthProviderProps = {
 	clientId: string;
 	accessType?: string;
 	domain?: string;
+	debug?: boolean;
 };
 
 export type AuthState = {
@@ -36,6 +37,7 @@ export type AuthState = {
 		userId?: string;
 		username?: string;
 	};
+	debug?: boolean;
 };
 
 export type LoginType = (

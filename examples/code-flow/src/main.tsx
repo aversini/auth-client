@@ -10,45 +10,27 @@ export const App = ({ timeout }: { timeout: string }) => {
 		logout,
 		isAuthenticated,
 		getAccessToken,
-		isLoading,
 		registeringForPasskey,
 		loginWithPasskey,
 	} = useAuth();
 	const [apiResponse, setApiResponse] = useState({ data: "" });
 
-	console.info({ isAuthenticated, isLoading });
-
-	const logger = console;
-	logger.log("isAuthenticated", isAuthenticated);
-	logger.log("isLoading", isLoading);
 	const handleValidLogin = async (e: { preventDefault: () => void }) => {
 		e.preventDefault();
-		const response = await login(
+		await login(
 			process.env.PUBLIC_TEST_USER as string,
 			process.env.PUBLIC_TEST_USER_PASSWORD as string,
 			AUTH_TYPES.CODE,
 		);
-		if (!response) {
-			console.error(`==> [${Date.now()}] : `, "Login failed");
-		} else {
-			console.info(`==> [${Date.now()}] : `, "Login successful");
-			console.info(`==> [${Date.now()}] : `, response);
-		}
 	};
 
 	const handleInvalidLogin = async (e: { preventDefault: () => void }) => {
 		e.preventDefault();
-		const response = await login(
+		await login(
 			process.env.PUBLIC_TEST_USER as string,
 			"invalid-password",
 			AUTH_TYPES.CODE,
 		);
-		if (!response) {
-			console.error(`==> [${Date.now()}] : `, "Login failed");
-		} else {
-			console.info(`==> [${Date.now()}] : `, "Login successful");
-			console.info(`==> [${Date.now()}] : `, response);
-		}
 	};
 
 	const handleValidAPICall = async (e: { preventDefault: () => void }) => {

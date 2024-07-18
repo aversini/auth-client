@@ -42,6 +42,7 @@ export const AuthProvider = ({
 	sessionExpiration,
 	clientId,
 	domain = "",
+	debug = false,
 }: AuthProviderProps) => {
 	const [state, dispatch] = useReducer(reducer, {
 		isLoading: true,
@@ -49,9 +50,11 @@ export const AuthProvider = ({
 		authenticationType: null,
 		user: undefined,
 		logoutReason: "",
+		debug,
 	});
 
 	const effectDidRunRef = useRef(false);
+	const fingerprintRef = useRef<string>("");
 
 	const [idToken, setIdToken, , removeIdToken] = useLocalStorage({
 		key: `${LOCAL_STORAGE_PREFIX}::${clientId}::@@user@@`,
@@ -67,11 +70,23 @@ export const AuthProvider = ({
 	const [nonce, setNonce, , removeNonce] = useLocalStorage({
 		key: `${LOCAL_STORAGE_PREFIX}::${clientId}::@@nonce@@`,
 	});
+
+	const logger = useCallback(
+		(...args: unknown[]) => {
+			if (debug) {
+				console.info(`==> [Auth ${Date.now()}]: `, ...args);
+			}
+		},
+		[debug],
+	);
 	const tokenManager = new TokenManager(accessToken, refreshToken);
 
 	const removeStateAndLocalStorage = useCallback(
 		(logoutReason?: string) => {
-			console.warn(logoutReason);
+			logger(
+				"removeStateAndLocalStorage: removing state and local storage with reason: ",
+				logoutReason,
+			);
 			dispatch({
 				type: ACTION_TYPE_LOGOUT,
 				payload: {
@@ -84,11 +99,12 @@ export const AuthProvider = ({
 			removeNonce();
 			dispatch({ type: ACTION_TYPE_LOADING, payload: { isLoading: false } });
 		},
-		[removeAccessToken, removeIdToken, removeNonce, removeRefreshToken],
+		[removeAccessToken, removeIdToken, removeNonce, removeRefreshToken, logger],
 	);
 
 	const invalidateAndLogout = useCallback(
 		async (message: string) => {
+			logger("invalidateAndLogout: invalidating and logging out");
 			const { user } = state;
 			await logoutUser({
 				userId: user?.userId || "",
@@ -108,8 +124,26 @@ export const AuthProvider = ({
 			idToken,
 			refreshToken,
 			removeStateAndLocalStorage,
+			logger,
 		],
 	);
+
+	/**
+	 * This effect is responsible to set the fingerprintRef value when the
+	 * component is first loaded.
+	 */
+
+	// biome-ignore lint/correctness/useExhaustiveDependencies: logger is stable
+	useEffect(() => {
+		(async () => {
+			logger("useEffect: setting the fingerprint");
+			fingerprintRef.current = await getCustomFingerprint();
+		})();
+		return () => {
+			logger("useEffect: cleaning up the fingerprint");
+			fingerprintRef.current = "";
+		};
+	}, []);
 
 	/**
 	 * This effect is responsible to set the authentication state based on the
@@ -125,6 +159,7 @@ export const AuthProvider = ({
 				try {
 					const jwt = await verifyAndExtractToken(idToken);
 					if (jwt && jwt.payload[JWT.USER_ID_KEY] !== "") {
+						logger("useEffect: setting the authentication state");
 						dispatch({
 							type: ACTION_TYPE_LOGIN,
 							payload: {
@@ -136,19 +171,24 @@ export const AuthProvider = ({
 							},
 						});
 					} else {
+						logger("useEffect: invalid JWT, invalidating and logging out");
 						await invalidateAndLogout(EXPIRED_SESSION);
 					}
 				} catch (_error) {
+					logger(
+						"useEffect: exception validating JWT, invalidating and logging out",
+					);
 					await invalidateAndLogout(EXPIRED_SESSION);
 				}
 			})();
 		} else {
+			logger("useEffect: setting the loading state to false");
 			dispatch({ type: ACTION_TYPE_LOADING, payload: { isLoading: false } });
 		}
 		return () => {
 			effectDidRunRef.current = true;
 		};
-	}, [state.isLoading, idToken, invalidateAndLogout]);
+	}, [state.isLoading, idToken, invalidateAndLogout, logger]);
 
 	const login: LoginType = async (username, password, type) => {
 		const _nonce = uuidv4();
@@ -158,9 +198,10 @@ export const AuthProvider = ({
 		removeAccessToken();
 		removeRefreshToken();
 
+		logger("login: Logging in with type: ", type);
+
 		if (type === AUTH_TYPES.CODE) {
 			const { code_verifier, code_challenge } = await pkceChallengePair();
-
 			const preResponse = await getPreAuthCode({
 				nonce: _nonce,
 				clientId,
@@ -178,7 +219,7 @@ export const AuthProvider = ({
 					code: preResponse.code,
 					code_verifier,
 					domain,
-					fingerprint: await getCustomFingerprint(),
+					fingerprint: fingerprintRef.current,
 				});
 				if (response.status) {
 					setIdToken(response.idToken);
@@ -210,7 +251,7 @@ export const AuthProvider = ({
 			nonce: _nonce,
 			type,
 			domain,
-			fingerprint: await getCustomFingerprint(),
+			fingerprint: fingerprintRef.current,
 		});
 		if (response.status) {
 			setIdToken(response.idToken);
@@ -242,6 +283,7 @@ export const AuthProvider = ({
 		try {
 			if (isAuthenticated && user && user.userId) {
 				if (accessToken) {
+					logger("getAccessToken");
 					const jwtAccess = await verifyAndExtractToken(accessToken);
 					if (jwtAccess && jwtAccess.payload[JWT.USER_ID_KEY] !== "") {
 						return accessToken;
@@ -251,6 +293,7 @@ export const AuthProvider = ({
 				 * accessToken is not valid, so we need to try to refresh it using the
 				 * refreshToken - this is a silent refresh.
 				 */
+				logger("getAccessToken: invalid access token, refreshing it");
 				const res = await tokenManager.refreshtoken({
 					clientId,
 					userId: user.userId as string,
@@ -265,12 +308,19 @@ export const AuthProvider = ({
 				/**
 				 * refreshToken is not valid, so we need to re-authenticate the user.
 				 */
+				logger("getAccessToken: invalid refresh token, re-authenticating user");
 				await invalidateAndLogout(ACCESS_TOKEN_ERROR);
 				return "";
 			}
+			logger(
+				"getAccessToken: user is not authenticated, cannot get access token",
+			);
 			await invalidateAndLogout(ACCESS_TOKEN_ERROR);
 			return "";
 		} catch (_error) {
+			logger(
+				"getAccessToken: exception occurred, invalidating and logging out",
+			);
 			await invalidateAndLogout(ACCESS_TOKEN_ERROR);
 			return "";
 		}
@@ -333,6 +383,8 @@ export const AuthProvider = ({
 		removeAccessToken();
 		removeRefreshToken();
 
+		logger("loginWithPasskey");
+
 		const temporaryAnonymousUserId = uuidv4();
 		let response = await graphQLCall({
 			accessToken,
@@ -356,7 +408,7 @@ export const AuthProvider = ({
 						authentication,
 						nonce: _nonce,
 						domain,
-						fingerprint: await getCustomFingerprint(),
+						fingerprint: fingerprintRef.current,
 					},
 				});
 
