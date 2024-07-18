@@ -3,6 +3,7 @@ import {
 	AUTH_TYPES,
 	HEADERS,
 	JWT,
+	decodeToken,
 	verifyAndExtractToken,
 } from "@versini/auth-common";
 import { getFingerprintHash } from "@versini/ui-fingerprint";
@@ -12,6 +13,15 @@ import type { ServiceCallProps } from "./types";
 
 const isProd = process.env.NODE_ENV === "production";
 const isDev = !isProd;
+
+export const getUserIdFromToken = (token: string) => {
+	try {
+		const jwt = decodeToken(token);
+		return jwt ? (jwt[JWT.USER_ID_KEY] as string) : "";
+	} catch (_error) {
+		return "";
+	}
+};
 
 export const serviceCall = async ({
 	type,

@@ -30,6 +30,7 @@ import {
 	authenticateUser,
 	getCustomFingerprint,
 	getPreAuthCode,
+	getUserIdFromToken,
 	graphQLCall,
 	logoutUser,
 } from "../../common/utilities";
@@ -106,8 +107,14 @@ export const AuthProvider = ({
 		async (message: string) => {
 			logger("invalidateAndLogout: invalidating and logging out");
 			const { user } = state;
+			const userId = user?.userId || getUserIdFromToken(idToken);
+			if (!userId) {
+				logger(
+					"invalidateAndLogout: user cannot be identified, logging out without userId",
+				);
+			}
 			await logoutUser({
-				userId: user?.userId || "",
+				userId,
 				idToken,
 				accessToken,
 				refreshToken,
