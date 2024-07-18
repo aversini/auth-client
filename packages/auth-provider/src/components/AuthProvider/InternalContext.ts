@@ -11,6 +11,7 @@ export const InternalContext = React.createContext<{
 		authenticationType: null,
 		user: undefined,
 		logoutReason: "",
+		debug: false,
 	},
 	dispatch: () => {},
 });

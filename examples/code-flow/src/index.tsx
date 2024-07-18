@@ -15,6 +15,7 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
 			clientId={"b44c68f0-e5b3-4a1d-a3e3-df8632b0223b"}
 			sessionExpiration={timeout}
 			domain={"gizmette.local.com"}
+			debug
 		>
 			<App timeout={timeout} />
 		</AuthProvider>
