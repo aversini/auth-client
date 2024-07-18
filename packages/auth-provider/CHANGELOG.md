@@ -1,5 +1,12 @@
 # Changelog
 
+## [6.2.0](https://github.com/aversini/auth-client/compare/auth-provider-v6.1.1...auth-provider-v6.2.0) (2024-07-18)
+
+
+### Features
+
+* custom built fp and logger in debug mode ([#113](https://github.com/aversini/auth-client/issues/113)) ([b1b131c](https://github.com/aversini/auth-client/commit/b1b131cb0fcb3a4ddf72cb6cd8194707eeae5e53))
+
 ## [6.1.1](https://github.com/aversini/auth-client/compare/auth-provider-v6.1.0...auth-provider-v6.1.1) (2024-07-16)
 
 
