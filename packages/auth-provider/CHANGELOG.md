@@ -1,5 +1,12 @@
 # Changelog
 
+## [6.2.1](https://github.com/aversini/auth-client/compare/auth-provider-v6.2.0...auth-provider-v6.2.1) (2024-07-18)
+
+
+### Bug Fixes
+
+* tokens not cleared in DB when session times out ([#115](https://github.com/aversini/auth-client/issues/115)) ([be6a5e3](https://github.com/aversini/auth-client/commit/be6a5e3537bed7d8ba502f0838497bf5510c51d8))
+
 ## [6.2.0](https://github.com/aversini/auth-client/compare/auth-provider-v6.1.1...auth-provider-v6.2.0) (2024-07-18)
 
 
