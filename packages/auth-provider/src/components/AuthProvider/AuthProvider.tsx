@@ -72,7 +72,7 @@ export const AuthProvider = ({
 	});
 
 	const logger = useCallback(
-		(...args: any[]) => {
+		(...args: unknown[]) => {
 			if (debug) {
 				console.info(`==> [Auth ${Date.now()}]: `, ...args);
 			}
@@ -132,10 +132,17 @@ export const AuthProvider = ({
 	 * This effect is responsible to set the fingerprintRef value when the
 	 * component is first loaded.
 	 */
+
+	// biome-ignore lint/correctness/useExhaustiveDependencies: logger is stable
 	useEffect(() => {
 		(async () => {
+			logger("useEffect: setting the fingerprint");
 			fingerprintRef.current = await getCustomFingerprint();
 		})();
+		return () => {
+			logger("useEffect: cleaning up the fingerprint");
+			fingerprintRef.current = "";
+		};
 	}, []);
 
 	/**
