@@ -1,5 +1,16 @@
 # Changelog
 
+## [3.0.0](https://github.com/aversini/auth-client/compare/auth-common-v2.12.1...auth-common-v3.0.0) (2024-07-19)
+
+
+### ⚠ BREAKING CHANGES
+
+* the params are now an object
+
+### Features
+
+* adding body as a possible option for getting token ([#117](https://github.com/aversini/auth-client/issues/117)) ([768a977](https://github.com/aversini/auth-client/commit/768a97751f94af2744e00dda40b8eff028e0a0c8))
+
 ## [2.12.1](https://github.com/aversini/auth-client/compare/auth-common-v2.12.0...auth-common-v2.12.1) (2024-07-15)
 
 

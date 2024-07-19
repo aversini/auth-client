@@ -1,6 +1,6 @@
 {
 	"name": "@versini/auth-common",
-	"version": "2.12.1",
+	"version": "3.0.0",
 	"license": "MIT",
 	"author": "Arno Versini",
 	"publishConfig": {
