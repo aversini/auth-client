@@ -1,3 +1,6 @@
+import { BODY } from "./constants";
+
+export type BodyLike = Record<string, unknown> & { access_token?: string };
 export type HeadersLike = Record<string, unknown> & {
 	authorization?: string;
 	"content-type"?: string;
@@ -30,20 +33,34 @@ const getFromCookie = (headers: HeadersLike, clientId: string) => {
 	return match[1];
 };
 
+const getFromBody = (body?: BodyLike) => {
+	const accessToken = body?.[BODY.ACCESS_TOKEN];
+	if (typeof accessToken === "string") {
+		return accessToken;
+	}
+};
+
 /**
  * Get a Bearer Token from a request.
+ * It checks the following sources in order:
+ * 1. The `access_token` body parameter.
+ * 2. The `auth.${clientId}` cookie.
+ * 3. The `Authorization` header.
  *
  * @param headers An object containing the request headers, usually `req.headers`.
+ * @param body An object containing the request body, usually `req.body`.
  * @param clientId The client ID to use.
  *
  */
-export const getToken = (headers: HeadersLike, clientId: string): string => {
+type GetToken = {
+	clientId: string;
+	headers: HeadersLike;
+	body?: BodyLike;
+};
+export const getToken = ({ headers, body, clientId }: GetToken): string => {
 	const fromHeader = getTokenFromHeader(headers);
 	const fromCookie = getFromCookie(headers, clientId);
+	const fromBody = getFromBody(body);
 
-	if (!fromCookie && !fromHeader) {
-		return "";
-	}
-
-	return (fromCookie || fromHeader) as string;
+	return fromBody || fromCookie || fromHeader || "";
 };
