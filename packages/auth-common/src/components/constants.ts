@@ -11,6 +11,10 @@ export const HEADERS = {
 	CLIENT_ID: "X-Auth-ClientId",
 };
 
+export const BODY = {
+	ACCESS_TOKEN: "access_token",
+};
+
 export const JWT = {
 	ALG: "RS256",
 

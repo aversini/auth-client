@@ -1,4 +1,4 @@
-import { BodyLike, type HeadersLike, getToken } from "..";
+import { BODY, BodyLike, type HeadersLike, getToken } from "..";
 
 describe("getToken", () => {
 	const clientId = "testClient";
@@ -12,7 +12,7 @@ describe("getToken", () => {
 		const token = "someToken";
 		const headers: HeadersLike = {};
 		const body: BodyLike = {
-			access_token: token,
+			[BODY.ACCESS_TOKEN]: token,
 		};
 		expect(getToken({ body, headers, clientId })).toBe(token);
 	});
@@ -48,7 +48,7 @@ describe("getToken", () => {
 		const cookieToken = "cookieToken";
 		const bodyToken = "bodyToken";
 		const body: BodyLike = {
-			access_token: bodyToken,
+			[BODY.ACCESS_TOKEN]: bodyToken,
 		};
 		const headers: HeadersLike = {
 			authorization: `Bearer ${headerToken}`,

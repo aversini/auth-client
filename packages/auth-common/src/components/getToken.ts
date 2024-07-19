@@ -1,3 +1,5 @@
+import { BODY } from "./constants";
+
 export type BodyLike = Record<string, unknown> & { access_token?: string };
 export type HeadersLike = Record<string, unknown> & {
 	authorization?: string;
@@ -32,7 +34,7 @@ const getFromCookie = (headers: HeadersLike, clientId: string) => {
 };
 
 const getFromBody = (body?: BodyLike) => {
-	const accessToken = body?.access_token;
+	const accessToken = body?.[BODY.ACCESS_TOKEN];
 	if (typeof accessToken === "string") {
 		return accessToken;
 	}
@@ -60,9 +62,5 @@ export const getToken = ({ headers, body, clientId }: GetToken): string => {
 	const fromCookie = getFromCookie(headers, clientId);
 	const fromBody = getFromBody(body);
 
-	if (!fromCookie && !fromHeader && !fromBody) {
-		return "";
-	}
-
-	return (fromBody || fromCookie || fromHeader) as string;
+	return fromBody || fromCookie || fromHeader || "";
 };
