@@ -10,7 +10,7 @@ export type HeadersLike = Record<string, unknown> & {
 const TOKEN_RE = /^Bearer (.+)$/i;
 
 const getTokenFromHeader = (headers: HeadersLike) => {
-	if (typeof headers.authorization !== "string") {
+	if (typeof headers?.authorization !== "string") {
 		return;
 	}
 	const match = headers.authorization.match(TOKEN_RE);
@@ -21,11 +21,11 @@ const getTokenFromHeader = (headers: HeadersLike) => {
 };
 
 const getFromCookie = (headers: HeadersLike, clientId: string) => {
-	const cookie = headers.cookie;
-	const re = new RegExp(`auth.${clientId}=(.+?)(?:;|$)`);
+	const cookie = headers?.cookie;
 	if (typeof cookie !== "string") {
 		return;
 	}
+	const re = new RegExp(`auth.${clientId}=(.+?)(?:;|$)`);
 	const match = cookie.match(re);
 	if (!match) {
 		return;

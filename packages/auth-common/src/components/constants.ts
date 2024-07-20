@@ -23,6 +23,8 @@ export const JWT = {
 	NONCE_KEY: "_nonce",
 	USERNAME_KEY: "username",
 	AUTH_TYPE_KEY: "auth_type",
+	EXPIRES_AT_KEY: "exp",
+	CREATED_AT_KEY: "iat",
 
 	ISSUER: "gizmette.com",
 };

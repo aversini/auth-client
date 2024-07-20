@@ -79,14 +79,11 @@ export const initServer = async () => {
 	fastify
 		.decorate("isAllowed", async (_request: any, _reply: any, done: any) => {
 			try {
-				const accessToken = getToken(
-					_reply.request.headers,
-					"b44c68f0-e5b3-4a1d-a3e3-df8632b0223b",
-				);
-				console.info(`==> [${Date.now()}] : `, { accessToken });
-
+				const accessToken = getToken({
+					headers: _reply.request.headers,
+					clientId: "b44c68f0-e5b3-4a1d-a3e3-df8632b0223b",
+				});
 				const res = await verifyAndExtractToken(accessToken);
-				console.info(`==> [${Date.now()}] : `, { res });
 				if (res) {
 					return done();
 				}
