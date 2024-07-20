@@ -1,5 +1,12 @@
 # Changelog
 
+## [3.0.1](https://github.com/aversini/auth-client/compare/auth-common-v3.0.0...auth-common-v3.0.1) (2024-07-20)
+
+
+### Bug Fixes
+
+* slightly more error prone getToken + new JWT constant keys ([#119](https://github.com/aversini/auth-client/issues/119)) ([e84bb76](https://github.com/aversini/auth-client/commit/e84bb764c6233ae31017b0453a416ac7838f438b))
+
 ## [3.0.0](https://github.com/aversini/auth-client/compare/auth-common-v2.12.1...auth-common-v3.0.0) (2024-07-19)
 
 
