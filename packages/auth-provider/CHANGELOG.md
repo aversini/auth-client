@@ -1,5 +1,12 @@
 # Changelog
 
+## [6.3.0](https://github.com/aversini/auth-client/compare/auth-provider-v6.2.1...auth-provider-v6.3.0) (2024-07-21)
+
+
+### Features
+
+* exposing isGranted from common ([#125](https://github.com/aversini/auth-client/issues/125)) ([15c5534](https://github.com/aversini/auth-client/commit/15c5534c650006913d412e2bdd9a68bf79e8a381))
+
 ## [6.2.1](https://github.com/aversini/auth-client/compare/auth-provider-v6.2.0...auth-provider-v6.2.1) (2024-07-18)
 
 
