@@ -1,5 +1,12 @@
 # Changelog
 
+## [3.1.0](https://github.com/aversini/auth-client/compare/auth-common-v3.0.1...auth-common-v3.1.0) (2024-07-21)
+
+
+### Features
+
+* adding JWT scopes key ([#121](https://github.com/aversini/auth-client/issues/121)) ([3c1bb1f](https://github.com/aversini/auth-client/commit/3c1bb1f7dbaf25f9c268ff25c10fa73a7658efab))
+
 ## [3.0.1](https://github.com/aversini/auth-client/compare/auth-common-v3.0.0...auth-common-v3.0.1) (2024-07-20)
 
 
