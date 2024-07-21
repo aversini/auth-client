@@ -47,20 +47,17 @@ export const isGranted = async (
 ): Promise<boolean> => {
 	const jwt = await verifyAndExtractToken(token);
 
-	if ((jwt && (jwt?.payload?.[JWT.SCOPES_KEY] as string[]))?.length) {
-		const tokenScopes = jwt.payload[JWT.SCOPES_KEY] as string[];
-		if (Array.isArray(scopes)) {
-			return scopes.every((scope) => tokenScopes.includes(scope));
-		} else {
-			/**
-			 * This is a more complex case where we have a map of scopes
-			 * and we need to check if some of the scopes in the map are present
-			 * in the token.
-			 */
-			return Object.keys(scopes).some((key) =>
-				scopes[key].every((scope) => tokenScopes.includes(scope)),
-			);
-		}
+	if (!jwt || !Array.isArray(jwt.payload?.[JWT.SCOPES_KEY])) {
+		return false;
 	}
-	return false;
+
+	const tokenScopes = jwt.payload[JWT.SCOPES_KEY] as string[];
+
+	if (Array.isArray(scopes)) {
+		return scopes.every((scope) => tokenScopes.includes(scope));
+	}
+
+	return Object.keys(scopes).some((key) =>
+		scopes[key].every((scope) => tokenScopes.includes(scope)),
+	);
 };
