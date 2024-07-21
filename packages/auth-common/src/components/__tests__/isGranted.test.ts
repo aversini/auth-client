@@ -102,4 +102,54 @@ describe("isGranted", () => {
 		});
 		expect(result).toBe(false);
 	});
+
+	it("should verify that 1 or another scope is allowed", async () => {
+		const mockPublicKey = {};
+		const mockJwtVerifyResult = {
+			payload: {
+				scopes: ["write"],
+			},
+			protectedHeader: "testHeader",
+		};
+		// @ts-expect-error
+		(importSPKI as vi.Mock).mockResolvedValue(mockPublicKey);
+		// @ts-expect-error
+		(jwtVerify as vi.Mock).mockResolvedValue(mockJwtVerifyResult);
+
+		const result = await isGranted(token, {
+			user: ["read"],
+			edit: ["write"],
+		});
+
+		expect(importSPKI).toHaveBeenCalledWith(JWT_PUBLIC_KEY, JWT.ALG);
+		expect(jwtVerify).toHaveBeenCalledWith(token, mockPublicKey, {
+			issuer: JWT.ISSUER,
+		});
+		expect(result).toBe(true);
+	});
+
+	it("should verify that 1 or another scope are not allowed", async () => {
+		const mockPublicKey = {};
+		const mockJwtVerifyResult = {
+			payload: {
+				scopes: ["write"],
+			},
+			protectedHeader: "testHeader",
+		};
+		// @ts-expect-error
+		(importSPKI as vi.Mock).mockResolvedValue(mockPublicKey);
+		// @ts-expect-error
+		(jwtVerify as vi.Mock).mockResolvedValue(mockJwtVerifyResult);
+
+		const result = await isGranted(token, {
+			user: ["read"],
+			admin: ["read", "write"],
+		});
+
+		expect(importSPKI).toHaveBeenCalledWith(JWT_PUBLIC_KEY, JWT.ALG);
+		expect(jwtVerify).toHaveBeenCalledWith(token, mockPublicKey, {
+			issuer: JWT.ISSUER,
+		});
+		expect(result).toBe(false);
+	});
 });
