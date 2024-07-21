@@ -1,5 +1,12 @@
 # Changelog
 
+## [3.2.0](https://github.com/aversini/auth-client/compare/auth-common-v3.1.0...auth-common-v3.2.0) (2024-07-21)
+
+
+### Features
+
+* adding isGranted to check for scopes ([#123](https://github.com/aversini/auth-client/issues/123)) ([7521e24](https://github.com/aversini/auth-client/commit/7521e246bfcb4066418ba37acdf78baf20c89f46))
+
 ## [3.1.0](https://github.com/aversini/auth-client/compare/auth-common-v3.0.1...auth-common-v3.1.0) (2024-07-21)
 
 
