@@ -1,5 +1,12 @@
 # Changelog
 
+## [3.3.0](https://github.com/aversini/auth-client/compare/auth-common-v3.2.0...auth-common-v3.3.0) (2024-07-21)
+
+
+### Features
+
+* allowing AND or OR operations for isGranted ([#127](https://github.com/aversini/auth-client/issues/127)) ([97ff81b](https://github.com/aversini/auth-client/commit/97ff81b488a68115d7b3abc8e2522a8ccf2b738b))
+
 ## [3.2.0](https://github.com/aversini/auth-client/compare/auth-common-v3.1.0...auth-common-v3.2.0) (2024-07-21)
 
 
