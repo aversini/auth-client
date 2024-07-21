@@ -8,7 +8,7 @@ import Fastify from "fastify";
 import fastifyLogs from "../services/logs.js";
 import { getData } from "../services/routes/getData.js";
 import { CorsOptions } from "./types.js";
-import { isDev, isSSL } from "./utilities.js";
+import { CLIENT_ID, isDev, isSSL } from "./utilities.js";
 
 const fastifyOptions: {
 	disableRequestLogging?: boolean;
@@ -81,7 +81,7 @@ export const initServer = async () => {
 			try {
 				const accessToken = getToken({
 					headers: _reply.request.headers,
-					clientId: "b44c68f0-e5b3-4a1d-a3e3-df8632b0223b",
+					clientId: CLIENT_ID,
 				});
 				const res = await verifyAndExtractToken(accessToken);
 				if (res) {
