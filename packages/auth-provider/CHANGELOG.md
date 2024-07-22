@@ -1,5 +1,12 @@
 # Changelog
 
+## [6.3.1](https://github.com/aversini/auth-client/compare/auth-provider-v6.3.0...auth-provider-v6.3.1) (2024-07-22)
+
+
+### Bug Fixes
+
+* move logger to hook ([#129](https://github.com/aversini/auth-client/issues/129)) ([43fc772](https://github.com/aversini/auth-client/commit/43fc7725db857415f0643aca707a277cea5f0cfa))
+
 ## [6.3.0](https://github.com/aversini/auth-client/compare/auth-provider-v6.2.1...auth-provider-v6.3.0) (2024-07-21)
 
 
