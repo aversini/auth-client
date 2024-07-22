@@ -2,7 +2,6 @@ import {
 	startAuthentication,
 	startRegistration,
 } from "@simplewebauthn/browser";
-
 import {
 	AUTH_TYPES,
 	JWT,
@@ -34,6 +33,7 @@ import {
 	graphQLCall,
 	logoutUser,
 } from "../../common/utilities";
+import { useLogger } from "../hooks/useLogger";
 import { AuthContext } from "./AuthContext";
 import { InternalContext } from "./InternalContext";
 import { reducer } from "./reducer";
@@ -54,6 +54,7 @@ export const AuthProvider = ({
 		debug,
 	});
 
+	const logger = useLogger(debug);
 	const effectDidRunRef = useRef(false);
 	const fingerprintRef = useRef<string>("");
 
@@ -72,14 +73,6 @@ export const AuthProvider = ({
 		key: `${LOCAL_STORAGE_PREFIX}::${clientId}::@@nonce@@`,
 	});
 
-	const logger = useCallback(
-		(...args: unknown[]) => {
-			if (debug) {
-				console.info(`==> [Auth ${Date.now()}]: `, ...args);
-			}
-		},
-		[debug],
-	);
 	const tokenManager = new TokenManager(accessToken, refreshToken);
 
 	const removeStateAndLocalStorage = useCallback(
