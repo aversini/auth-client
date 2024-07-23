@@ -267,7 +267,6 @@ const GRAPHQL_QUERIES = {
 				alg
 			}
 			timeout
-
 			attestation
 		}
 	}`,
@@ -294,7 +293,11 @@ const GRAPHQL_QUERIES = {
 			clientId: $clientId) {
 				rpId,
 				challenge,
-				allowCredentials,
+				allowCredentials {
+					id,
+					type,
+					transports
+				}
 				timeout,
 				userVerification,
 		}
