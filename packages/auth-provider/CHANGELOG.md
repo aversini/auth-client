@@ -1,5 +1,12 @@
 # Changelog
 
+## [6.3.2](https://github.com/aversini/auth-client/compare/auth-provider-v6.3.1...auth-provider-v6.3.2) (2024-07-23)
+
+
+### Bug Fixes
+
+* broken passkey authentication due to new backend auth API ([#132](https://github.com/aversini/auth-client/issues/132)) ([0bf2303](https://github.com/aversini/auth-client/commit/0bf230330b9085eabcbd780dc9ae62243a5c9796))
+
 ## [6.3.1](https://github.com/aversini/auth-client/compare/auth-provider-v6.3.0...auth-provider-v6.3.1) (2024-07-22)
 
 
