@@ -24,8 +24,8 @@ importers:
         specifier: workspace:../../packages/auth-provider
         version: link:../../packages/auth-provider
       '@versini/ui-components':
-        specifier: 5.20.0
-        version: 5.20.0(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+        specifier: 5.21.0
+        version: 5.21.0(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       '@versini/ui-styles':
         specifier: 1.9.3
         version: 1.9.3
@@ -113,27 +113,6 @@ importers:
       yargs:
         specifier: 17.7.2
         version: 17.7.2
-
-  examples/implicit-flow:
-    dependencies:
-      '@versini/auth-provider':
-        specifier: workspace:../../packages/auth-provider
-        version: link:../../packages/auth-provider
-      '@versini/ui-components':
-        specifier: 5.20.0
-        version: 5.20.0(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
-      '@versini/ui-styles':
-        specifier: 1.9.3
-        version: 1.9.3
-      '@versini/ui-system':
-        specifier: 1.4.2
-        version: 1.4.2(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
-      react:
-        specifier: 18.3.1
-        version: 18.3.1
-      react-dom:
-        specifier: 18.3.1
-        version: 18.3.1(react@18.3.1)
 
   packages/auth-common:
     dependencies:
@@ -1674,8 +1653,8 @@ packages:
   '@versini/dev-dependencies-types@1.3.1':
     resolution: {integrity: sha512-jaIEB8wXomAkRxv/aVbeaoZY/vz6jftIalTdFIN3iyXY9v4yXV+hU5zSwCZAbP4xe/il5DnKYFHjyeEVXqhB3g==}
 
-  '@versini/ui-components@5.20.0':
-    resolution: {integrity: sha512-fbYI/lZXL8ZRQzpRcUN2UT3OLYTuvR9t2bJUDLzV9Vq1KvD4x0lI9hdlLJNF+i0P0woOcPu5fmPQM0G8axo7cw==}
+  '@versini/ui-components@5.21.0':
+    resolution: {integrity: sha512-74OvhCwSxIoLhR1byUg9t0/2wszI7G2gb0cWCFfPnkiuO4SvlUTWTfguqQmZQqwLbhm60YkL7dg/QdpDeffmMg==}
     peerDependencies:
       react: ^18.3.1
       react-dom: ^18.3.1
@@ -1689,8 +1668,8 @@ packages:
       react: ^18.3.1
       react-dom: ^18.3.1
 
-  '@versini/ui-icons@1.10.0':
-    resolution: {integrity: sha512-qJ+MacJle2UH1HdAblum/ThDXGAbfKKefWTemnI+WbegBV6C2V5ABOUI1iQGkA2piO5QaBF51UOwG3TyKHXwjQ==}
+  '@versini/ui-icons@1.11.0':
+    resolution: {integrity: sha512-ALorSe1Q6wmxTl0PvyrMO3hCfaffZzPfcb4d+P5G+NizACWBWeAHp+GefqdvKLPJb/AwMBprw6LlGaTHauZB0A==}
     peerDependencies:
       react: ^18.3.1
       react-dom: ^18.3.1
@@ -6911,7 +6890,7 @@ snapshots:
   '@npmcli/map-workspaces@3.0.6':
     dependencies:
       '@npmcli/name-from-folder': 2.0.0
-      glob: 10.4.2
+      glob: 10.4.3
       minimatch: 9.0.5
       read-package-json-fast: 3.0.2
 
@@ -6933,7 +6912,7 @@ snapshots:
   '@npmcli/package-json@5.2.0':
     dependencies:
       '@npmcli/git': 5.0.7
-      glob: 10.4.2
+      glob: 10.4.3
       hosted-git-info: 7.0.2
       json-parse-even-better-errors: 3.0.2
       normalize-package-data: 6.0.2
@@ -7889,12 +7868,12 @@ snapshots:
       '@types/uuid': 10.0.0
       '@types/yargs': 17.0.32
 
-  '@versini/ui-components@5.20.0(react-dom@18.3.1(react@18.3.1))(react@18.3.1)':
+  '@versini/ui-components@5.21.0(react-dom@18.3.1(react@18.3.1))(react@18.3.1)':
     dependencies:
       '@floating-ui/react': 0.26.19(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       '@tailwindcss/typography': 0.5.13(tailwindcss@3.4.4)
       '@versini/ui-hooks': 4.0.1(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
-      '@versini/ui-icons': 1.10.0(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+      '@versini/ui-icons': 1.11.0(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       '@versini/ui-private': 1.4.6(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       clsx: 2.1.1
       react: 18.3.1
@@ -7910,7 +7889,7 @@ snapshots:
       react: 18.3.1
       react-dom: 18.3.1(react@18.3.1)
 
-  '@versini/ui-icons@1.10.0(react-dom@18.3.1(react@18.3.1))(react@18.3.1)':
+  '@versini/ui-icons@1.11.0(react-dom@18.3.1(react@18.3.1))(react@18.3.1)':
     dependencies:
       '@versini/ui-private': 1.4.6(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       react: 18.3.1
@@ -8394,7 +8373,7 @@ snapshots:
     dependencies:
       '@npmcli/fs': 3.1.1
       fs-minipass: 3.0.3
-      glob: 10.4.2
+      glob: 10.4.3
       lru-cache: 10.2.2
       minipass: 7.1.2
       minipass-collect: 2.0.1
@@ -10931,7 +10910,7 @@ snapshots:
     dependencies:
       env-paths: 2.2.1
       exponential-backoff: 3.1.1
-      glob: 10.4.2
+      glob: 10.4.3
       graceful-fs: 4.2.11
       make-fetch-happen: 13.0.1
       nopt: 7.2.1
@@ -12159,7 +12138,7 @@ snapshots:
     dependencies:
       '@jridgewell/gen-mapping': 0.3.5
       commander: 4.1.1
-      glob: 10.4.2
+      glob: 10.4.3
       lines-and-columns: 1.2.4
       mz: 2.7.0
       pirates: 4.0.6

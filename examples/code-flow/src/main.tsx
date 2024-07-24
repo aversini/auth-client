@@ -1,7 +1,7 @@
 import { AUTH_TYPES, useAuth } from "@versini/auth-provider";
 import { Button, Footer, Header, Main } from "@versini/ui-components";
 import { Flexgrid, FlexgridItem } from "@versini/ui-system";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 export const App = ({ timeout }: { timeout: string }) => {
 	const [accessToken, setAccessToken] = useState("");
@@ -70,6 +70,18 @@ export const App = ({ timeout }: { timeout: string }) => {
 		e.preventDefault();
 		await loginWithPasskey();
 	};
+
+	/**
+	 * Fade out the logo and fade in the app.
+	 */
+	useEffect(() => {
+		document.getElementById("logo")?.classList.add("fadeOut");
+		setTimeout(() => {
+			document
+				.getElementById("root")
+				?.classList.replace("app-hidden", "fadeIn");
+		}, 500);
+	});
 
 	return (
 		<div className="prose prose-dark dark:prose-lighter">
