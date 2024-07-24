@@ -1,17 +1,8 @@
 import { JWT, verifyAndExtractToken } from "@versini/auth-common";
+import { STATUS_FAILURE, STATUS_SUCCESS } from "./constants";
+import type { RefreshTokenProps, RefreshTokenResponse } from "./types";
 import { getAccessTokenSilently } from "./utilities";
 
-type RefreshTokenResponse = {
-	status: "success" | "failure";
-	newAccessToken?: string;
-	newRefreshToken?: string;
-};
-type RefreshTokenProps = {
-	clientId: string;
-	userId: string;
-	nonce: string;
-	domain: string;
-};
 export class TokenManager {
 	private refreshTokenPromise: Promise<any> | null = null;
 	private accessToken: string;
@@ -71,20 +62,20 @@ export class TokenManager {
 				this.accessToken = response.accessToken;
 				this.refreshToken = response.refreshToken;
 				return {
-					status: "success",
+					status: STATUS_SUCCESS,
 					newAccessToken: response.accessToken,
 					newRefreshToken: response.refreshToken,
 				};
 			} else {
 				// Access token could not be refreshed, re-authenticate the user...
 				return {
-					status: "failure",
+					status: STATUS_FAILURE,
 				};
 			}
 		} else {
 			// Refresh token is not valid, re-authenticate the user...
 			return {
-				status: "failure",
+				status: STATUS_FAILURE,
 			};
 		}
 	}

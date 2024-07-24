@@ -1,4 +1,4 @@
-import { AUTH_TYPES } from "@versini/auth-common";
+import { API_TYPE, AUTH_TYPES } from "@versini/auth-common";
 import {
 	ACTION_TYPE_LOADING,
 	ACTION_TYPE_LOGIN,
@@ -13,10 +13,27 @@ type AuthenticationTypes =
 	| typeof AUTH_TYPES.ID_AND_ACCESS_TOKEN
 	| null;
 
-export type ServiceCallProps = {
+export type GenericResponse = {
+	status: number;
+	data: any;
+	errors?: string;
+};
+
+export type BooleanResponse = {
+	status: boolean;
+};
+
+export type RestCallProps = {
 	params: any;
 	clientId: string;
-	type: "authenticate" | "logout" | (string & {});
+	type: typeof API_TYPE.LOGOUT | typeof API_TYPE.AUTHENTICATE;
+};
+
+export type GraphQLCallProps = {
+	accessToken: string;
+	clientId: string;
+	type: any;
+	params?: any;
 };
 
 export type AuthProviderProps = {
@@ -38,6 +55,57 @@ export type AuthState = {
 		username?: string;
 	};
 	debug?: boolean;
+};
+
+export type AuthenticateUserProps = {
+	username: string;
+	password: string;
+	clientId: string;
+	nonce: string;
+	type?: string;
+	sessionExpiration?: string;
+	code?: string;
+	code_verifier?: string;
+	domain: string;
+	fingerprint: string;
+};
+
+export type AuthenticateUserResponse =
+	| {
+			idToken: string;
+			accessToken: string;
+			refreshToken: string;
+			userId: string;
+			status: true;
+	  }
+	| {
+			status: false;
+	  };
+
+export type GetAccessTokenSilentlyProps = {
+	clientId: string;
+	userId: string;
+	nonce: string;
+	refreshToken: string;
+	accessToken: string;
+	domain: string;
+};
+
+export type GetAccessTokenSilentlyResponse =
+	| {
+			status: true;
+			accessToken: string;
+			refreshToken: string;
+			userId: string;
+	  }
+	| {
+			status: false;
+	  };
+
+export type GetPreAuthCodeProps = {
+	clientId: string;
+	nonce: string;
+	code_challenge: string;
 };
 
 export type LoginType = (
@@ -78,3 +146,25 @@ export type InternalActions =
 				logoutReason: string;
 			};
 	  };
+
+export type LogoutProps = {
+	userId: string;
+	idToken: string;
+	accessToken: string;
+	refreshToken: string;
+	clientId: string;
+	domain: string;
+};
+
+export type RefreshTokenResponse = {
+	status: "success" | "failure";
+	newAccessToken?: string;
+	newRefreshToken?: string;
+};
+
+export type RefreshTokenProps = {
+	clientId: string;
+	userId: string;
+	nonce: string;
+	domain: string;
+};

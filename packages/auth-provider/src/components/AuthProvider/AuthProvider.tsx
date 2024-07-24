@@ -23,14 +23,13 @@ import {
 	LOGIN_ERROR,
 	LOGOUT_SESSION,
 } from "../../common/constants";
+import { SERVICE_TYPES, graphQLCall } from "../../common/services";
 import type { AuthProviderProps, LoginType } from "../../common/types";
 import {
-	SERVICE_TYPES,
 	authenticateUser,
 	getCustomFingerprint,
 	getPreAuthCode,
 	getUserIdFromToken,
-	graphQLCall,
 	logoutUser,
 } from "../../common/utilities";
 import { useLogger } from "../hooks/useLogger";
