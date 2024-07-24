@@ -27,6 +27,7 @@ import { SERVICE_TYPES, graphQLCall } from "../../common/services";
 import type { AuthProviderProps, LoginType } from "../../common/types";
 import {
 	authenticateUser,
+	emptyState,
 	getCustomFingerprint,
 	getPreAuthCode,
 	getUserIdFromToken,
@@ -45,11 +46,7 @@ export const AuthProvider = ({
 	debug = false,
 }: AuthProviderProps) => {
 	const [state, dispatch] = useReducer(reducer, {
-		isLoading: true,
-		isAuthenticated: false,
-		authenticationType: null,
-		user: undefined,
-		logoutReason: "",
+		...emptyState,
 		debug,
 	});
 
