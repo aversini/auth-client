@@ -18,3 +18,6 @@ export const LOCAL_STORAGE_PREFIX = "@@auth@@";
 export const ACTION_TYPE_LOADING = "LOADING";
 export const ACTION_TYPE_LOGIN = "LOGIN";
 export const ACTION_TYPE_LOGOUT = "LOGOUT";
+
+export const STATUS_SUCCESS = "success";
+export const STATUS_FAILURE = "failure";
