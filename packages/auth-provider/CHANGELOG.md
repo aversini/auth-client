@@ -1,5 +1,12 @@
 # Changelog
 
+## [6.3.3](https://github.com/aversini/auth-client/compare/auth-provider-v6.3.2...auth-provider-v6.3.3) (2024-07-24)
+
+
+### Bug Fixes
+
+* better error messages on session expiration ([#134](https://github.com/aversini/auth-client/issues/134)) ([c2e672e](https://github.com/aversini/auth-client/commit/c2e672eae6da646d92240a72995ceda0e002b31d))
+
 ## [6.3.2](https://github.com/aversini/auth-client/compare/auth-provider-v6.3.1...auth-provider-v6.3.2) (2024-07-23)
 
 
