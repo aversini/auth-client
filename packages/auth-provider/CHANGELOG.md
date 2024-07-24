@@ -1,5 +1,12 @@
 # Changelog
 
+## [6.3.5](https://github.com/aversini/auth-client/compare/auth-provider-v6.3.4...auth-provider-v6.3.5) (2024-07-24)
+
+
+### Bug Fixes
+
+* re-using empty state constant ([#140](https://github.com/aversini/auth-client/issues/140)) ([7325222](https://github.com/aversini/auth-client/commit/7325222943c150e2f6846004a2df45d53f07b94b))
+
 ## [6.3.4](https://github.com/aversini/auth-client/compare/auth-provider-v6.3.3...auth-provider-v6.3.4) (2024-07-24)
 
 
