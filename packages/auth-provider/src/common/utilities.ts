@@ -50,7 +50,7 @@ export const logoutUser = async ({
 			},
 		});
 		return {
-			status: response.status === 200,
+			status: response?.status === 200,
 		};
 	} catch (_error) {
 		return {
@@ -87,7 +87,7 @@ export const authenticateUser = async ({
 				fingerprint,
 			},
 		});
-		const jwt = await verifyAndExtractToken(response.data.idToken);
+		const jwt = await verifyAndExtractToken(response?.data?.idToken);
 		if (
 			jwt &&
 			jwt.payload[JWT.USER_ID_KEY] !== "" &&
@@ -127,7 +127,7 @@ export const getPreAuthCode = async ({
 				code_challenge,
 			},
 		});
-		if (response.data.code) {
+		if (response?.data?.code) {
 			return {
 				status: true,
 				code: response.data.code,
@@ -166,7 +166,7 @@ export const getAccessTokenSilently = async ({
 				fingerprint: await getCustomFingerprint(),
 			},
 		});
-		const jwt = await verifyAndExtractToken(response.data.accessToken);
+		const jwt = await verifyAndExtractToken(response?.data?.accessToken);
 		if (
 			jwt &&
 			jwt.payload[JWT.USER_ID_KEY] !== "" &&
