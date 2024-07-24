@@ -1,5 +1,13 @@
 # Changelog
 
+## [6.3.4](https://github.com/aversini/auth-client/compare/auth-provider-v6.3.3...auth-provider-v6.3.4) (2024-07-24)
+
+
+### Bug Fixes
+
+* drop support for old browsers ([#139](https://github.com/aversini/auth-client/issues/139)) ([3413555](https://github.com/aversini/auth-client/commit/341355529e56ed2e7ee0312dfb3d3a5ab0de41cc))
+* slightly better error case handling from REST calls ([#137](https://github.com/aversini/auth-client/issues/137)) ([2e0eaad](https://github.com/aversini/auth-client/commit/2e0eaad8e8e4db3391a5d741a60a6816ae002bab))
+
 ## [6.3.3](https://github.com/aversini/auth-client/compare/auth-provider-v6.3.2...auth-provider-v6.3.3) (2024-07-24)
 
 
