@@ -1,5 +1,4 @@
 import { resolve } from "node:path";
-
 import fs from "fs-extra";
 import { defineConfig } from "vite";
 
@@ -39,6 +38,7 @@ try {
 export default defineConfig(() => {
 	return {
 		build: {
+			target: "es2020",
 			copyPublicDir: false,
 			lib: {
 				entry: resolve(__dirname, "src/components/index.ts"),
@@ -49,7 +49,6 @@ export default defineConfig(() => {
 				input: {
 					index: resolve(__dirname, "src/components/index.ts"),
 				},
-				treeshake: "smallest",
 				external: externalDependencies,
 				output: {
 					compact: true,
