@@ -10,7 +10,7 @@
 	},
 	"dependencies": {
 		"@versini/auth-provider": "workspace:../../packages/auth-provider",
-		"@versini/ui-components": "5.20.0",
+		"@versini/ui-components": "5.21.0",
 		"@versini/ui-styles": "1.9.3",
 		"@versini/ui-system": "1.4.2",
 		"react": "18.3.1",
