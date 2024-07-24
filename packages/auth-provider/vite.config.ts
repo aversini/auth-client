@@ -38,7 +38,7 @@ try {
 export default defineConfig(() => {
 	return {
 		build: {
-			target: "esnext",
+			target: "es2020",
 			copyPublicDir: false,
 			lib: {
 				entry: resolve(__dirname, "src/components/index.ts"),
@@ -49,7 +49,6 @@ export default defineConfig(() => {
 				input: {
 					index: resolve(__dirname, "src/components/index.ts"),
 				},
-				treeshake: "smallest",
 				external: externalDependencies,
 				output: {
 					compact: true,
