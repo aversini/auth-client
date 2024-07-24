@@ -20,6 +20,15 @@ import type {
 const isProd = process.env.NODE_ENV === "production";
 export const isDev = !isProd;
 
+export const emptyState = {
+	isLoading: true,
+	isAuthenticated: false,
+	authenticationType: null,
+	user: undefined,
+	logoutReason: "",
+	debug: false,
+};
+
 export const getUserIdFromToken = (token: string): string => {
 	try {
 		const jwt = decodeToken(token);
