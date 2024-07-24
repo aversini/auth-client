@@ -293,7 +293,7 @@ export const AuthProvider = ({
 				 * accessToken is not valid, so we need to try to refresh it using the
 				 * refreshToken - this is a silent refresh.
 				 */
-				logger("getAccessToken: invalid access token, refreshing it");
+				logger("getAccessToken: invalid access token, trying to refresh it");
 				const res = await tokenManager.refreshtoken({
 					clientId,
 					userId: user.userId as string,
@@ -305,17 +305,16 @@ export const AuthProvider = ({
 					setRefreshToken(res.newRefreshToken);
 					return res.newAccessToken;
 				}
-				/**
-				 * refreshToken is not valid, so we need to re-authenticate the user.
-				 */
-				logger("getAccessToken: invalid refresh token, re-authenticating user");
-				await invalidateAndLogout(ACCESS_TOKEN_ERROR);
+				logger(
+					"getAccessToken: invalid refresh token, need to re-authenticate",
+				);
+				await invalidateAndLogout(EXPIRED_SESSION);
 				return "";
 			}
 			logger(
 				"getAccessToken: user is not authenticated, cannot get access token",
 			);
-			await invalidateAndLogout(ACCESS_TOKEN_ERROR);
+			await invalidateAndLogout(EXPIRED_SESSION);
 			return "";
 		} catch (_error) {
 			logger(
