@@ -8,6 +8,7 @@ import {
 import { getFingerprintHash } from "@versini/ui-fingerprint";
 import { restCall } from "./services";
 import type {
+	AuthState,
 	AuthenticateUserProps,
 	AuthenticateUserResponse,
 	BooleanResponse,
@@ -20,7 +21,7 @@ import type {
 const isProd = process.env.NODE_ENV === "production";
 export const isDev = !isProd;
 
-export const emptyState = {
+export const emptyState: AuthState = {
 	isLoading: true,
 	isAuthenticated: false,
 	authenticationType: null,
