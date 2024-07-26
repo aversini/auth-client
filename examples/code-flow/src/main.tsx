@@ -1,4 +1,4 @@
-import { AUTH_TYPES, useAuth } from "@versini/auth-provider";
+import { useAuth } from "@versini/auth-provider";
 import { Button, Footer, Header, Main } from "@versini/ui-components";
 import { Flexgrid, FlexgridItem } from "@versini/ui-system";
 import { useEffect, useState } from "react";
@@ -20,17 +20,12 @@ export const App = ({ timeout }: { timeout: string }) => {
 		await login(
 			process.env.PUBLIC_TEST_USER as string,
 			process.env.PUBLIC_TEST_USER_PASSWORD as string,
-			AUTH_TYPES.CODE,
 		);
 	};
 
 	const handleInvalidLogin = async (e: { preventDefault: () => void }) => {
 		e.preventDefault();
-		await login(
-			process.env.PUBLIC_TEST_USER as string,
-			"invalid-password",
-			AUTH_TYPES.CODE,
-		);
+		await login(process.env.PUBLIC_TEST_USER as string, "invalid-password");
 	};
 
 	const handleValidAPICall = async (e: { preventDefault: () => void }) => {

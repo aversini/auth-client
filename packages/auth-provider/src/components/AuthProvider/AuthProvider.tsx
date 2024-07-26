@@ -24,7 +24,7 @@ import {
 	LOGOUT_SESSION,
 } from "../../common/constants";
 import { SERVICE_TYPES, graphQLCall } from "../../common/services";
-import type { AuthProviderProps, LoginType } from "../../common/types";
+import type { AuthProviderProps, LoginResponse } from "../../common/types";
 import {
 	authenticateUser,
 	emptyState,
@@ -128,15 +128,11 @@ export const AuthProvider = ({
 	 * This effect is responsible to set the fingerprintRef value when the
 	 * component is first loaded.
 	 */
-
-	// biome-ignore lint/correctness/useExhaustiveDependencies: logger is stable
 	useEffect(() => {
 		(async () => {
-			logger("useEffect: setting the fingerprint");
 			fingerprintRef.current = await getCustomFingerprint();
 		})();
 		return () => {
-			logger("useEffect: cleaning up the fingerprint");
 			fingerprintRef.current = "";
 		};
 	}, []);
@@ -186,7 +182,11 @@ export const AuthProvider = ({
 		};
 	}, [state.isLoading, idToken, invalidateAndLogout, logger]);
 
-	const login: LoginType = async (username, password, type) => {
+	const login: LoginResponse = async (
+		username,
+		password,
+		type = AUTH_TYPES.CODE,
+	) => {
 		const _nonce = uuidv4();
 		setNonce(_nonce);
 		dispatch({ type: ACTION_TYPE_LOADING, payload: { isLoading: true } });
