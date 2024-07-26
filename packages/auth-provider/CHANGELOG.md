@@ -1,5 +1,12 @@
 # Changelog
 
+## [6.4.0](https://github.com/aversini/auth-client/compare/auth-provider-v6.3.5...auth-provider-v6.4.0) (2024-07-26)
+
+
+### Features
+
+* default login type to code grant flow with PKCE ([#142](https://github.com/aversini/auth-client/issues/142)) ([2dc895a](https://github.com/aversini/auth-client/commit/2dc895a72dcf890b5dc6ceb39ca6fa3eeade0b2b))
+
 ## [6.3.5](https://github.com/aversini/auth-client/compare/auth-provider-v6.3.4...auth-provider-v6.3.5) (2024-07-24)
 
 
