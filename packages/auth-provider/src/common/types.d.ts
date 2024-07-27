@@ -108,14 +108,14 @@ export type GetPreAuthCodeProps = {
 	code_challenge: string;
 };
 
-export type LoginResponse = (
+export type LoginProps = (
 	username: string,
 	password: string,
 	type?: typeof AUTH_TYPES.CODE | typeof AUTH_TYPES.PASSKEY,
 ) => Promise<boolean>;
 
 export type AuthContextProps = {
-	login: LoginResponse;
+	login: LoginProps;
 	logout: (e?: any) => void;
 	getAccessToken: () => Promise<string>;
 	getIdToken: () => string;

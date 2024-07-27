@@ -24,7 +24,7 @@ import {
 	LOGOUT_SESSION,
 } from "../../common/constants";
 import { SERVICE_TYPES, graphQLCall } from "../../common/services";
-import type { AuthProviderProps, LoginResponse } from "../../common/types";
+import type { AuthProviderProps, LoginProps } from "../../common/types";
 import {
 	authenticateUser,
 	emptyState,
@@ -71,6 +71,11 @@ export const AuthProvider = ({
 
 	const tokenManager = new TokenManager(accessToken, refreshToken);
 
+	/**
+	 * This function is responsible to remove all the tokens from the local storage.
+	 * It is used when the user logs out or when the tokens are invalid.
+	 * @returns void
+	 */
 	const removeLocalStorage = useCallback(() => {
 		logger("removeLocalStorage: removing local storage");
 		removeIdToken();
@@ -85,6 +90,13 @@ export const AuthProvider = ({
 		logger,
 	]);
 
+	/**
+	 * This function is responsible to remove all the tokens from the local storage
+	 * and the state. It is used when the user logs out or when the tokens are invalid.
+	 * @param logoutReason string
+	 * @returns
+	 * @returns void
+	 */
 	const removeStateAndLocalStorage = useCallback(
 		(logoutReason?: string) => {
 			logger(
@@ -103,6 +115,12 @@ export const AuthProvider = ({
 		[removeLocalStorage, logger],
 	);
 
+	/**
+	 * This function is responsible to invalidate the tokens and log the user out.
+	 * It is used when the tokens are invalid or when the user needs to be logged out.
+	 * @param message string
+	 * @returns void
+	 */
 	const invalidateAndLogout = useCallback(
 		async (message: string) => {
 			logger("invalidateAndLogout: invalidating and logging out");
@@ -193,11 +211,19 @@ export const AuthProvider = ({
 		};
 	}, [state.isLoading, idToken, invalidateAndLogout, logger]);
 
-	const login: LoginResponse = async (
+	/**
+	 * Asynchronous function for user login.
+	 * @async
+	 * @param username - The username of the user logging in.
+	 * @param password - The password of the user logging in.
+	 * @param type - The type of authentication being used.
+	 * @returns {Promise<boolean>} A promise that resolves with the login response.
+	 */
+	const login: LoginProps = async (
 		username,
 		password,
 		type = AUTH_TYPES.CODE,
-	) => {
+	): Promise<boolean> => {
 		const _nonce = uuidv4();
 		setNonce(_nonce);
 		dispatch({ type: ACTION_TYPE_LOADING, payload: { isLoading: true } });
@@ -278,12 +304,24 @@ export const AuthProvider = ({
 		return false;
 	};
 
-	const logout = async (e: any) => {
+	/**
+	 * Asynchronous function for user logout.
+	 * @async
+	 * @param e - The event object.
+	 * @returns {Promise<void>} A promise that resolves when the user is logged out.
+	 */
+	const logout = async (e: any): Promise<void> => {
 		e?.preventDefault();
 		await invalidateAndLogout(LOGOUT_SESSION);
 	};
 
-	const getAccessToken = async () => {
+	/**
+	 * Asynchronous function to get the access token.
+	 * @async
+	 * @returns {Promise<string>} A promise that resolves with the access token
+	 * or an empty string if the token is invalid.
+	 */
+	const getAccessToken = async (): Promise<string> => {
 		const { isAuthenticated, user } = state;
 		try {
 			if (isAuthenticated && user && user.userId) {
@@ -305,7 +343,7 @@ export const AuthProvider = ({
 					nonce,
 					domain,
 				});
-				if (res.status && res.status === "success") {
+				if (res.status && res.status === "success" && res.newAccessToken) {
 					setAccessToken(res.newAccessToken);
 					setRefreshToken(res.newRefreshToken);
 					return res.newAccessToken;
@@ -330,13 +368,23 @@ export const AuthProvider = ({
 		}
 	};
 
-	const getIdToken = () => {
+	/**
+	 * Function to get the id token.
+	 * @returns {string} The id token or an empty string if the token is invalid.
+	 */
+	const getIdToken = (): string => {
 		if (state.isAuthenticated && idToken) {
 			return idToken;
 		}
+		return "";
 	};
 
-	const registeringForPasskey = async () => {
+	/**
+	 * Asynchronous function to refresh the access token.
+	 * @async
+	 * @returns {Promise<boolean>} A promise that resolves with a boolean value.
+	 */
+	const registeringForPasskey = async (): Promise<boolean> => {
 		const { user } = state;
 		let response = await graphQLCall({
 			accessToken,
@@ -377,9 +425,15 @@ export const AuthProvider = ({
 				return false;
 			}
 		}
+		return false;
 	};
 
-	const loginWithPasskey = async () => {
+	/**
+	 * Asynchronous function to login with a passkey.
+	 * @async
+	 * @returns {Promise<boolean>} A promise that resolves with a boolean value.
+	 */
+	const loginWithPasskey = async (): Promise<boolean> => {
 		const _nonce = uuidv4();
 		setNonce(_nonce);
 		dispatch({ type: ACTION_TYPE_LOADING, payload: { isLoading: true } });
@@ -449,6 +503,7 @@ export const AuthProvider = ({
 				return false;
 			}
 		}
+		return false;
 	};
 
 	return (

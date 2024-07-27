@@ -3,6 +3,22 @@ import { STATUS_FAILURE, STATUS_SUCCESS } from "./constants";
 import type { RefreshTokenProps, RefreshTokenResponse } from "./types";
 import { getAccessTokenSilently } from "./utilities";
 
+/**
+ * TokenManager class to manage access and refresh tokens
+ * @class
+ * @public
+ * @param {string} accessToken - Access token
+ * @param {string} refreshToken - Refresh token
+ * @returns {TokenManager}
+ * @example
+ * const tokenManager = new TokenManager();
+ * tokenManager.refreshtoken({
+ *   clientId: "clientId",
+ *   userId: "userId",
+ *   nonce: "nonce",
+ *   domain: "domain",
+ * });
+ */
 export class TokenManager {
 	private refreshTokenPromise: Promise<any> | null = null;
 	private accessToken: string;
