@@ -21,6 +21,9 @@ import type {
 const isProd = process.env.NODE_ENV === "production";
 export const isDev = !isProd;
 
+/**
+ * Empty state for the AuthProvider
+ */
 export const emptyState: AuthState = {
 	isLoading: true,
 	isAuthenticated: false,
@@ -30,6 +33,11 @@ export const emptyState: AuthState = {
 	debug: false,
 };
 
+/**
+ * Get the user ID from the token
+ * @param {string} token - JWT token
+ * @returns {string} - User ID
+ */
 export const getUserIdFromToken = (token: string): string => {
 	try {
 		const jwt = decodeToken(token);
@@ -39,6 +47,11 @@ export const getUserIdFromToken = (token: string): string => {
 	}
 };
 
+/**
+ * Logout the user
+ * @param {LogoutProps} props - Logout properties
+ * @returns {BooleanResponse} - Logout response
+ */
 export const logoutUser = async ({
 	userId,
 	idToken,
@@ -69,6 +82,11 @@ export const logoutUser = async ({
 	}
 };
 
+/**
+ * Authenticate the user
+ * @param {AuthenticateUserProps} props - Authentication properties
+ * @returns {AuthenticateUserResponse} - Authentication response
+ */
 export const authenticateUser = async ({
 	username,
 	password,
