@@ -1,5 +1,12 @@
 # Changelog
 
+## [6.4.1](https://github.com/aversini/auth-client/compare/auth-provider-v6.4.0...auth-provider-v6.4.1) (2024-07-27)
+
+
+### Bug Fixes
+
+* refactor local storage clean up ([#144](https://github.com/aversini/auth-client/issues/144)) ([fa807cb](https://github.com/aversini/auth-client/commit/fa807cbd7ac9bd6d26314f6b339a3726f63623a5))
+
 ## [6.4.0](https://github.com/aversini/auth-client/compare/auth-provider-v6.3.5...auth-provider-v6.4.0) (2024-07-26)
 
 
