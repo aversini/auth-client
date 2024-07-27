@@ -71,6 +71,20 @@ export const AuthProvider = ({
 
 	const tokenManager = new TokenManager(accessToken, refreshToken);
 
+	const removeLocalStorage = useCallback(() => {
+		logger("removeLocalStorage: removing local storage");
+		removeIdToken();
+		removeAccessToken();
+		removeRefreshToken();
+		removeNonce();
+	}, [
+		removeAccessToken,
+		removeIdToken,
+		removeNonce,
+		removeRefreshToken,
+		logger,
+	]);
+
 	const removeStateAndLocalStorage = useCallback(
 		(logoutReason?: string) => {
 			logger(
@@ -83,13 +97,10 @@ export const AuthProvider = ({
 					logoutReason: logoutReason || EXPIRED_SESSION,
 				},
 			});
-			removeIdToken();
-			removeAccessToken();
-			removeRefreshToken();
-			removeNonce();
+			removeLocalStorage();
 			dispatch({ type: ACTION_TYPE_LOADING, payload: { isLoading: false } });
 		},
-		[removeAccessToken, removeIdToken, removeNonce, removeRefreshToken, logger],
+		[removeLocalStorage, logger],
 	);
 
 	const invalidateAndLogout = useCallback(
@@ -190,9 +201,7 @@ export const AuthProvider = ({
 		const _nonce = uuidv4();
 		setNonce(_nonce);
 		dispatch({ type: ACTION_TYPE_LOADING, payload: { isLoading: true } });
-		removeIdToken();
-		removeAccessToken();
-		removeRefreshToken();
+		removeLocalStorage();
 
 		logger("login: Logging in with type: ", type);
 
@@ -374,9 +383,7 @@ export const AuthProvider = ({
 		const _nonce = uuidv4();
 		setNonce(_nonce);
 		dispatch({ type: ACTION_TYPE_LOADING, payload: { isLoading: true } });
-		removeIdToken();
-		removeAccessToken();
-		removeRefreshToken();
+		removeLocalStorage();
 
 		logger("loginWithPasskey");
 
