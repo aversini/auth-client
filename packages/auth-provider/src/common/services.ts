@@ -1,6 +1,11 @@
 import { HEADERS } from "@versini/auth-common";
-import { API_ENDPOINT } from "./constants";
-import type { GenericResponse, GraphQLCallProps, RestCallProps } from "./types";
+import { API_ENDPOINT, STATUS_FAILURE, STATUS_SUCCESS } from "./constants";
+import type {
+	GraphQLCallProps,
+	GraphQLCallResponse,
+	RestCallProps,
+	RestCallResponse,
+} from "./types";
 import { isDev } from "./utilities";
 
 const GRAPHQL_QUERIES = {
@@ -101,12 +106,19 @@ export const SERVICE_TYPES = {
 	},
 };
 
+/**
+ * GraphQL call
+ *
+ * @async
+ * @param {GraphQLCallProps} props - GraphQL call properties
+ * @returns {Promise<GraphQLCallResponse>} - Generic response
+ */
 export const graphQLCall = async ({
 	accessToken,
 	type,
 	clientId,
 	params = {},
-}: GraphQLCallProps): Promise<GenericResponse> => {
+}: GraphQLCallProps): Promise<GraphQLCallResponse> => {
 	try {
 		const requestData = type?.data ? type.data(params) : params;
 		const authorization = `Bearer ${accessToken}`;
@@ -128,25 +140,31 @@ export const graphQLCall = async ({
 			},
 		);
 		if (response.status !== 200) {
-			return { status: response.status, data: [] };
+			return { status: STATUS_FAILURE, data: [] };
 		}
-		const { data, errors } = await response.json();
+		const { data } = await response.json();
 		return {
-			status: response.status,
+			status: STATUS_SUCCESS,
 			data: data[type.method],
-			errors,
 		};
 	} catch (_error) {
 		console.error(_error);
-		return { status: 500, data: [] };
+		return { status: STATUS_FAILURE, data: [] };
 	}
 };
 
+/**
+ * REST call
+ *
+ * @async
+ * @param {RestCallProps} props - REST call properties
+ * @returns {Promise<RestCallResponse>} - Generic response
+ */
 export const restCall = async ({
 	type,
 	clientId,
 	params = {},
-}: RestCallProps): Promise<GenericResponse> => {
+}: RestCallProps): Promise<RestCallResponse> => {
 	try {
 		const response = await fetch(
 			isDev ? `${API_ENDPOINT.dev}/${type}` : `${API_ENDPOINT.prod}/${type}`,
@@ -162,17 +180,16 @@ export const restCall = async ({
 		);
 
 		if (response.status !== 200) {
-			return { status: response.status, data: [] };
+			return { status: STATUS_FAILURE, data: [] };
 		}
-		const { data, errors } = await response.json();
+		const { data } = await response.json();
 
 		return {
-			status: response.status,
-			data,
-			errors,
+			status: STATUS_SUCCESS,
+			data: data || [],
 		};
 	} catch (_error) {
 		console.error(_error);
-		return { status: 500, data: [] };
+		return { status: STATUS_FAILURE, data: [] };
 	}
 };

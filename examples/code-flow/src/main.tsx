@@ -17,15 +17,20 @@ export const App = ({ timeout }: { timeout: string }) => {
 
 	const handleValidLogin = async (e: { preventDefault: () => void }) => {
 		e.preventDefault();
-		await login(
+		const res = await login(
 			process.env.PUBLIC_TEST_USER as string,
 			process.env.PUBLIC_TEST_USER_PASSWORD as string,
 		);
+		console.info("Login response: ", res);
 	};
 
 	const handleInvalidLogin = async (e: { preventDefault: () => void }) => {
 		e.preventDefault();
-		await login(process.env.PUBLIC_TEST_USER as string, "invalid-password");
+		const res = await login(
+			process.env.PUBLIC_TEST_USER as string,
+			"invalid-password",
+		);
+		console.info("Login response: ", res);
 	};
 
 	const handleValidAPICall = async (e: { preventDefault: () => void }) => {
@@ -56,14 +61,16 @@ export const App = ({ timeout }: { timeout: string }) => {
 		preventDefault: () => void;
 	}) => {
 		e.preventDefault();
-		await registeringForPasskey();
+		const res = await registeringForPasskey();
+		console.info("Registering response: ", res);
 	};
 
 	const handleValidLoginWithPasskey = async (e: {
 		preventDefault: () => void;
 	}) => {
 		e.preventDefault();
-		await loginWithPasskey();
+		const res = await loginWithPasskey();
+		console.info("Login with passkey response: ", res);
 	};
 
 	/**

@@ -6,16 +6,18 @@ import {
 	verifyAndExtractToken,
 } from "@versini/auth-common";
 import { getFingerprintHash } from "@versini/ui-fingerprint";
+import { STATUS_FAILURE, STATUS_SUCCESS } from "./constants";
 import { restCall } from "./services";
 import type {
 	AuthState,
 	AuthenticateUserProps,
 	AuthenticateUserResponse,
-	BooleanResponse,
 	GetAccessTokenSilentlyProps,
 	GetAccessTokenSilentlyResponse,
 	GetPreAuthCodeProps,
+	GetPreAuthCodeResponse,
 	LogoutProps,
+	LogoutResponse,
 } from "./types";
 
 const isProd = process.env.NODE_ENV === "production";
@@ -35,6 +37,7 @@ export const emptyState: AuthState = {
 
 /**
  * Get the user ID from the token
+ *
  * @param {string} token - JWT token
  * @returns {string} - User ID
  */
@@ -49,8 +52,10 @@ export const getUserIdFromToken = (token: string): string => {
 
 /**
  * Logout the user
+ *
+ * @async
  * @param {LogoutProps} props - Logout properties
- * @returns {BooleanResponse} - Logout response
+ * @returns {LogoutResponse} - Logout response
  */
 export const logoutUser = async ({
 	userId,
@@ -59,7 +64,7 @@ export const logoutUser = async ({
 	refreshToken,
 	clientId,
 	domain,
-}: LogoutProps): Promise<BooleanResponse> => {
+}: LogoutProps): Promise<LogoutResponse> => {
 	try {
 		const response = await restCall({
 			type: API_TYPE.LOGOUT,
@@ -73,17 +78,19 @@ export const logoutUser = async ({
 			},
 		});
 		return {
-			status: response?.status === 200,
+			status: response?.status || STATUS_FAILURE,
 		};
 	} catch (_error) {
 		return {
-			status: false,
+			status: STATUS_FAILURE,
 		};
 	}
 };
 
 /**
  * Authenticate the user
+ *
+ * @async
  * @param {AuthenticateUserProps} props - Authentication properties
  * @returns {AuthenticateUserResponse} - Authentication response
  */
@@ -140,11 +147,21 @@ export const authenticateUser = async ({
 	}
 };
 
+/**
+ * Retrieve a pre-authorization code.
+ *
+ * @async
+ * @param {object} options - The options object containing the following parameter:
+ * @param {string} options.nonce - The nonce value used for authorization.
+ * @param {string} options.clientId - The client ID.
+ * @param {string} options.code_challenge - The code challenge.
+ * @returns {GetPreAuthCodeResponse} - The response object.
+ */
 export const getPreAuthCode = async ({
 	nonce,
 	clientId,
 	code_challenge,
-}: GetPreAuthCodeProps) => {
+}: GetPreAuthCodeProps): Promise<GetPreAuthCodeResponse> => {
 	try {
 		const response = await restCall({
 			type: API_TYPE.CODE,
@@ -157,21 +174,30 @@ export const getPreAuthCode = async ({
 		});
 		if (response?.data?.code) {
 			return {
-				status: true,
-				code: response.data.code,
+				status: STATUS_SUCCESS,
+				data: response.data.code,
 			};
 		} else {
 			return {
-				status: false,
+				status: STATUS_FAILURE,
+				data: "",
 			};
 		}
 	} catch (_error) {
 		return {
-			status: false,
+			status: STATUS_FAILURE,
+			data: "",
 		};
 	}
 };
 
+/**
+ * Get the access token silently
+ *
+ * @async
+ * @param {GetAccessTokenSilentlyProps} props - GetAccessTokenSilently properties
+ * @returns {GetAccessTokenSilentlyResponse} - GetAccessTokenSilently response
+ */
 export const getAccessTokenSilently = async ({
 	clientId,
 	userId,
@@ -218,6 +244,12 @@ export const getAccessTokenSilently = async ({
 	}
 };
 
+/**
+ * Get the custom fingerprint
+ *
+ * @async
+ * @returns {string} - Custom fingerprint
+ */
 export const getCustomFingerprint = async (): Promise<string> => {
 	try {
 		return await getFingerprintHash();

@@ -74,6 +74,7 @@ export const AuthProvider = ({
 	/**
 	 * This function is responsible to remove all the tokens from the local storage.
 	 * It is used when the user logs out or when the tokens are invalid.
+	 *
 	 * @returns void
 	 */
 	const removeLocalStorage = useCallback(() => {
@@ -93,8 +94,8 @@ export const AuthProvider = ({
 	/**
 	 * This function is responsible to remove all the tokens from the local storage
 	 * and the state. It is used when the user logs out or when the tokens are invalid.
+	 *
 	 * @param logoutReason string
-	 * @returns
 	 * @returns void
 	 */
 	const removeStateAndLocalStorage = useCallback(
@@ -118,6 +119,7 @@ export const AuthProvider = ({
 	/**
 	 * This function is responsible to invalidate the tokens and log the user out.
 	 * It is used when the tokens are invalid or when the user needs to be logged out.
+	 *
 	 * @param message string
 	 * @returns void
 	 */
@@ -154,8 +156,8 @@ export const AuthProvider = ({
 	);
 
 	/**
-	 * This effect is responsible to set the fingerprintRef value when the
-	 * component is first loaded.
+	 * This effect is responsible to get and set the fingerprintRef value when
+	 * the component is first loaded.
 	 */
 	useEffect(() => {
 		(async () => {
@@ -213,6 +215,7 @@ export const AuthProvider = ({
 
 	/**
 	 * Asynchronous function for user login.
+	 *
 	 * @async
 	 * @param username - The username of the user logging in.
 	 * @param password - The password of the user logging in.
@@ -247,7 +250,7 @@ export const AuthProvider = ({
 					sessionExpiration,
 					nonce: _nonce,
 					type,
-					code: preResponse.code,
+					code: preResponse.data,
 					code_verifier,
 					domain,
 					fingerprint: fingerprintRef.current,
@@ -306,6 +309,7 @@ export const AuthProvider = ({
 
 	/**
 	 * Asynchronous function for user logout.
+	 *
 	 * @async
 	 * @param e - The event object.
 	 * @returns {Promise<void>} A promise that resolves when the user is logged out.
@@ -317,6 +321,7 @@ export const AuthProvider = ({
 
 	/**
 	 * Asynchronous function to get the access token.
+	 *
 	 * @async
 	 * @returns {Promise<string>} A promise that resolves with the access token
 	 * or an empty string if the token is invalid.
@@ -370,6 +375,7 @@ export const AuthProvider = ({
 
 	/**
 	 * Function to get the id token.
+	 *
 	 * @returns {string} The id token or an empty string if the token is invalid.
 	 */
 	const getIdToken = (): string => {
@@ -380,7 +386,9 @@ export const AuthProvider = ({
 	};
 
 	/**
-	 * Asynchronous function to refresh the access token.
+	 * Asynchronous function to register an existing and authenticated
+	 * user with a passkey.
+	 *
 	 * @async
 	 * @returns {Promise<boolean>} A promise that resolves with a boolean value.
 	 */
@@ -410,6 +418,10 @@ export const AuthProvider = ({
 						registration,
 					},
 				});
+				if (response.status && response.data.length > 0) {
+					return true;
+				}
+				return false;
 			} catch (_error) {
 				await graphQLCall({
 					accessToken,
