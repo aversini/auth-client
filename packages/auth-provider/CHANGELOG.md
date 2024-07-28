@@ -1,5 +1,12 @@
 # Changelog
 
+## [6.4.2](https://github.com/aversini/auth-client/compare/auth-provider-v6.4.1...auth-provider-v6.4.2) (2024-07-28)
+
+
+### Bug Fixes
+
+* better types ([#147](https://github.com/aversini/auth-client/issues/147)) ([1013e1c](https://github.com/aversini/auth-client/commit/1013e1c7c4292306d5f84961435cd027cf914618))
+
 ## [6.4.1](https://github.com/aversini/auth-client/compare/auth-provider-v6.4.0...auth-provider-v6.4.1) (2024-07-27)
 
 
