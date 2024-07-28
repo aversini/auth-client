@@ -3,6 +3,8 @@ import {
 	ACTION_TYPE_LOADING,
 	ACTION_TYPE_LOGIN,
 	ACTION_TYPE_LOGOUT,
+	STATUS_FAILURE,
+	STATUS_SUCCESS,
 } from "./constants";
 
 type AuthenticationTypes =
@@ -14,13 +16,7 @@ type AuthenticationTypes =
 	| null;
 
 export type GenericResponse = {
-	status: number;
-	data: any;
-	errors?: string;
-};
-
-export type BooleanResponse = {
-	status: boolean;
+	status: typeof STATUS_SUCCESS | typeof STATUS_FAILURE;
 };
 
 export type RestCallProps = {
@@ -28,12 +24,18 @@ export type RestCallProps = {
 	clientId: string;
 	type: typeof API_TYPE.LOGOUT | typeof API_TYPE.AUTHENTICATE;
 };
+export type RestCallResponse = GenericResponse & {
+	data: any;
+};
 
 export type GraphQLCallProps = {
 	accessToken: string;
 	clientId: string;
 	type: any;
 	params?: any;
+};
+export type GraphQLCallResponse = GenericResponse & {
+	data: any;
 };
 
 export type AuthProviderProps = {
@@ -107,6 +109,9 @@ export type GetPreAuthCodeProps = {
 	nonce: string;
 	code_challenge: string;
 };
+export type GetPreAuthCodeResponse = GenericResponse & {
+	data: string;
+};
 
 export type LoginProps = (
 	username: string,
@@ -155,6 +160,7 @@ export type LogoutProps = {
 	clientId: string;
 	domain: string;
 };
+export type LogoutResponse = GenericResponse;
 
 export type RefreshTokenResponse = {
 	status: "success" | "failure";
