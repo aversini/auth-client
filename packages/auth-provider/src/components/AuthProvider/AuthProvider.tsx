@@ -227,10 +227,11 @@ export const AuthProvider = ({
 		password,
 		type = AUTH_TYPES.CODE,
 	): Promise<boolean> => {
-		const _nonce = uuidv4();
-		setNonce(_nonce);
 		dispatch({ type: ACTION_TYPE_LOADING, payload: { isLoading: true } });
 		removeLocalStorage();
+
+		const _nonce = uuidv4();
+		setNonce(_nonce);
 
 		logger("login: Logging in with type: ", type);
 
