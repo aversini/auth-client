@@ -1,5 +1,12 @@
 # Changelog
 
+## [6.4.3](https://github.com/aversini/auth-client/compare/auth-provider-v6.4.2...auth-provider-v6.4.3) (2024-07-29)
+
+
+### Bug Fixes
+
+* nonce is created and lost instantly on login ([#150](https://github.com/aversini/auth-client/issues/150)) ([daf2db1](https://github.com/aversini/auth-client/commit/daf2db1d7268b2b64513b94af6813852fbbb89fb))
+
 ## [6.4.2](https://github.com/aversini/auth-client/compare/auth-provider-v6.4.1...auth-provider-v6.4.2) (2024-07-28)
 
 
