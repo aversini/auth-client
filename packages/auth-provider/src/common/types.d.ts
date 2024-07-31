@@ -31,7 +31,10 @@ export type RestCallResponse = GenericResponse & {
 export type GraphQLCallProps = {
 	accessToken: string;
 	clientId: string;
-	type: any;
+	type: {
+		schema: string;
+		method: string;
+	};
 	params?: any;
 };
 export type GraphQLCallResponse = GenericResponse & {

@@ -6,6 +6,7 @@ import {
 	verifyAndExtractToken,
 } from "@versini/auth-common";
 import { getFingerprintHash } from "@versini/ui-fingerprint";
+
 import { STATUS_FAILURE, STATUS_SUCCESS } from "./constants";
 import { restCall } from "./services";
 import type {
@@ -39,7 +40,8 @@ export const emptyState: AuthState = {
  * Get the user ID from the token
  *
  * @param {string} token - JWT token
- * @returns {string} - User ID
+ *
+ * @returns {string} - User ID or empty string
  */
 export const getUserIdFromToken = (token: string): string => {
 	try {
@@ -55,6 +57,13 @@ export const getUserIdFromToken = (token: string): string => {
  *
  * @async
  * @param {LogoutProps} props - Logout properties
+ * @param {string} props.userId - User ID
+ * @param {string} props.idToken - ID token
+ * @param {string} props.accessToken - Access token
+ * @param {string} props.refreshToken - Refresh token
+ * @param {string} props.clientId - Client ID
+ * @param {string} props.domain - Domain
+ *
  * @returns {LogoutResponse} - Logout response
  */
 export const logoutUser = async ({
@@ -92,6 +101,17 @@ export const logoutUser = async ({
  *
  * @async
  * @param {AuthenticateUserProps} props - Authentication properties
+ * @param {string} props.username - Username
+ * @param {string} props.password - Password
+ * @param {string} props.clientId - Client ID
+ * @param {string} props.nonce - Nonce
+ * @param {string} props.type - Authentication type
+ * @param {string} props.sessionExpiration - Session expiration
+ * @param {string} props.code - Authorization code
+ * @param {string} props.code_verifier - Code verifier
+ * @param {string} props.domain - Domain
+ * @param {string} props.fingerprint - Fingerprint
+ *
  * @returns {AuthenticateUserResponse} - Authentication response
  */
 export const authenticateUser = async ({
@@ -155,6 +175,7 @@ export const authenticateUser = async ({
  * @param {string} options.nonce - The nonce value used for authorization.
  * @param {string} options.clientId - The client ID.
  * @param {string} options.code_challenge - The code challenge.
+ *
  * @returns {GetPreAuthCodeResponse} - The response object.
  */
 export const getPreAuthCode = async ({
@@ -196,6 +217,13 @@ export const getPreAuthCode = async ({
  *
  * @async
  * @param {GetAccessTokenSilentlyProps} props - GetAccessTokenSilently properties
+ * @param {string} props.clientId - Client ID
+ * @param {string} props.userId - User ID
+ * @param {string} props.nonce - Nonce
+ * @param {string} props.refreshToken - Refresh token
+ * @param {string} props.accessToken - Access token
+ * @param {string} props.domain - Domain
+ *
  * @returns {GetAccessTokenSilentlyResponse} - GetAccessTokenSilently response
  */
 export const getAccessTokenSilently = async ({
