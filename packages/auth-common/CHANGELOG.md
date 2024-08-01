@@ -1,5 +1,12 @@
 # Changelog
 
+## [3.3.1](https://github.com/aversini/auth-client/compare/auth-common-v3.3.0...auth-common-v3.3.1) (2024-08-01)
+
+
+### Bug Fixes
+
+* adding missing client id (audience) key ([#154](https://github.com/aversini/auth-client/issues/154)) ([13aa8e5](https://github.com/aversini/auth-client/commit/13aa8e593a7611aec67256b75584fb18a3aa4520))
+
 ## [3.3.0](https://github.com/aversini/auth-client/compare/auth-common-v3.2.0...auth-common-v3.3.0) (2024-07-21)
 
 
