@@ -127,8 +127,8 @@ export type AuthContextProps = {
 	logout: (e?: any) => void;
 	getAccessToken: () => Promise<string>;
 	getIdToken: () => string;
-	registeringForPasskey: () => Promise<any>;
-	loginWithPasskey: () => Promise<any>;
+	registeringForPasskey: () => Promise<boolean>;
+	loginWithPasskey: () => Promise<boolean>;
 } & AuthState;
 
 export type InternalActions =

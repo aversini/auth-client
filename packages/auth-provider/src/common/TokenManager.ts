@@ -23,7 +23,7 @@ import { getAccessTokenSilently } from "./utilities";
  * });
  */
 export class TokenManager {
-	private refreshTokenPromise: Promise<any> | null = null;
+	private refreshTokenPromise: Promise<RefreshTokenResponse> | null = null;
 	private accessToken: string;
 	private refreshToken: string;
 
