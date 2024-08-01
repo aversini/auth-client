@@ -26,6 +26,7 @@ export const JWT = {
 	EXPIRES_AT_KEY: "exp",
 	CREATED_AT_KEY: "iat",
 	SCOPES_KEY: "scopes",
+	CLIENT_ID_KEY: "aud",
 
 	ISSUER: "gizmette.com",
 };
