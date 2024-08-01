@@ -38,6 +38,15 @@ import { AuthContext } from "./AuthContext";
 import { InternalContext } from "./InternalContext";
 import { reducer } from "./reducer";
 
+/**
+ * AuthProvider component properties.
+ *
+ * @param children - The children of the component.
+ * @param sessionExpiration - The session expiration time.
+ * @param clientId - The client ID.
+ * @param domain - The domain.
+ * @param debug - The debug flag.
+ */
 export const AuthProvider = ({
 	children,
 	sessionExpiration,
@@ -93,7 +102,8 @@ export const AuthProvider = ({
 
 	/**
 	 * This function is responsible to remove all the tokens from the local storage
-	 * and the state. It is used when the user logs out or when the tokens are invalid.
+	 * and clean up the state.
+	 * It is used when the user logs out or when the tokens are invalid.
 	 *
 	 * @param logoutReason string
 	 * @returns void
@@ -220,6 +230,7 @@ export const AuthProvider = ({
 	 * @param username - The username of the user logging in.
 	 * @param password - The password of the user logging in.
 	 * @param type - The type of authentication being used.
+	 *
 	 * @returns {Promise<boolean>} A promise that resolves with the login response.
 	 */
 	const login: LoginProps = async (
@@ -313,6 +324,7 @@ export const AuthProvider = ({
 	 *
 	 * @async
 	 * @param e - The event object.
+	 *
 	 * @returns {Promise<void>} A promise that resolves when the user is logged out.
 	 */
 	const logout = async (e: any): Promise<void> => {
@@ -447,10 +459,11 @@ export const AuthProvider = ({
 	 * @returns {Promise<boolean>} A promise that resolves with a boolean value.
 	 */
 	const loginWithPasskey = async (): Promise<boolean> => {
-		const _nonce = uuidv4();
-		setNonce(_nonce);
 		dispatch({ type: ACTION_TYPE_LOADING, payload: { isLoading: true } });
 		removeLocalStorage();
+
+		const _nonce = uuidv4();
+		setNonce(_nonce);
 
 		logger("loginWithPasskey");
 

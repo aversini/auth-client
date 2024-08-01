@@ -7,9 +7,12 @@ import { getAccessTokenSilently } from "./utilities";
  * TokenManager class to manage access and refresh tokens
  * @class
  * @public
+ *
  * @param {string} accessToken - Access token
  * @param {string} refreshToken - Refresh token
+ *
  * @returns {TokenManager}
+ *
  * @example
  * const tokenManager = new TokenManager();
  * tokenManager.refreshtoken({

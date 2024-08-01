@@ -1,5 +1,14 @@
 import { HEADERS } from "@versini/auth-common";
-import { API_ENDPOINT, STATUS_FAILURE, STATUS_SUCCESS } from "./constants";
+
+import {
+	API_ENDPOINT,
+	GRAPHQL_QUERIES,
+	REQUEST_CONTENT_TYPE,
+	REQUEST_CREDENTIALS,
+	REQUEST_METHOD,
+	STATUS_FAILURE,
+	STATUS_SUCCESS,
+} from "./constants";
 import type {
 	GraphQLCallProps,
 	GraphQLCallResponse,
@@ -8,85 +17,6 @@ import type {
 } from "./types";
 import { isDev } from "./utilities";
 
-const GRAPHQL_QUERIES = {
-	GET_REGISTRATION_OPTIONS: `mutation GetPasskeyRegistrationOptions(
-	$clientId: String!,
-	$username: String!,
-	$id: String!) {
-		getPasskeyRegistrationOptions(clientId: $clientId, username: $username, id: $id) {
-			challenge
-			rp {
-				id
-				name
-			}
-			user {
-				id
-				name
-				displayName
-			}
-			pubKeyCredParams {
-				type
-				alg
-			}
-			timeout
-			attestation
-		}
-	}`,
-	VERIFY_REGISTRATION: `mutation VerifyPasskeyRegistration(
-		$clientId: String!,
-		$username: String!,
-		$id: String!,
-		$registration: RegistrationOptionsInput!) {
-		verifyPasskeyRegistration(
-			clientId: $clientId,
-			username: $username,
-			id: $id,
-			registration: $registration) {
-			status
-			message
-		}
-	}`,
-	GET_AUTHENTICATION_OPTIONS: `mutation GetPasskeyAuthenticationOptions(
-		$id: String!,
-		$clientId: String!,
-		) {
-		getPasskeyAuthenticationOptions(
-			id: $id,
-			clientId: $clientId) {
-				rpId,
-				challenge,
-				allowCredentials {
-					id,
-					type,
-					transports
-				}
-				timeout,
-				userVerification,
-		}
-	}`,
-	VERIFY_AUTHENTICATION: `mutation VerifyPasskeyAuthentication(
-		$clientId: String!,
-		$id: String!,
-		$authentication: AuthenticationOptionsInput!,
-		$nonce: String!,
-		$domain: String,
-		$fingerprint: String) {
-		verifyPasskeyAuthentication(
-			clientId: $clientId,
-			id: $id,
-			authentication: $authentication,
-			nonce: $nonce,
-			domain: $domain,
-			fingerprint: $fingerprint) {
-				status,
-				idToken,
-				accessToken,
-				refreshToken,
-				userId,
-				username,
-		}
-	}`,
-};
 export const SERVICE_TYPES = {
 	GET_REGISTRATION_OPTIONS: {
 		schema: GRAPHQL_QUERIES.GET_REGISTRATION_OPTIONS,
@@ -111,6 +41,11 @@ export const SERVICE_TYPES = {
  *
  * @async
  * @param {GraphQLCallProps} props - GraphQL call properties
+ * @param {string} props.accessToken - Access token
+ * @param {string} props.clientId - Client ID
+ * @param {object} props.params - Parameters
+ * @param {object} props.type - Service type
+ *
  * @returns {Promise<GraphQLCallResponse>} - Generic response
  */
 export const graphQLCall = async ({
@@ -120,17 +55,16 @@ export const graphQLCall = async ({
 	params = {},
 }: GraphQLCallProps): Promise<GraphQLCallResponse> => {
 	try {
-		const requestData = type?.data ? type.data(params) : params;
+		const requestData = params;
 		const authorization = `Bearer ${accessToken}`;
 		const response = await fetch(
 			isDev ? `${API_ENDPOINT.dev}/graphql` : `${API_ENDPOINT.prod}/graphql`,
 			{
-				method: "POST",
-				credentials: "include",
+				credentials: REQUEST_CREDENTIALS,
+				method: REQUEST_METHOD,
 				headers: {
 					authorization,
-					"Content-Type": "application/json",
-					Accept: "application/json",
+					"Content-Type": REQUEST_CONTENT_TYPE,
 					[HEADERS.CLIENT_ID]: `${clientId}`,
 				},
 				body: JSON.stringify({
@@ -158,6 +92,10 @@ export const graphQLCall = async ({
  *
  * @async
  * @param {RestCallProps} props - REST call properties
+ * @param {string} props.type - Service type
+ * @param {string} props.clientId - Client ID
+ * @param {object} props.params - Parameters
+ *
  * @returns {Promise<RestCallResponse>} - Generic response
  */
 export const restCall = async ({
@@ -169,10 +107,10 @@ export const restCall = async ({
 		const response = await fetch(
 			isDev ? `${API_ENDPOINT.dev}/${type}` : `${API_ENDPOINT.prod}/${type}`,
 			{
-				credentials: "include",
-				method: "POST",
+				credentials: REQUEST_CREDENTIALS,
+				method: REQUEST_METHOD,
 				headers: {
-					"Content-Type": "application/json",
+					"Content-Type": REQUEST_CONTENT_TYPE,
 					[HEADERS.CLIENT_ID]: `${clientId}`,
 				},
 				body: JSON.stringify(params),
