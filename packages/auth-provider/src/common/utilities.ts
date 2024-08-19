@@ -5,7 +5,6 @@ import {
 	decodeToken,
 	verifyAndExtractToken,
 } from "@versini/auth-common";
-import { getFingerprintHash } from "@versini/ui-fingerprint";
 
 import { STATUS_FAILURE, STATUS_SUCCESS } from "./constants";
 import { restCall } from "./services";
@@ -30,7 +29,6 @@ export const isDev = !isProd;
 export const emptyState: AuthState = {
 	isLoading: true,
 	isAuthenticated: false,
-	authenticationType: null,
 	user: undefined,
 	logoutReason: "",
 	debug: false,
@@ -68,9 +66,6 @@ export const getUserIdFromToken = (token: string): string => {
  */
 export const logoutUser = async ({
 	userId,
-	idToken,
-	accessToken,
-	refreshToken,
 	clientId,
 	domain,
 }: LogoutProps): Promise<LogoutResponse> => {
@@ -80,9 +75,6 @@ export const logoutUser = async ({
 			clientId,
 			params: {
 				userId,
-				idToken,
-				accessToken,
-				refreshToken,
 				domain,
 			},
 		});
@@ -110,11 +102,10 @@ export const logoutUser = async ({
  * @param {string} props.code - Authorization code
  * @param {string} props.code_verifier - Code verifier
  * @param {string} props.domain - Domain
- * @param {string} props.fingerprint - Fingerprint
  *
  * @returns {AuthenticateUserResponse} - Authentication response
  */
-export const authenticateUser = async ({
+export const loginUser = async ({
 	username,
 	password,
 	clientId,
@@ -124,11 +115,10 @@ export const authenticateUser = async ({
 	code,
 	code_verifier,
 	domain,
-	fingerprint,
 }: AuthenticateUserProps): Promise<AuthenticateUserResponse> => {
 	try {
 		const response = await restCall({
-			type: API_TYPE.AUTHENTICATE,
+			type: API_TYPE.LOGIN,
 			clientId,
 			params: {
 				type: type || AUTH_TYPES.ID_AND_ACCESS_TOKEN,
@@ -139,7 +129,6 @@ export const authenticateUser = async ({
 				code,
 				code_verifier,
 				domain,
-				fingerprint,
 			},
 		});
 		const jwt = await verifyAndExtractToken(response?.data?.idToken);
@@ -236,7 +225,7 @@ export const getAccessTokenSilently = async ({
 }: GetAccessTokenSilentlyProps): Promise<GetAccessTokenSilentlyResponse> => {
 	try {
 		const response = await restCall({
-			type: API_TYPE.AUTHENTICATE,
+			type: API_TYPE.REFRESH,
 			clientId,
 			params: {
 				type: AUTH_TYPES.REFRESH_TOKEN,
@@ -245,7 +234,6 @@ export const getAccessTokenSilently = async ({
 				refreshToken,
 				accessToken,
 				domain,
-				fingerprint: await getCustomFingerprint(),
 			},
 		});
 		const jwt = await verifyAndExtractToken(response?.data?.accessToken);
@@ -269,19 +257,5 @@ export const getAccessTokenSilently = async ({
 		return {
 			status: false,
 		};
-	}
-};
-
-/**
- * Get the custom fingerprint
- *
- * @async
- * @returns {string} - Custom fingerprint
- */
-export const getCustomFingerprint = async (): Promise<string> => {
-	try {
-		return await getFingerprintHash();
-	} catch (_error) {
-		return "";
 	}
 };

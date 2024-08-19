@@ -88,14 +88,14 @@ export const GRAPHQL_QUERIES = {
 		$authentication: AuthenticationOptionsInput!,
 		$nonce: String!,
 		$domain: String,
-		$fingerprint: String) {
+		$sessionExpiration: String) {
 		verifyPasskeyAuthentication(
 			clientId: $clientId,
 			id: $id,
 			authentication: $authentication,
 			nonce: $nonce,
 			domain: $domain,
-			fingerprint: $fingerprint) {
+			sessionExpiration: $sessionExpiration) {
 				status,
 				idToken,
 				accessToken,

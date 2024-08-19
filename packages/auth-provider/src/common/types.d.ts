@@ -1,4 +1,4 @@
-import { API_TYPE, AUTH_TYPES } from "@versini/auth-common";
+import { API_TYPE } from "@versini/auth-common";
 import {
 	ACTION_TYPE_LOADING,
 	ACTION_TYPE_LOGIN,
@@ -7,14 +7,6 @@ import {
 	STATUS_SUCCESS,
 } from "./constants";
 
-type AuthenticationTypes =
-	| typeof AUTH_TYPES.PASSKEY
-	| typeof AUTH_TYPES.CODE
-	| typeof AUTH_TYPES.ID_TOKEN
-	| typeof AUTH_TYPES.ACCESS_TOKEN
-	| typeof AUTH_TYPES.ID_AND_ACCESS_TOKEN
-	| null;
-
 export type GenericResponse = {
 	status: typeof STATUS_SUCCESS | typeof STATUS_FAILURE;
 };
@@ -22,7 +14,7 @@ export type GenericResponse = {
 export type RestCallProps = {
 	params: any;
 	clientId: string;
-	type: typeof API_TYPE.LOGOUT | typeof API_TYPE.AUTHENTICATE;
+	type: typeof API_TYPE.LOGOUT | typeof API_TYPE.LOGIN;
 };
 export type RestCallResponse = GenericResponse & {
 	data: any;
@@ -54,7 +46,6 @@ export type AuthState = {
 	isLoading: boolean;
 	isAuthenticated: boolean;
 	logoutReason?: string;
-	authenticationType: AuthenticationTypes;
 	user?: {
 		userId?: string;
 		username?: string;
@@ -72,7 +63,6 @@ export type AuthenticateUserProps = {
 	code?: string;
 	code_verifier?: string;
 	domain: string;
-	fingerprint: string;
 };
 
 export type AuthenticateUserResponse =
@@ -119,7 +109,6 @@ export type GetPreAuthCodeResponse = GenericResponse & {
 export type LoginProps = (
 	username: string,
 	password: string,
-	type?: typeof AUTH_TYPES.CODE | typeof AUTH_TYPES.PASSKEY,
 ) => Promise<boolean>;
 
 export type AuthContextProps = {
@@ -141,7 +130,6 @@ export type InternalActions =
 	| {
 			type: typeof ACTION_TYPE_LOGIN;
 			payload: {
-				authenticationType: AuthenticationTypes;
 				user: {
 					userId: string;
 					username: string;
@@ -157,9 +145,6 @@ export type InternalActions =
 
 export type LogoutProps = {
 	userId: string;
-	idToken: string;
-	accessToken: string;
-	refreshToken: string;
 	clientId: string;
 	domain: string;
 };

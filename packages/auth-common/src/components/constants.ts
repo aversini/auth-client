@@ -48,7 +48,8 @@ export const TOKEN_EXPIRATION = {
 };
 
 export const API_TYPE = {
-	AUTHENTICATE: "authenticate",
 	CODE: "code",
 	LOGOUT: "logout",
+	LOGIN: "login",
+	REFRESH: "refresh",
 };

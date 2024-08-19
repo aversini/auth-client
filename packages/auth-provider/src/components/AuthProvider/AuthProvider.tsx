@@ -22,15 +22,15 @@ import {
 	LOCAL_STORAGE_PREFIX,
 	LOGIN_ERROR,
 	LOGOUT_SESSION,
+	STATUS_SUCCESS,
 } from "../../common/constants";
 import { SERVICE_TYPES, graphQLCall } from "../../common/services";
 import type { AuthProviderProps, LoginProps } from "../../common/types";
 import {
-	authenticateUser,
 	emptyState,
-	getCustomFingerprint,
 	getPreAuthCode,
 	getUserIdFromToken,
+	loginUser,
 	logoutUser,
 } from "../../common/utilities";
 import { useLogger } from "../hooks/useLogger";
@@ -61,7 +61,6 @@ export const AuthProvider = ({
 
 	const logger = useLogger(debug);
 	const effectDidRunRef = useRef(false);
-	const fingerprintRef = useRef<string>("");
 
 	const [idToken, setIdToken, , removeIdToken] = useLocalStorage({
 		key: `${LOCAL_STORAGE_PREFIX}::${clientId}::@@user@@`,
@@ -145,38 +144,13 @@ export const AuthProvider = ({
 			}
 			await logoutUser({
 				userId,
-				idToken,
-				accessToken,
-				refreshToken,
 				clientId,
 				domain,
 			});
 			removeStateAndLocalStorage(message || EXPIRED_SESSION);
 		},
-		[
-			accessToken,
-			state,
-			clientId,
-			domain,
-			idToken,
-			refreshToken,
-			removeStateAndLocalStorage,
-			logger,
-		],
+		[idToken, state, clientId, domain, removeStateAndLocalStorage, logger],
 	);
-
-	/**
-	 * This effect is responsible to get and set the fingerprintRef value when
-	 * the component is first loaded.
-	 */
-	useEffect(() => {
-		(async () => {
-			fingerprintRef.current = await getCustomFingerprint();
-		})();
-		return () => {
-			fingerprintRef.current = "";
-		};
-	}, []);
 
 	/**
 	 * This effect is responsible to set the authentication state based on the
@@ -196,7 +170,6 @@ export const AuthProvider = ({
 						dispatch({
 							type: ACTION_TYPE_LOGIN,
 							payload: {
-								authenticationType: jwt.payload[JWT.AUTH_TYPE_KEY] as string,
 								user: {
 									userId: jwt.payload[JWT.USER_ID_KEY] as string,
 									username: jwt.payload[JWT.USERNAME_KEY] as string,
@@ -233,89 +206,53 @@ export const AuthProvider = ({
 	 *
 	 * @returns {Promise<boolean>} A promise that resolves with the login response.
 	 */
-	const login: LoginProps = async (
-		username,
-		password,
-		type = AUTH_TYPES.CODE,
-	): Promise<boolean> => {
+	const login: LoginProps = async (username, password): Promise<boolean> => {
 		dispatch({ type: ACTION_TYPE_LOADING, payload: { isLoading: true } });
 		removeLocalStorage();
 
 		const _nonce = uuidv4();
 		setNonce(_nonce);
 
-		logger("login: Logging in with type: ", type);
+		logger("login: Logging in with password");
 
-		if (type === AUTH_TYPES.CODE) {
-			const { code_verifier, code_challenge } = await pkceChallengePair();
-			const preResponse = await getPreAuthCode({
-				nonce: _nonce,
+		const type = AUTH_TYPES.CODE;
+		const { code_verifier, code_challenge } = await pkceChallengePair();
+		const preResponse = await getPreAuthCode({
+			nonce: _nonce,
+			clientId,
+			code_challenge,
+		});
+		if (preResponse.status) {
+			// we received the auth code, now we need to exchange it for the tokens
+			const response = await loginUser({
+				username,
+				password,
 				clientId,
-				code_challenge,
+				sessionExpiration,
+				nonce: _nonce,
+				type,
+				code: preResponse.data,
+				code_verifier,
+				domain,
 			});
-			if (preResponse.status) {
-				// we received the auth code, now we need to exchange it for the tokens
-				const response = await authenticateUser({
-					username,
-					password,
-					clientId,
-					sessionExpiration,
-					nonce: _nonce,
-					type,
-					code: preResponse.data,
-					code_verifier,
-					domain,
-					fingerprint: fingerprintRef.current,
-				});
-				if (response.status) {
-					setIdToken(response.idToken);
-					setAccessToken(response.accessToken);
-					setRefreshToken(response.refreshToken);
-					dispatch({
-						type: ACTION_TYPE_LOGIN,
-						payload: {
-							authenticationType: type,
-							user: {
-								userId: response.userId as string,
-								username,
-							},
+			if (response.status) {
+				setIdToken(response.idToken);
+				setAccessToken(response.accessToken);
+				setRefreshToken(response.refreshToken);
+				dispatch({
+					type: ACTION_TYPE_LOGIN,
+					payload: {
+						user: {
+							userId: response.userId as string,
+							username,
 						},
-					});
-					return true;
-				}
-				removeStateAndLocalStorage(LOGIN_ERROR);
-				return false;
+					},
+				});
+				return true;
 			}
+			removeStateAndLocalStorage(LOGIN_ERROR);
 			return false;
 		}
-
-		const response = await authenticateUser({
-			username,
-			password,
-			clientId,
-			sessionExpiration,
-			nonce: _nonce,
-			type,
-			domain,
-			fingerprint: fingerprintRef.current,
-		});
-		if (response.status) {
-			setIdToken(response.idToken);
-			setAccessToken(response.accessToken);
-			setRefreshToken(response.refreshToken);
-			dispatch({
-				type: ACTION_TYPE_LOGIN,
-				payload: {
-					authenticationType: type as string,
-					user: {
-						userId: response.userId as string,
-						username,
-					},
-				},
-			});
-			return true;
-		}
-		removeStateAndLocalStorage(LOGIN_ERROR);
 		return false;
 	};
 
@@ -490,18 +427,17 @@ export const AuthProvider = ({
 						authentication,
 						nonce: _nonce,
 						domain,
-						fingerprint: fingerprintRef.current,
+						sessionExpiration,
 					},
 				});
 
-				if (response.data.status === "success") {
+				if (response.data.status === STATUS_SUCCESS) {
 					setIdToken(response.data.idToken);
 					setAccessToken(response.data.accessToken);
 					setRefreshToken(response.data.refreshToken);
 					dispatch({
 						type: ACTION_TYPE_LOGIN,
 						payload: {
-							authenticationType: AUTH_TYPES.PASSKEY,
 							user: {
 								userId: response.data.userId as string,
 								username: response.data.username as string,
@@ -523,6 +459,7 @@ export const AuthProvider = ({
 						authentication: {},
 						nonce: _nonce,
 						domain,
+						sessionExpiration,
 					},
 				});
 				removeStateAndLocalStorage(LOGIN_ERROR);
