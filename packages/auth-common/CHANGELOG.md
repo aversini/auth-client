@@ -1,5 +1,16 @@
 # Changelog
 
+## [4.0.0](https://github.com/aversini/auth-client/compare/auth-common-v3.4.0...auth-common-v4.0.0) (2024-08-19)
+
+
+### ⚠ BREAKING CHANGES
+
+* this is dependent on auth-server v8+
+
+### Features
+
+* refactor login processes ([#162](https://github.com/aversini/auth-client/issues/162)) ([5902888](https://github.com/aversini/auth-client/commit/5902888efbea88b25d8ea29bd7a309ab45dcb94f))
+
 ## [3.4.0](https://github.com/aversini/auth-client/compare/auth-common-v3.3.1...auth-common-v3.4.0) (2024-08-19)
 
 
