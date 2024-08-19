@@ -1,5 +1,16 @@
 # Changelog
 
+## [7.0.0](https://github.com/aversini/auth-client/compare/auth-provider-v6.4.4...auth-provider-v7.0.0) (2024-08-19)
+
+
+### ⚠ BREAKING CHANGES
+
+* this is dependent on auth-server v8+
+
+### Features
+
+* refactor login processes ([#162](https://github.com/aversini/auth-client/issues/162)) ([5902888](https://github.com/aversini/auth-client/commit/5902888efbea88b25d8ea29bd7a309ab45dcb94f))
+
 ## [6.4.4](https://github.com/aversini/auth-client/compare/auth-provider-v6.4.3...auth-provider-v6.4.4) (2024-08-01)
 
 
