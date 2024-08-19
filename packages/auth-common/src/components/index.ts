@@ -3,3 +3,4 @@ export * from "./verifyToken";
 export * from "./pkce";
 export * from "./getToken";
 export * from "./isGranted";
+export * from "./getSession";
