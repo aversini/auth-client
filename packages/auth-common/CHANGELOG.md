@@ -1,5 +1,12 @@
 # Changelog
 
+## [3.4.0](https://github.com/aversini/auth-client/compare/auth-common-v3.3.1...auth-common-v3.4.0) (2024-08-19)
+
+
+### Features
+
+* **common:** adding getSession method ([#160](https://github.com/aversini/auth-client/issues/160)) ([2454df2](https://github.com/aversini/auth-client/commit/2454df2e97f11291170a999b178d24187c017399))
+
 ## [3.3.1](https://github.com/aversini/auth-client/compare/auth-common-v3.3.0...auth-common-v3.3.1) (2024-08-01)
 
 
