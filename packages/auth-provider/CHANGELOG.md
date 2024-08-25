@@ -1,5 +1,12 @@
 # Changelog
 
+## [7.1.0](https://github.com/aversini/auth-client/compare/auth-provider-v7.0.0...auth-provider-v7.1.0) (2024-08-25)
+
+
+### Features
+
+* passing User Agent for backend to parse and save ([#164](https://github.com/aversini/auth-client/issues/164)) ([405fdaa](https://github.com/aversini/auth-client/commit/405fdaafc75045e7333f047bea1f18e494bb7167))
+
 ## [7.0.0](https://github.com/aversini/auth-client/compare/auth-provider-v6.4.4...auth-provider-v7.0.0) (2024-08-19)
 
 
