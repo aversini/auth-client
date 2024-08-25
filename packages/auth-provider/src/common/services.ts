@@ -55,7 +55,6 @@ export const graphQLCall = async ({
 	params = {},
 }: GraphQLCallProps): Promise<GraphQLCallResponse> => {
 	try {
-		const requestData = params;
 		const authorization = `Bearer ${accessToken}`;
 		const response = await fetch(
 			isDev ? `${API_ENDPOINT.dev}/graphql` : `${API_ENDPOINT.prod}/graphql`,
@@ -69,7 +68,7 @@ export const graphQLCall = async ({
 				},
 				body: JSON.stringify({
 					query: type.schema,
-					variables: requestData,
+					variables: params,
 				}),
 			},
 		);
