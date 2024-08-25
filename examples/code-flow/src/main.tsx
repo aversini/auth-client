@@ -1,10 +1,11 @@
+import { decodeToken } from "@versini/auth-common";
 import { useAuth } from "@versini/auth-provider";
 import { Button, Footer, Header, Main } from "@versini/ui-components";
 import { Flexgrid, FlexgridItem } from "@versini/ui-system";
 import { useEffect, useState } from "react";
 
 export const App = ({ timeout }: { timeout: string }) => {
-	const [accessToken, setAccessToken] = useState("");
+	const [accessToken, setAccessToken] = useState<any>(null);
 	const {
 		login,
 		logout,
@@ -54,7 +55,9 @@ export const App = ({ timeout }: { timeout: string }) => {
 	}) => {
 		e.preventDefault();
 		const token = await getAccessToken();
-		setAccessToken(token);
+		if (token) {
+			setAccessToken(decodeToken(token));
+		}
 	};
 
 	const handleValidRegistration = async (e: {
@@ -129,7 +132,10 @@ export const App = ({ timeout }: { timeout: string }) => {
 					<FlexgridItem>
 						<Button
 							size="small"
-							onClick={logout}
+							onClick={() => {
+								setAccessToken(null);
+								logout();
+							}}
 							variant="danger"
 							disabled={!isAuthenticated}
 						>
@@ -160,7 +166,7 @@ export const App = ({ timeout }: { timeout: string }) => {
 				<h2>Access Token</h2>
 
 				<Button onClick={handleClickOnGetAccessToken}>get Access Token</Button>
-				<pre className="text-xs">{accessToken}</pre>
+				<pre className="text-xs">{JSON.stringify(accessToken, null, 2)}</pre>
 			</Main>
 			<Footer row1={<p>Timeout: {timeout}</p>} />
 		</div>
