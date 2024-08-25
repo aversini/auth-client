@@ -1,5 +1,12 @@
 # Changelog
 
+## [7.1.1](https://github.com/aversini/auth-client/compare/auth-provider-v7.1.0...auth-provider-v7.1.1) (2024-08-25)
+
+
+### Bug Fixes
+
+* bump non-breaking dependencies to latest ([#166](https://github.com/aversini/auth-client/issues/166)) ([36e716e](https://github.com/aversini/auth-client/commit/36e716ea52042f7559097bc2d925e233427345b1))
+
 ## [7.1.0](https://github.com/aversini/auth-client/compare/auth-provider-v7.0.0...auth-provider-v7.1.0) (2024-08-25)
 
 
