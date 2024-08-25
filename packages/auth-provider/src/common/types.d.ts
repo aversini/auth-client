@@ -63,6 +63,7 @@ export type AuthenticateUserProps = {
 	code?: string;
 	code_verifier?: string;
 	domain: string;
+	ua: string;
 };
 
 export type AuthenticateUserResponse =

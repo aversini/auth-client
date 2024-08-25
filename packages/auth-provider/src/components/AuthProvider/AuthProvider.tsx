@@ -234,6 +234,7 @@ export const AuthProvider = ({
 				code: preResponse.data,
 				code_verifier,
 				domain,
+				ua: navigator.userAgent,
 			});
 			if (response.status) {
 				setIdToken(response.idToken);
@@ -428,6 +429,7 @@ export const AuthProvider = ({
 						nonce: _nonce,
 						domain,
 						sessionExpiration,
+						ua: navigator.userAgent,
 					},
 				});
 

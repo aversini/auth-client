@@ -115,6 +115,7 @@ export const loginUser = async ({
 	code,
 	code_verifier,
 	domain,
+	ua,
 }: AuthenticateUserProps): Promise<AuthenticateUserResponse> => {
 	try {
 		const response = await restCall({
@@ -129,6 +130,7 @@ export const loginUser = async ({
 				code,
 				code_verifier,
 				domain,
+				ua,
 			},
 		});
 		const jwt = await verifyAndExtractToken(response?.data?.idToken);
