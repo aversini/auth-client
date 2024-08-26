@@ -398,5 +398,13 @@
       "limit": "15 kb",
       "passed": true
     }
+  },
+  "7.1.2": {
+    "dist/index.js": {
+      "fileSize": 53879,
+      "fileSizeGzip": 14660,
+      "limit": "15 kb",
+      "passed": true
+    }
   }
 }
