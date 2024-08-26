@@ -1,5 +1,12 @@
 # Changelog
 
+## [7.1.2](https://github.com/aversini/auth-client/compare/auth-provider-v7.1.1...auth-provider-v7.1.2) (2024-08-26)
+
+
+### Bug Fixes
+
+* logout accepts idToken for a more resilient process ([#171](https://github.com/aversini/auth-client/issues/171)) ([a0beea5](https://github.com/aversini/auth-client/commit/a0beea58cf9e972b13fe18e03d14c9e8035a4e5e))
+
 ## [7.1.1](https://github.com/aversini/auth-client/compare/auth-provider-v7.1.0...auth-provider-v7.1.1) (2024-08-25)
 
 
