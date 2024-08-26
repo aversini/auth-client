@@ -68,6 +68,7 @@ export const logoutUser = async ({
 	userId,
 	clientId,
 	domain,
+	idToken = "",
 }: LogoutProps): Promise<LogoutResponse> => {
 	try {
 		const response = await restCall({
@@ -76,6 +77,7 @@ export const logoutUser = async ({
 			params: {
 				userId,
 				domain,
+				idToken,
 			},
 		});
 		return {
