@@ -146,6 +146,7 @@ export const AuthProvider = ({
 				userId,
 				clientId,
 				domain,
+				idToken,
 			});
 			removeStateAndLocalStorage(message || EXPIRED_SESSION);
 		},

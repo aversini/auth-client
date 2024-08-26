@@ -148,6 +148,7 @@ export type LogoutProps = {
 	userId: string;
 	clientId: string;
 	domain: string;
+	idToken?: string;
 };
 export type LogoutResponse = GenericResponse;
 
