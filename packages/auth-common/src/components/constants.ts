@@ -19,9 +19,11 @@ export const JWT = {
 	ALG: "RS256",
 
 	USER_ID_KEY: "sub",
+	USERNAME_KEY: "username",
+	EMAIL_KEY: "email",
+
 	TOKEN_ID_KEY: "__raw",
 	NONCE_KEY: "_nonce",
-	USERNAME_KEY: "username",
 	AUTH_TYPE_KEY: "auth_type",
 	EXPIRES_AT_KEY: "exp",
 	CREATED_AT_KEY: "iat",
