@@ -1,5 +1,12 @@
 # Changelog
 
+## [7.2.0](https://github.com/versini-org/auth-client/compare/auth-provider-v7.1.2...auth-provider-v7.2.0) (2024-09-01)
+
+
+### Features
+
+* adding authenticationType to state ([#175](https://github.com/versini-org/auth-client/issues/175)) ([8b5ad4a](https://github.com/versini-org/auth-client/commit/8b5ad4a3a93647b66c5dcd38c5c0e9865a11156a))
+
 ## [7.1.2](https://github.com/aversini/auth-client/compare/auth-provider-v7.1.1...auth-provider-v7.1.2) (2024-08-26)
 
 
