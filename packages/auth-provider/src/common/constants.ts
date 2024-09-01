@@ -104,6 +104,7 @@ export const GRAPHQL_QUERIES = {
 				refreshToken,
 				userId,
 				username,
+				email
 		}
 	}`,
 };
