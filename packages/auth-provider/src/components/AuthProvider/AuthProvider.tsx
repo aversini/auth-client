@@ -175,6 +175,7 @@ export const AuthProvider = ({
 								user: {
 									userId: jwt.payload[JWT.USER_ID_KEY] as string,
 									username: jwt.payload[JWT.USERNAME_KEY] as string,
+									email: jwt.payload[JWT.EMAIL_KEY] as string,
 								},
 							},
 						});
@@ -248,6 +249,7 @@ export const AuthProvider = ({
 						user: {
 							userId: response.userId as string,
 							username,
+							email: response.email as string,
 						},
 					},
 				});
@@ -446,6 +448,7 @@ export const AuthProvider = ({
 							user: {
 								userId: response.data.userId as string,
 								username: response.data.username as string,
+								email: response.data.email as string,
 							},
 						},
 					});

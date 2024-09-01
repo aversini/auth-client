@@ -147,6 +147,7 @@ export const loginUser = async ({
 				accessToken: response.data.accessToken,
 				refreshToken: response.data.refreshToken,
 				userId: jwt.payload[JWT.USER_ID_KEY] as string,
+				email: jwt.payload[JWT.EMAIL_KEY] as string,
 				status: true,
 			};
 		} else {

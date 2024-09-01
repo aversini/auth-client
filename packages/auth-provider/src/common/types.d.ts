@@ -49,6 +49,7 @@ export type AuthState = {
 	user?: {
 		userId?: string;
 		username?: string;
+		email?: string;
 	};
 	debug?: boolean;
 	authenticationType: typeof AUTH_TYPES.PASSKEY | typeof AUTH_TYPES.CODE;
@@ -73,6 +74,7 @@ export type AuthenticateUserResponse =
 			accessToken: string;
 			refreshToken: string;
 			userId: string;
+			email: string;
 			status: true;
 	  }
 	| {
@@ -136,6 +138,7 @@ export type InternalActions =
 				user: {
 					userId: string;
 					username: string;
+					email: string;
 				};
 			};
 	  }
