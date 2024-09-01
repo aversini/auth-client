@@ -1,5 +1,12 @@
 # Changelog
 
+## [7.3.0](https://github.com/versini-org/auth-client/compare/auth-provider-v7.2.0...auth-provider-v7.3.0) (2024-09-01)
+
+
+### Features
+
+* adding user email to auth state ([#179](https://github.com/versini-org/auth-client/issues/179)) ([6bd0ca3](https://github.com/versini-org/auth-client/commit/6bd0ca3e4a0ddbceccfde21cc6daef89551042bd))
+
 ## [7.2.0](https://github.com/versini-org/auth-client/compare/auth-provider-v7.1.2...auth-provider-v7.2.0) (2024-09-01)
 
 
