@@ -1,4 +1,4 @@
-import { API_TYPE } from "@versini/auth-common";
+import { API_TYPE, AUTH_TYPES } from "@versini/auth-common";
 import {
 	ACTION_TYPE_LOADING,
 	ACTION_TYPE_LOGIN,
@@ -51,6 +51,7 @@ export type AuthState = {
 		username?: string;
 	};
 	debug?: boolean;
+	authenticationType: typeof AUTH_TYPES.PASSKEY | typeof AUTH_TYPES.CODE;
 };
 
 export type AuthenticateUserProps = {
@@ -131,6 +132,7 @@ export type InternalActions =
 	| {
 			type: typeof ACTION_TYPE_LOGIN;
 			payload: {
+				authenticationType: typeof AUTH_TYPES.PASSKEY | typeof AUTH_TYPES.CODE;
 				user: {
 					userId: string;
 					username: string;

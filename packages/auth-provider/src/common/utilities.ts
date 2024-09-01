@@ -32,6 +32,7 @@ export const emptyState: AuthState = {
 	user: undefined,
 	logoutReason: "",
 	debug: false,
+	authenticationType: "",
 };
 
 /**
