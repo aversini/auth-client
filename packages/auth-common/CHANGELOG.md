@@ -1,5 +1,12 @@
 # Changelog
 
+## [4.1.0](https://github.com/versini-org/auth-client/compare/auth-common-v4.0.0...auth-common-v4.1.0) (2024-09-01)
+
+
+### Features
+
+* adding email key to idToken ([#177](https://github.com/versini-org/auth-client/issues/177)) ([f8f0ee1](https://github.com/versini-org/auth-client/commit/f8f0ee19abbee9b07ea5317611fed52fb2039474))
+
 ## [4.0.0](https://github.com/aversini/auth-client/compare/auth-common-v3.4.0...auth-common-v4.0.0) (2024-08-19)
 
 
