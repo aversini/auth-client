@@ -46,7 +46,7 @@
 	"dependencies": {
 		"@simplewebauthn/browser": "10.0.0",
 		"@versini/auth-common": "workspace:../auth-common",
-		"@versini/ui-hooks": "4.1.1",
+		"@versini/ui-hooks": "4.1.2",
 		"jose": "5.8.0",
 		"uuid": "10.0.0"
 	}

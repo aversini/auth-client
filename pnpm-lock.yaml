@@ -135,8 +135,8 @@ importers:
         specifier: workspace:../auth-common
         version: link:../auth-common
       '@versini/ui-hooks':
-        specifier: 4.1.1
-        version: 4.1.1(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+        specifier: 4.1.2
+        version: 4.1.2(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       jose:
         specifier: 5.8.0
         version: 5.8.0
@@ -1886,6 +1886,12 @@ packages:
 
   '@versini/ui-hooks@4.1.1':
     resolution: {integrity: sha512-SYHvE/0/zgXLd4fqjNLnSqY0kAKrcwXcsugygikMAcQEEm4pZ+8RtrrUHGN0ZhlKwnjr3vWFOJXzjD4H0pq1iA==}
+    peerDependencies:
+      react: ^18.3.1
+      react-dom: ^18.3.1
+
+  '@versini/ui-hooks@4.1.2':
+    resolution: {integrity: sha512-GKSKUyTU6mJ6zJ3bbEZ/xHrTSBw5I5z9KJMLnNkdUfloIpff0CdULsn4BGGj41otm6d6H2gl/abH+oIOMoJCzw==}
     peerDependencies:
       react: ^18.3.1
       react-dom: ^18.3.1
@@ -8561,6 +8567,11 @@ snapshots:
       react-dom: 18.3.1(react@18.3.1)
 
   '@versini/ui-hooks@4.1.1(react-dom@18.3.1(react@18.3.1))(react@18.3.1)':
+    dependencies:
+      react: 18.3.1
+      react-dom: 18.3.1(react@18.3.1)
+
+  '@versini/ui-hooks@4.1.2(react-dom@18.3.1(react@18.3.1))(react@18.3.1)':
     dependencies:
       react: 18.3.1
       react-dom: 18.3.1(react@18.3.1)
