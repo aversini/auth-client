@@ -11,7 +11,7 @@
 	"dependencies": {
 		"@versini/auth-common": "workspace:../../packages/auth-common",
 		"@versini/auth-provider": "workspace:../../packages/auth-provider",
-		"@versini/ui-components": "5.21.3",
+		"@versini/ui-components": "5.22.1",
 		"@versini/ui-styles": "1.9.6",
 		"@versini/ui-system": "1.4.4",
 		"react": "18.3.1",
