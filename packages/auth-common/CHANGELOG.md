@@ -1,5 +1,12 @@
 # Changelog
 
+## [4.1.2](https://github.com/versini-org/auth-client/compare/auth-common-v4.1.1...auth-common-v4.1.2) (2024-09-19)
+
+
+### Bug Fixes
+
+* bump dependencies to latest ([#189](https://github.com/versini-org/auth-client/issues/189)) ([30821f5](https://github.com/versini-org/auth-client/commit/30821f5bb674fdbd681c588e16734a97e3a86c20))
+
 ## [4.1.1](https://github.com/versini-org/auth-client/compare/auth-common-v4.1.0...auth-common-v4.1.1) (2024-09-05)
 
 
