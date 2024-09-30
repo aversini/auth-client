@@ -2,5 +2,7 @@
 	"packages": {
 		"packages/auth-provider": {},
 		"packages/auth-common": {}
-	}
+	},
+	"plugins": ["node-workspace"],
+	"pull-request-header": ":rocket: Automated Release"
 }
