@@ -1,5 +1,19 @@
 # Changelog
 
+## [7.3.3](https://github.com/versini-org/auth-client/compare/auth-provider-v7.3.2...auth-provider-v7.3.3) (2024-09-30)
+
+
+### Bug Fixes
+
+* bump non-breaking dependencies to latest ([#197](https://github.com/versini-org/auth-client/issues/197)) ([b728bc2](https://github.com/versini-org/auth-client/commit/b728bc2dcec8ca151336ec284cc8930470540e93))
+
+
+### Dependencies
+
+* The following workspace dependencies were updated
+  * dependencies
+    * @versini/auth-common bumped to 4.1.3
+
 ## [7.3.2](https://github.com/versini-org/auth-client/compare/auth-provider-v7.3.1...auth-provider-v7.3.2) (2024-09-19)
 
 
