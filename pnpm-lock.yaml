@@ -45,8 +45,8 @@ importers:
   examples/fastify-server:
     dependencies:
       '@fastify/auth':
-        specifier: 4.6.1
-        version: 4.6.1
+        specifier: 5.0.1
+        version: 5.0.1
       '@fastify/caching':
         specifier: 8.4.0
         version: 8.4.0
@@ -732,8 +732,8 @@ packages:
   '@fastify/ajv-compiler@3.6.0':
     resolution: {integrity: sha512-LwdXQJjmMD+GwLOkP7TVC68qa+pSSogeWWmznRJ/coyTcfe9qA05AHFSe1eZFwK6q+xVRpChnvFUkf1iYaSZsQ==}
 
-  '@fastify/auth@4.6.1':
-    resolution: {integrity: sha512-J/UkZw6EYUX7aXu78YLV1uE1ESbHsGNKxyO+H82ixdC3AnzBT8qeBI6K19mqVHfJTICy5m9uspj7PjC7EvZQ/A==}
+  '@fastify/auth@5.0.1':
+    resolution: {integrity: sha512-wumsITXDMOiRLoILpLXf6CknkRuFoKPCR35JuicifurI6jZZtMkgg8E/DGJBAy4ewe3nDE6PlL0bYpSrT3IKDA==}
 
   '@fastify/busboy@2.1.1':
     resolution: {integrity: sha512-vBZP4NlzfOlerQTnba4aqZoMhE/a9HY7HRqoOPaETQcSQuWEIyZMHGfVu6w9wGtGK5fED5qRs2DteVCjOH60sA==}
@@ -3199,6 +3199,9 @@ packages:
 
   fastify-plugin@4.5.1:
     resolution: {integrity: sha512-stRHYGeuqpEZTL1Ef0Ovr2ltazUT9g844X5z/zEBFLG8RYlpDiOCIG+ATvYEp+/zmc7sN29mcIMp8gvYplYPIQ==}
+
+  fastify-plugin@5.0.1:
+    resolution: {integrity: sha512-HCxs+YnRaWzCl+cWRYFnHmeRFyR5GVnJTAaCJQiYzQSDwK9MgJdyAsuL3nh0EWRCYMgQ5MeziymvmAhUHYHDUQ==}
 
   fastify@4.28.1:
     resolution: {integrity: sha512-kFWUtpNr4i7t5vY2EJPCN2KgMVpuqfU4NjnJNCgiNB900oiDeYqaNDRcAfeBbOF5hGixixxcKnOU4KN9z6QncQ==}
@@ -6876,9 +6879,9 @@ snapshots:
       ajv-formats: 2.1.1(ajv@8.16.0)
       fast-uri: 2.4.0
 
-  '@fastify/auth@4.6.1':
+  '@fastify/auth@5.0.1':
     dependencies:
-      fastify-plugin: 4.5.1
+      fastify-plugin: 5.0.1
       reusify: 1.0.4
 
   '@fastify/busboy@2.1.1': {}
@@ -10114,6 +10117,8 @@ snapshots:
   fast-uri@2.4.0: {}
 
   fastify-plugin@4.5.1: {}
+
+  fastify-plugin@5.0.1: {}
 
   fastify@4.28.1:
     dependencies:
